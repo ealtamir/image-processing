@@ -9,6 +9,9 @@ public class StandardImageManipulator extends JFrame {
 
     public StandardImageManipulator() {
         originalImage = loadImage();
+
+        if (originalImage != null)
+            System.out.print("Loaded image :)");
     }
 
     private BufferedImage loadImage() {
@@ -16,8 +19,8 @@ public class StandardImageManipulator extends JFrame {
             return ImageFileTools.loadImage(this);
         } catch (IOException e) {
             tellUserImgLoadFailed(e);
-            closeFrame();
         }
+        return null;
     }
 
     private void closeFrame() {

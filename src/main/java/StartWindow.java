@@ -83,7 +83,7 @@ public class StartWindow  extends JFrame {
     private void executeAction(ButtonTypes type) throws InvalidTypeException {
         WindowContainedApp app;
         if (type == ButtonTypes.ImageLoader) {
-
+            new StandardImageManipulator();
         } else if (type == ButtonTypes.SquareCreator) {
 
         } else if (type == ButtonTypes.CircleCreator) {

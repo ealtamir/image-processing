@@ -1,3 +1,4 @@
+package ar.com.itba.utils;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;

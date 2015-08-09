@@ -1,7 +1,12 @@
-import javax.swing.*;
+package ar.com.itba.frame;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import ar.com.itba.utils.ImageFileTools;
 
 public class StandardImageManipulator extends JFrame {
 

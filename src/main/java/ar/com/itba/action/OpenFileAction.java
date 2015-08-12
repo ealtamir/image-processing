@@ -13,6 +13,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.utils.ImageFileTools;
 
 @SuppressWarnings("serial")
 public class OpenFileAction extends AbstractAction {
@@ -25,8 +26,8 @@ public class OpenFileAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser();
-		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff");
+		JFileChooser fileChooser = new JFileChooser("resources/Imagenes");
+		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff", "raw");
 		fileChooser.addChoosableFileFilter(filter);
 		int ret = fileChooser.showDialog(parent, "Open file");
 		if (ret == JFileChooser.APPROVE_OPTION) {
@@ -38,7 +39,7 @@ public class OpenFileAction extends AbstractAction {
 	private void loadImage(File file) {
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(file);
+			image = ImageFileTools.loadImage(file, parent);
 		} catch (IOException e) {
 			System.out.println("Read error: " + e.getMessage());
 		}

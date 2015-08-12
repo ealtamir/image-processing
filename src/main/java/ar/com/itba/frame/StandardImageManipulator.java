@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import ar.com.itba.panel.QuickDrawPanel;
 import ar.com.itba.utils.ImageFileTools;
 
 public class StandardImageManipulator extends JFrame {
@@ -14,9 +15,8 @@ public class StandardImageManipulator extends JFrame {
 
     public StandardImageManipulator() {
         originalImage = loadImage();
+        add(new QuickDrawPanel(originalImage));
 
-        if (originalImage != null)
-            System.out.print("Loaded image :)");
     }
 
     private BufferedImage loadImage() {

@@ -4,13 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.GroupLayout;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class StartWindow extends JFrame {
@@ -88,7 +84,12 @@ public class StartWindow extends JFrame {
 	private void executeAction(ButtonTypes type) {
 		WindowContainedApp app;
 		if (type == ButtonTypes.ImageLoader) {
-			new StandardImageManipulator();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					new StandardImageManipulator();
+				}
+			});
 		} else if (type == ButtonTypes.SquareCreator) {
 
 		} else if (type == ButtonTypes.CircleCreator) {

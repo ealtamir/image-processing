@@ -1,4 +1,5 @@
 package ar.com.itba.utils;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.imageio.ImageIO;
@@ -6,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.security.InvalidParameterException;
 
 
 public class ImageFileTools {
@@ -19,6 +21,13 @@ public class ImageFileTools {
             return null;
         }
         return createBufferedImageFromFile(file, component);
+    }
+
+    public static BufferedImage loadImage(File file, Component parentComponent) throws IOException {
+        if (file == null) {
+            throw new InvalidParameterException("file object is invalid.");
+        }
+        return createBufferedImageFromFile(file, parentComponent);
     }
 
     private static BufferedImage createBufferedImageFromFile(File file, Component component) throws IOException {
@@ -40,8 +49,11 @@ public class ImageFileTools {
 
     private static BufferedImage loadImageFromRawFile(File file, Component component) {
         int[] imgDimensions = askUserImgDimensions(component);
-        byte[][] rawData = createRawDataMatrix(file, imgDimensions, component);
-        return generateBufferedImageFromRawData(rawData, component);
+        if (imgDimensions != null) {
+            byte[][] rawData = createRawDataMatrix(file, imgDimensions, component);
+            return generateBufferedImageFromRawData(rawData, component);
+        }
+        return null;
     }
 
     private static BufferedImage generateBufferedImageFromRawData(byte[][] rawData, Component component) {

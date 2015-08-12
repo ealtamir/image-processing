@@ -25,16 +25,20 @@ public class SaveFileAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser("resources/Imagenes");
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff");
+		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff", "raw");
 		fileChooser.addChoosableFileFilter(filter);
 		int ret = fileChooser.showSaveDialog(parent);
 		if (ret == JFileChooser.APPROVE_OPTION) {
 			BufferedImage bufferedImage = ((MainWindow) parent).quickDrawPanel().image();
 			if (bufferedImage != null) {
 				try {
-					ImageIO.write(bufferedImage, "PNG", new File(fileChooser.getCurrentDirectory() + "\\" + fileChooser.getSelectedFile().getName() + ".png"));
+					String filePath = fileChooser.getCurrentDirectory().toString();
+					filePath += File.separator;
+					filePath += fileChooser.getSelectedFile().getName() + ".png";
+
+					ImageIO.write(bufferedImage, "PNG", new File(filePath));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

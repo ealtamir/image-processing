@@ -5,8 +5,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 
 public class ImageFileTools {
@@ -32,7 +31,7 @@ public class ImageFileTools {
     }
 
     private static BufferedImage loadImageFromStandardFormatFile(File file, Component component) throws IOException {
-        BufferedImage img =  ImageIO.read(file);
+        BufferedImage img = ImageIO.read(file);
         if (img == null) {
             tellUserImgFormatInvalid(component);
         }
@@ -41,7 +40,58 @@ public class ImageFileTools {
 
     private static BufferedImage loadImageFromRawFile(File file, Component component) {
         int[] imgDimensions = askUserImgDimensions(component);
-        return null;
+        byte[][] rawData = createRawDataMatrix(file, imgDimensions, component);
+        return generateBufferedImageFromRawData(rawData, component);
+    }
+
+    private static BufferedImage generateBufferedImageFromRawData(byte[][] rawData, Component component) {
+        BufferedImage image = new BufferedImage(rawData[0].length, rawData.length,
+                BufferedImage.TYPE_BYTE_GRAY);
+        for (int h = 0; h < rawData.length; h++) {
+            for (int w = 0; w < rawData[0].length; w++) {
+                image.setRGB(w, h, rawData[h][w]);
+            }
+        }
+        return image;
+    }
+
+    private static byte[][] createRawDataMatrix(File file, int[] imgDimensions, Component component) {
+        byte[][] dataMatrix = null;
+        try {
+            FileInputStream rawImageStream = new FileInputStream(file);
+            dataMatrix = loadMatrixFromFile(rawImageStream, imgDimensions);
+            rawImageStream.close();
+        } catch (FileNotFoundException e) {
+            tellUserFileNotFound(component);
+        } catch (IOException e) {
+            tellUserIOError(component);
+        }
+        return dataMatrix;
+    }
+
+    private static byte[][] loadMatrixFromFile(FileInputStream rawImageStream, int[] imgDimensions) throws IOException {
+        byte[][] dataMatrix = new byte[imgDimensions[HEIGHT]][imgDimensions[WIDTH]];
+        for (int h = 0; h < imgDimensions[HEIGHT]; h++) {
+            for (int w = 0; w < imgDimensions[WIDTH]; w++) {
+                dataMatrix[h][w] = (byte) rawImageStream.read();
+            }
+        }
+        return dataMatrix;
+    }
+
+    private static void tellUserIOError(Component component) {
+        String msg = "Falló la carga de la imagen por la siguiente razón: \n";
+        msg += "Hubo un error de IO. Por favor, vuelve a intentarlo.";
+        String title =  "Error al cargar la imagen";
+        ErrorTools.showErrorMsg(title, msg, component);
+    }
+
+
+    private static void tellUserFileNotFound(Component component) {
+        String msg = "Falló la carga de la imagen por la siguiente razón: \n";
+        msg += "El archivo seleccionado no existe.";
+        String title =  "Error al cargar la imagen";
+        ErrorTools.showErrorMsg(title, msg, component);
     }
 
     private static int[] askUserImgDimensions(Component component) {
@@ -72,15 +122,15 @@ public class ImageFileTools {
 
     private static void tellUserInvalidInput(Component component) {
         String msg = "Los datos ingresados son inválidos.";
-        JOptionPane.showMessageDialog(component, msg,
-                "Error de entrada de datos", JOptionPane.ERROR_MESSAGE);
+        String title = "Error de entrada de datos";
+        ErrorTools.showErrorMsg(title, msg, component);
     }
 
     private static void tellUserImgFormatInvalid(Component component) {
         String msg = "Falló la carga de la imagen por la siguiente razón: \n";
         msg += "El archivo seleccionado es inválido.";
-        JOptionPane.showMessageDialog(component, msg,
-                "Error al cargar la imagen", JOptionPane.ERROR_MESSAGE);
+        String title = "Error al cargar la imagen";
+        ErrorTools.showErrorMsg(title, msg, component);
     }
 
     private static File selectFile(Component parentComponent) {

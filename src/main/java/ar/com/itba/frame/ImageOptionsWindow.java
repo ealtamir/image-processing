@@ -1,5 +1,7 @@
 package ar.com.itba.frame;
 
+import ar.com.itba.panel.PixelColorChanger;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,35 +13,46 @@ public class ImageOptionsWindow extends JFrame {
     private Component owner;
     private JPanel panel;
     private JLabel pointerLabel;
+    private PixelColorChanger pixelColorChanger;
 
     public ImageOptionsWindow() {
         createWindowContents();
         setFrameConfiguration();
+        setVisible(true);
+        pixelColorChanger.setElementsVisibility(true);
     }
 
     private void createWindowContents() {
-        panel = new JPanel();
-        pointerLabel = new JLabel();
-        add(panel);
-        GroupLayout layout = new GroupLayout(panel);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-        GroupLayout.ParallelGroup parallelGroup = layout.createParallelGroup(GroupLayout.Alignment.CENTER);
-        parallelGroup.addComponent(pointerLabel);
+        panel = createWindowPanel();
+        pointerLabel = createPointerPosLabel();
+        pixelColorChanger = new PixelColorChanger(this);
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(pointerLabel);
+        panel.add(pixelColorChanger);
+    }
+
+    private JLabel createPointerPosLabel() {
+        return new JLabel();
+    }
+
+    private JPanel createWindowPanel() {
+        JPanel newPanel = new JPanel();
+        add(newPanel);
+        return newPanel;
     }
 
     private void setFrameConfiguration() {
-        setSize(150, 60);
+        pack();
         setResizable(false);
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setVisible(true);
     }
 
     public void setPointerLabelValues(Point point) {
         if (point != null) {
-            String msg = "X: " + String.valueOf(point.getX());
-            msg += ", Y: " + String.valueOf(point.getY());
+            String msg = "X: " + String.valueOf((int) point.getX());
+            msg += ", Y: " + String.valueOf((int) point.getY());
             pointerLabel.setText(msg);
         } else {
             pointerLabel.setText("X: -, Y: -");

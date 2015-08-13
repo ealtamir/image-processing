@@ -6,13 +6,14 @@ import sun.tools.jstat.Alignment;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class QuickDrawPanel extends JPanel implements MouseMotionListener {
+public class QuickDrawPanel extends JPanel implements MouseMotionListener, MouseListener {
 
 	private BufferedImage bufferedImage;
 	private Dimension size = new Dimension();
@@ -69,8 +70,35 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener {
 	}
 
 	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
+
+	@Override
 	public void mouseDragged(MouseEvent e) {
-		// do nothing
+		if (optionsWindow != null) {
+			optionsWindow.setPointerLabelValues(null);
+		}
 	}
 
 	@Override
@@ -80,8 +108,7 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener {
 		}
 	}
 
-	private void sendPointValueToOptionsWindow(Point point) {
-		Point p = new Point((int) point.getX(), (int) point.getY());
+	private void sendPointValueToOptionsWindow(Point p) {
 		if (p.getX() <= size.width && p.getY() <= size.height) {
 			optionsWindow.setPointerLabelValues(p);
 		} else {

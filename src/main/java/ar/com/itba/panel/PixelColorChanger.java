@@ -1,13 +1,9 @@
 package ar.com.itba.panel;
 
-import sun.jvm.hotspot.utilities.Hashtable;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.Dictionary;
-import java.util.HashMap;
 
 /**
  * Created by Enzo on 12.08.15.
@@ -24,7 +20,8 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
     private JLabel[] colorLabels = new JLabel[3];
     private JLabel pixelLabel = new JLabel("Test");
     private Point pixel;
-    private JPanel[] slidersPanel;
+    private JPanel[] sliderPanels;
+    private JPanel sliders;
 
     public PixelColorChanger(Component parent) {
         this.parent = parent;
@@ -35,7 +32,7 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
     public void setElementsVisibility(boolean visibility) {
         this.setVisible(visibility);
         for (int i = 0; i < SLIDER_COUNT; i++) {
-            slidersPanel[i].setVisible(visibility);
+            sliderPanels[i].setVisible(visibility);
             colors[i].setVisible(visibility);
             colorLabels[i].setVisible(visibility);
         }
@@ -44,25 +41,30 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
 
     private void setElementsLayout() {
         for (int i = 0; i < 3; i++) {
-            slidersPanel[i].setLayout(new BoxLayout(slidersPanel[i], BoxLayout.Y_AXIS));
+            sliderPanels[i].setLayout(new BoxLayout(sliderPanels[i], BoxLayout.Y_AXIS));
         }
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        sliders.setLayout(new BoxLayout(sliders, BoxLayout.X_AXIS));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     private void createSliders() {
-        slidersPanel = new JPanel[3];
+        sliderPanels = new JPanel[3];
+        sliders = new JPanel();
 
         for (int i = 0; i < 3; i++) {
-            slidersPanel[i] = new JPanel();
+            sliderPanels[i] = new JPanel();
             colors[i] = new JSlider(JSlider.VERTICAL, MIN_COLOR_VAL, MAX_COLOR_VAL, 0);
             colors[i].setPaintTicks(true);
+            colors[i].setAlignmentX(Component.CENTER_ALIGNMENT);
             colorLabels[i] = new JLabel("Test");
-            slidersPanel[i].add(colors[i]);
-            slidersPanel[i].add(colorLabels[i]);
-            add(slidersPanel[i]);
+            colorLabels[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+            sliderPanels[i].add(colors[i]);
+            sliderPanels[i].add(colorLabels[i]);
+            sliders.add(sliderPanels[i]);
         }
-
+        pixelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(pixelLabel);
+        add(sliders);
     }
 
     @Override

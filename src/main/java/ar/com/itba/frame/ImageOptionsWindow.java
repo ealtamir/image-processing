@@ -28,6 +28,7 @@ public class ImageOptionsWindow extends JFrame {
         pixelColorChanger = new PixelColorChanger(this);
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        pointerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(pointerLabel);
         panel.add(pixelColorChanger);
     }

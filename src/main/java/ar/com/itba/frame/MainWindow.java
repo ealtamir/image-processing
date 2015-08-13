@@ -1,20 +1,11 @@
 package ar.com.itba.frame;
 
-import java.awt.Container;
-import java.awt.EventQueue;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 import ar.com.itba.action.MenuItemAction;
 import ar.com.itba.action.OpenFileAction;
@@ -25,18 +16,27 @@ import ar.com.itba.panel.QuickDrawPanel;
 public class MainWindow extends JFrame {
 
 	private QuickDrawPanel quickDrawPanel;
+	private JLabel mousePosLabel;
 
 	public MainWindow() {
 		initUI();
 	}
 
 	private void initUI() {
-		createMenuBar();
-		createQuickDrawPanel();
+		createWindowElements();
+		setWindowsConfiguration();
+	}
+
+	private void setWindowsConfiguration() {
 		setTitle("Image manipulator");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+
+	private void createWindowElements() {
+		createMenuBar();
+		createQuickDrawPanel();
 	}
 
 	private void createMenuBar() {
@@ -123,5 +123,4 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-
 }

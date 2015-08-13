@@ -1,23 +1,41 @@
 package ar.com.itba.panel;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import ar.com.itba.frame.ImageOptionsWindow;
+import ar.com.itba.frame.MainWindow;
+import sun.tools.jstat.Alignment;
+
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class QuickDrawPanel extends JPanel {
+public class QuickDrawPanel extends JPanel implements MouseMotionListener {
 
 	private BufferedImage bufferedImage;
 	private Dimension size = new Dimension();
+	private ImageOptionsWindow optionsWindow = null;
 
 	public QuickDrawPanel() {
+		addMouseMotionListener(this);
 	}
 
 	public QuickDrawPanel(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
+		createImageOptionsWindow();
+	}
+
+	private void createImageOptionsWindow() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				optionsWindow = new ImageOptionsWindow();
+			}
+		});
+
 	}
 
 	@Override
@@ -35,6 +53,7 @@ public class QuickDrawPanel extends JPanel {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
 		repaint();
+		createImageOptionsWindow();
 	}
 
 	public BufferedImage image() {
@@ -47,5 +66,27 @@ public class QuickDrawPanel extends JPanel {
 			size.height = bufferedImage.getHeight();
 			revalidate(); // signal parent/scrollpane
 		}
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// do nothing
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (optionsWindow != null) {
+			sendPointValueToOptionsWindow(e.getPoint());
+		}
+	}
+
+	private void sendPointValueToOptionsWindow(Point point) {
+		Point p = new Point((int) point.getX(), (int) point.getY());
+		if (p.getX() <= size.width && p.getY() <= size.height) {
+			optionsWindow.setPointerLabelValues(p);
+		} else {
+			optionsWindow.setPointerLabelValues(null);
+		}
+
 	}
 }

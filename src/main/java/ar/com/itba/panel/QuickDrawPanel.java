@@ -21,6 +21,7 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 
 	public QuickDrawPanel() {
 		addMouseMotionListener(this);
+		addMouseListener(this);
 	}
 
 	public QuickDrawPanel(BufferedImage bufferedImage) {
@@ -30,13 +31,13 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 	}
 
 	private void createImageOptionsWindow() {
+		QuickDrawPanel quickDrawPanel = this;
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				optionsWindow = new ImageOptionsWindow();
+				optionsWindow = new ImageOptionsWindow(quickDrawPanel);
 			}
 		});
-
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		optionsWindow.updateRGBSliders(e, bufferedImage);
 	}
 
 	@Override
@@ -96,9 +97,7 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (optionsWindow != null) {
-			optionsWindow.setPointerLabelValues(null);
-		}
+
 	}
 
 	@Override
@@ -114,6 +113,10 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 		} else {
 			optionsWindow.setPointerLabelValues(null);
 		}
+
+	}
+
+	public void changePixelColor(Point pixel, int r, int g, int b) {
 
 	}
 }

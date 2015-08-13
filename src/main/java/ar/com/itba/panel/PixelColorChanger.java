@@ -18,12 +18,12 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
 
     private JSlider[] colors = new JSlider[3];
     private JLabel[] colorLabels = new JLabel[3];
-    private JLabel pixelLabel = new JLabel("Test");
+    private JLabel pixelLabel = new JLabel("-");
     private Point pixel;
     private JPanel[] sliderPanels;
     private JPanel sliders;
 
-    public PixelColorChanger(Component parent) {
+    public PixelColorChanger(QuickDrawPanel parent) {
         this.parent = parent;
         createSliders();
         setElementsLayout();
@@ -56,7 +56,7 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
             colors[i] = new JSlider(JSlider.VERTICAL, MIN_COLOR_VAL, MAX_COLOR_VAL, 0);
             colors[i].setPaintTicks(true);
             colors[i].setAlignmentX(Component.CENTER_ALIGNMENT);
-            colorLabels[i] = new JLabel("Test");
+            colorLabels[i] = new JLabel("-");
             colorLabels[i].setAlignmentX(Component.CENTER_ALIGNMENT);
             sliderPanels[i].add(colors[i]);
             sliderPanels[i].add(colorLabels[i]);
@@ -70,5 +70,18 @@ public class PixelColorChanger extends JPanel implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
 
+    }
+
+    public void setPixelValues(Point point, int r, int g, int b) {
+        colors[0].setValue(r);
+        colorLabels[0].setText("R:" + String.valueOf(r));
+
+        colors[1].setValue(g);
+        colorLabels[1].setText("G:" + String.valueOf(g));
+
+        colors[2].setValue(b);
+        colorLabels[2].setText("B:" + String.valueOf(b));
+
+        pixelLabel.setText("Pixel: (" + (int) point.getX() + ", " + (int) point.getY() + ")");
     }
 }

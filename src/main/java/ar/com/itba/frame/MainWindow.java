@@ -93,8 +93,7 @@ public class MainWindow extends JFrame {
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				JOptionPane.showMessageDialog(MainWindow.this, "Desarrollado por: \n\n Altamiranda, Enzo \n Elli, Federico", "About",
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(MainWindow.this, "Desarrollado por: \n\n Altamiranda, Enzo \n Elli, Federico", "About", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		helpMenu.add(aboutMenuItem);

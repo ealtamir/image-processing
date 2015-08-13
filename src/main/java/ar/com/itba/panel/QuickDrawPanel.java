@@ -1,16 +1,17 @@
 package ar.com.itba.panel;
 
-import ar.com.itba.frame.ImageOptionsWindow;
-import ar.com.itba.frame.MainWindow;
-import sun.tools.jstat.Alignment;
-
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import ar.com.itba.frame.ImageOptionsWindow;
 
 @SuppressWarnings("serial")
 public class QuickDrawPanel extends JPanel implements MouseMotionListener, MouseListener {

@@ -1,13 +1,22 @@
 package ar.com.itba.utils;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import org.apache.commons.io.FilenameUtils;
+
+import java.awt.Component;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.InvalidParameterException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.security.InvalidParameterException;
+import javax.swing.Box;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.apache.commons.io.FilenameUtils;
 
 
 public class ImageFileTools {

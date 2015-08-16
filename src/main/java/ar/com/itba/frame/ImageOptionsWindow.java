@@ -2,6 +2,7 @@ package ar.com.itba.frame;
 
 import ar.com.itba.panel.PixelColorChanger;
 import ar.com.itba.panel.QuickDrawPanel;
+import ar.com.itba.panel.RectSelectionPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ public class ImageOptionsWindow extends JFrame {
     private JPanel panel;
     private JLabel pointerLabel;
     private PixelColorChanger pixelColorChanger;
+    private RectSelectionPanel rectSelectionPanel;
     private BufferedImage image;
 
     public ImageOptionsWindow(QuickDrawPanel owner, BufferedImage image) {
@@ -24,17 +26,24 @@ public class ImageOptionsWindow extends JFrame {
         setFrameConfiguration();
         setVisible(true);
         pixelColorChanger.setElementsVisibility(true);
+        rectSelectionPanel.setElementsVisibility(true);
     }
 
     private void createWindowContents() {
         panel = createWindowPanel();
         pointerLabel = createPointerPosLabel();
         pixelColorChanger = new PixelColorChanger(owner);
+        rectSelectionPanel = new RectSelectionPanel(this);
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         pointerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(pointerLabel);
         panel.add(pixelColorChanger);
+
+        rectSelectionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        rectSelectionPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+        panel.add(rectSelectionPanel);
+
     }
 
     private JLabel createPointerPosLabel() {
@@ -48,7 +57,7 @@ public class ImageOptionsWindow extends JFrame {
     }
 
     private void setFrameConfiguration() {
-        pack();
+        setSize(300, 500);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -71,5 +80,47 @@ public class ImageOptionsWindow extends JFrame {
         int B = (rgbPoint & 0x000000FF);
         pixelColorChanger.setPixelValues(e.getPoint(), R, G, B);
 
+    }
+
+    public void updateRectangleSelection(Rectangle rectToDraw) {
+        int[] avgColorValues = getAvgColorsInSelection(rectToDraw);
+        rectSelectionPanel.setAreaLabelValue(rectToDraw.width * rectToDraw.height);
+        rectSelectionPanel.setAvgLabelValue(avgColorValues[0], avgColorValues[1], avgColorValues[2]);
+    }
+
+    private int[] getAvgColorsInSelection(Rectangle rectToDraw) {
+        int totalWidth = rectToDraw.x + rectToDraw.width;
+        int totalHeight = rectToDraw.y + rectToDraw.height;
+        int totalPixels = totalWidth * totalHeight;
+
+        long r_total = 0, b_total = 0, g_total = 0;
+
+        int rgb = 0;
+
+        for (int x = rectToDraw.x; x < totalWidth ; x++) {
+            for (int y = rectToDraw.y; y < totalHeight; y++) {
+                rgb = image.getRGB(x, y);
+                r_total += getRed(rgb);
+                g_total += getGreen(rgb);
+                b_total += getBlue(rgb);
+            }
+        }
+        r_total = r_total / totalPixels;
+        g_total = g_total / totalPixels;
+        b_total = b_total / totalPixels;
+        int[] values = {(int) r_total, (int) g_total, (int) b_total};
+        return values;
+    }
+
+    private long getRed(int rgb) {
+        return (rgb & 0x00FF0000) >>> 16;
+    }
+
+    private long getBlue(int rgb) {
+        return (rgb & 0x0000FF00) >>> 8;
+    }
+
+    private long getGreen(int rgb) {
+        return rgb & 0x000000FF;
     }
 }

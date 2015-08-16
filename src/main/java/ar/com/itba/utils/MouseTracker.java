@@ -93,6 +93,9 @@ public class MouseTracker extends MouseInputAdapter {
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
         updateSelection(e);
+        if (hasDataToDraw()) {
+            optionsWindow.updateRectangleSelection(rectToDraw);
+        }
     }
 
     @Override

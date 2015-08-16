@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -14,7 +15,7 @@ import javax.swing.SwingUtilities;
 import ar.com.itba.frame.ImageOptionsWindow;
 
 @SuppressWarnings("serial")
-public class QuickDrawPanel extends JPanel implements MouseMotionListener, MouseListener {
+public class QuickDrawPanel extends JPanel implements MouseMotionListener, MouseListener, ImageObserver {
 
 	private BufferedImage bufferedImage;
 	private Dimension size = new Dimension();
@@ -32,6 +33,7 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 	}
 
 	private void createImageOptionsWindow() {
+		closePreviousOptionsWindow();
 		QuickDrawPanel quickDrawPanel = this;
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -41,10 +43,17 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 		});
 	}
 
+	private void closePreviousOptionsWindow() {
+		if (optionsWindow != null) {
+			optionsWindow.setVisible(false);
+			optionsWindow.dispose();
+		}
+	}
+
 	@Override
 	protected void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
-		graphics.drawImage(bufferedImage, 0, 0, this);
+		graphics.drawImage(bufferedImage, 0, 0, null);
 	}
 
 	@Override
@@ -118,6 +127,18 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 	}
 
 	public void changePixelColor(Point pixel, int r, int g, int b) {
+		int rgb = createColorInteger(r, g, b);
+		int x = (int) pixel.getX();
+		int y = (int) pixel.getY();
+		bufferedImage.setRGB(x, y, rgb);
+		repaint(x - 1, y - 1, 3, 3);
+	}
 
+	private int createColorInteger(int r, int g, int b) {
+		int rgb = 0;
+		r = r << 16;
+		g = g << 8;
+		rgb = r | g | b;
+		return rgb;
 	}
 }

@@ -69,7 +69,6 @@ public class ImageOptionsWindow extends JFrame {
         int R = (rgbPoint & 0x00FF0000) >>> 16;
         int G = (rgbPoint & 0x0000FF00) >>> 8;
         int B = (rgbPoint & 0x000000FF);
-        System.out.println("R: " + R + " G: " + G + " B: " + B);
         pixelColorChanger.setPixelValues(e.getPoint(), R, G, B);
 
     }

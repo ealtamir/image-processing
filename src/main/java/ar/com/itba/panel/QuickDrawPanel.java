@@ -1,30 +1,27 @@
 package ar.com.itba.panel;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
 
 import ar.com.itba.frame.ImageOptionsWindow;
+import ar.com.itba.utils.MouseTracker;
 
 @SuppressWarnings("serial")
-public class QuickDrawPanel extends JPanel implements MouseMotionListener, MouseListener, ImageObserver {
+public class QuickDrawPanel extends JPanel {
 
 	private BufferedImage bufferedImage;
 	private Dimension size = new Dimension();
 	private ImageOptionsWindow optionsWindow = null;
+	private MouseTracker mouseTracker;
+	private Rectangle currentSelection;
+	private Object threadSynchroniztionObj = new Object();
 
-	public QuickDrawPanel() {
-		addMouseMotionListener(this);
-		addMouseListener(this);
-	}
+	public QuickDrawPanel() {}
 
 	public QuickDrawPanel(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
@@ -38,7 +35,11 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				optionsWindow = new ImageOptionsWindow(quickDrawPanel);
+                optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
+                mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
+						bufferedImage.getWidth(), bufferedImage.getHeight());
+                addMouseMotionListener(mouseTracker);
+                addMouseListener(mouseTracker);
 			}
 		});
 	}
@@ -54,6 +55,17 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 	protected void paintComponent(Graphics graphics) {
 		super.paintComponent(graphics);
 		graphics.drawImage(bufferedImage, 0, 0, null);
+		if (mouseTracker != null && mouseTracker.hasDataToDraw()) {
+			drawMouseSelectionRect(graphics);
+		}
+	}
+
+	private void drawMouseSelectionRect(Graphics graphics) {
+		Rectangle r = mouseTracker.getRectToDraw();
+		Color oldColor = graphics.getColor();
+		graphics.setColor(Color.MAGENTA);
+		graphics.drawRect(r.x, r.y, r.width, r.height);
+		graphics.setColor(oldColor);
 	}
 
 	@Override
@@ -64,8 +76,8 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 	public void image(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
-		repaint();
 		createImageOptionsWindow();
+		repaint();
 	}
 
 	public BufferedImage image() {
@@ -78,52 +90,6 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 			size.height = bufferedImage.getHeight();
 			revalidate(); // signal parent/scrollpane
 		}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		optionsWindow.updateRGBSliders(e, bufferedImage);
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		if (optionsWindow != null) {
-			sendPointValueToOptionsWindow(e.getPoint());
-		}
-	}
-
-	private void sendPointValueToOptionsWindow(Point p) {
-		if (p.getX() <= size.width && p.getY() <= size.height) {
-			optionsWindow.setPointerLabelValues(p);
-		} else {
-			optionsWindow.setPointerLabelValues(null);
-		}
-
 	}
 
 	public void changePixelColor(Point pixel, int r, int g, int b) {
@@ -141,4 +107,5 @@ public class QuickDrawPanel extends JPanel implements MouseMotionListener, Mouse
 		rgb = r | g | b;
 		return rgb;
 	}
+
 }

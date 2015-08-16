@@ -8,18 +8,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-/**
- * Created by Enzo on 12.08.15.
- */
+
 public class ImageOptionsWindow extends JFrame {
 
     private QuickDrawPanel owner;
     private JPanel panel;
     private JLabel pointerLabel;
     private PixelColorChanger pixelColorChanger;
+    private BufferedImage image;
 
-    public ImageOptionsWindow(QuickDrawPanel owner) {
+    public ImageOptionsWindow(QuickDrawPanel owner, BufferedImage image) {
         this.owner = owner;
+        this.image = image;
         createWindowContents();
         setFrameConfiguration();
         setVisible(true);
@@ -64,7 +64,7 @@ public class ImageOptionsWindow extends JFrame {
         }
     }
 
-    public void updateRGBSliders(MouseEvent e, BufferedImage image) {
+    public void updateRGBSliders(MouseEvent e) {
         int rgbPoint = image.getRGB(e.getX(), e.getY());
         int R = (rgbPoint & 0x00FF0000) >>> 16;
         int G = (rgbPoint & 0x0000FF00) >>> 8;

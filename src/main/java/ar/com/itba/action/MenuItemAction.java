@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+@SuppressWarnings("serial")
 public class MenuItemAction extends AbstractAction {
 
 	public MenuItemAction(String text, ImageIcon icon, Integer mnemonic) {

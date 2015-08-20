@@ -1,6 +1,7 @@
 package ar.com.itba.action;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -11,21 +12,26 @@ import javax.swing.JFrame;
 import ar.com.itba.frame.MainWindow;
 
 @SuppressWarnings("serial")
-public class CreateCircleAction extends AbstractAction {
+public class CreateGradientAction extends AbstractAction {
 
 	private JFrame parent;
+	private Color color1;
+	private Color color2;
 
-	public CreateCircleAction(JFrame parent) {
+	public CreateGradientAction(JFrame parent, Color color1, Color color2) {
 		this.parent = parent;
+		this.color1 = color1;
+		this.color2 = color2;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		BufferedImage image = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = image.createGraphics();
-		g.setColor(Color.WHITE);
-		g.fillOval(128, 128, 256, 256);
+		GradientPaint gradient = new GradientPaint(0, 0, color1, 0, 512, color2, false);
+		Graphics2D g2 = (Graphics2D) image.getGraphics();
+		g2.setPaint(gradient);
+		g2.fillRect(0, 0, 512, 512);
 		((MainWindow) parent).quickDrawPanel().image(image);
-
 	}
+
 }

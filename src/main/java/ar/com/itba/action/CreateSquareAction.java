@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import ar.com.itba.frame.MainWindow;
 
+@SuppressWarnings("serial")
 public class CreateSquareAction extends AbstractAction {
 
 	private JFrame parent;

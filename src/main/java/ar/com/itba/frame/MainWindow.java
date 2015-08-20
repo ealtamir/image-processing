@@ -1,5 +1,6 @@
 package ar.com.itba.frame;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import ar.com.itba.action.CreateCircleAction;
+import ar.com.itba.action.CreateGradientAction;
 import ar.com.itba.action.CreateSquareAction;
 import ar.com.itba.action.MenuItemAction;
 import ar.com.itba.action.OpenFileAction;
@@ -78,6 +80,16 @@ public class MainWindow extends JFrame {
 		squareMenuItem.addActionListener(new CreateSquareAction(MainWindow.this));
 		newMenu.add(squareMenuItem);
 
+		JMenuItem grayscaleGradientMenuItem = new JMenuItem("Grayscale Gradient");
+		grayscaleGradientMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.CTRL_MASK));
+		grayscaleGradientMenuItem.addActionListener(new CreateGradientAction(MainWindow.this, Color.black, Color.white));
+		newMenu.add(grayscaleGradientMenuItem);
+
+		JMenuItem colorGradientMenuItem = new JMenuItem("Color Gradient");
+		colorGradientMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.CTRL_MASK));
+		colorGradientMenuItem.addActionListener(new CreateGradientAction(MainWindow.this, Color.red, Color.blue));
+		newMenu.add(colorGradientMenuItem);
+
 		JMenuItem openMenuItem = new JMenuItem(new MenuItemAction("Open", iconOpen, KeyEvent.VK_O));
 		openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		openMenuItem.addActionListener(new OpenFileAction(MainWindow.this));
@@ -107,7 +119,8 @@ public class MainWindow extends JFrame {
 		aboutMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				JOptionPane.showMessageDialog(MainWindow.this, "Desarrollado por: \n\n Altamiranda, Enzo \n Elli, Federico", "About", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(MainWindow.this, "Desarrollado por: \n\n Altamiranda, Enzo \n Elli, Federico", "About",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		helpMenu.add(aboutMenuItem);

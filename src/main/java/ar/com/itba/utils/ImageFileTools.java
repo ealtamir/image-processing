@@ -2,10 +2,7 @@ package ar.com.itba.utils;
 
 import java.awt.Component;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.security.InvalidParameterException;
 
 import javax.imageio.ImageIO;
@@ -67,13 +64,20 @@ public class ImageFileTools {
 
     private static BufferedImage generateBufferedImageFromRawData(byte[][] rawData, Component component) {
         BufferedImage image = new BufferedImage(rawData[0].length, rawData.length,
-                BufferedImage.TYPE_BYTE_GRAY);
+                BufferedImage.TYPE_INT_RGB);
         for (int h = 0; h < rawData.length; h++) {
             for (int w = 0; w < rawData[0].length; w++) {
-                image.setRGB(w, h, rawData[h][w]);
+                image.setRGB(w, h, byteToARGB(rawData[h][w]));
             }
         }
         return image;
+    }
+
+    private static int byteToARGB(byte color) {
+        int r = (0x000000FF & color) << 16;
+        int g = (0x000000FF & color) << 8;
+        int b = (0x000000FF & color);
+        return r | g | b;
     }
 
     private static byte[][] createRawDataMatrix(File file, int[] imgDimensions, Component component) {

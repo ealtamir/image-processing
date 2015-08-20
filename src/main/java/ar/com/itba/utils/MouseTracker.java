@@ -35,7 +35,9 @@ public class MouseTracker extends MouseInputAdapter {
     @Override
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
-        optionsWindow.updateRGBSliders(e);
+        if (e.getX() <= canvasWidth && e.getY() <= canvasHeight) {
+            optionsWindow.updateRGBSliders(e);
+        }
     }
 
     @Override

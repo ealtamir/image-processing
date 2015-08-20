@@ -1,12 +1,24 @@
 package ar.com.itba.frame;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 
+import ar.com.itba.action.CreateCircleAction;
+import ar.com.itba.action.CreateSquareAction;
 import ar.com.itba.action.MenuItemAction;
 import ar.com.itba.action.OpenFileAction;
 import ar.com.itba.action.SaveFileAction;
@@ -58,10 +70,12 @@ public class MainWindow extends JFrame {
 
 		JMenuItem circleMenuItem = new JMenuItem("Circle");
 		circleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.CTRL_MASK));
+		circleMenuItem.addActionListener(new CreateCircleAction(MainWindow.this));
 		newMenu.add(circleMenuItem);
 
 		JMenuItem squareMenuItem = new JMenuItem("Square");
 		squareMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.CTRL_MASK));
+		squareMenuItem.addActionListener(new CreateSquareAction(MainWindow.this));
 		newMenu.add(squareMenuItem);
 
 		JMenuItem openMenuItem = new JMenuItem(new MenuItemAction("Open", iconOpen, KeyEvent.VK_O));

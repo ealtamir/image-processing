@@ -112,15 +112,15 @@ public class ImageOptionsWindow extends JFrame {
         return values;
     }
 
-    private long getRed(int rgb) {
+    static public int getRed(int rgb) {
         return (rgb & 0x00FF0000) >>> 16;
     }
 
-    private long getBlue(int rgb) {
+    static public int getBlue(int rgb) {
         return (rgb & 0x0000FF00) >>> 8;
     }
 
-    private long getGreen(int rgb) {
+    static public int getGreen(int rgb) {
         return rgb & 0x000000FF;
     }
 }

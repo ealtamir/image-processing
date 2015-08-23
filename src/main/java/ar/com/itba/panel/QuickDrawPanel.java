@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import ar.com.itba.frame.ImageOptionsWindow;
+import ar.com.itba.utils.ImageHistogram;
 import ar.com.itba.utils.MouseTracker;
 
 @SuppressWarnings("serial")
@@ -18,8 +19,7 @@ public class QuickDrawPanel extends JPanel {
 	private Dimension size = new Dimension();
 	private ImageOptionsWindow optionsWindow = null;
 	private MouseTracker mouseTracker;
-	private Rectangle currentSelection;
-	private Object threadSynchroniztionObj = new Object();
+	private ImageHistogram histogram;
 
 	public QuickDrawPanel() {}
 
@@ -27,6 +27,11 @@ public class QuickDrawPanel extends JPanel {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
 		createImageOptionsWindow();
+		createImageHistogram(bufferedImage);
+	}
+
+	private void createImageHistogram(BufferedImage bufferedImage) {
+		histogram = new ImageHistogram("test", bufferedImage);
 	}
 
 	private void createImageOptionsWindow() {
@@ -77,6 +82,7 @@ public class QuickDrawPanel extends JPanel {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
 		createImageOptionsWindow();
+		createImageHistogram(bufferedImage);
 		repaint();
 	}
 

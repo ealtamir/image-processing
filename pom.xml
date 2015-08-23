@@ -21,6 +21,11 @@
 		<wtp.version>none</wtp.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.19</version>
+		</dependency>
 		<!--MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>

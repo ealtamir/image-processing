@@ -31,7 +31,7 @@ public class CreateGradientAction extends AbstractAction {
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
 		g2.setPaint(gradient);
 		g2.fillRect(0, 0, 512, 512);
-		((MainWindow) parent).quickDrawPanel().image(image);
+		((MainWindow) parent).updateQuickDrawPanel(image);
 	}
 
 }

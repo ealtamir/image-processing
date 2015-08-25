@@ -25,7 +25,7 @@ public class CreateCircleAction extends AbstractAction {
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.WHITE);
 		g.fillOval(128, 128, 256, 256);
-		((MainWindow) parent).quickDrawPanel().image(image);
+		((MainWindow) parent).updateQuickDrawPanel(image);
 
 	}
 }

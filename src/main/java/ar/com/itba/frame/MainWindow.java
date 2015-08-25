@@ -1,29 +1,16 @@
 package ar.com.itba.frame;
 
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.KeyStroke;
-
-import ar.com.itba.action.CreateCircleAction;
-import ar.com.itba.action.CreateGradientAction;
-import ar.com.itba.action.CreateSquareAction;
-import ar.com.itba.action.MenuItemAction;
-import ar.com.itba.action.OpenFileAction;
-import ar.com.itba.action.SaveFileAction;
+import ar.com.itba.menu_bar_items.FileMenu;
+import ar.com.itba.menu_bar_items.HelpMenu;
+import ar.com.itba.menu_bar_items.ToolsMenu;
 import ar.com.itba.panel.QuickDrawPanel;
 
 @SuppressWarnings("serial")
@@ -55,79 +42,22 @@ public class MainWindow extends JFrame {
 
 	private void createMenuBar() {
 		JMenuBar menubar = new JMenuBar();
-		ImageIcon iconNew = new ImageIcon(new ImageIcon("menuImages/new.png").getImage().getScaledInstance(24, 24, Image.SCALE_AREA_AVERAGING));
-		ImageIcon iconOpen = new ImageIcon(new ImageIcon("menuImages/open.png").getImage().getScaledInstance(24, 24, Image.SCALE_AREA_AVERAGING));
-		ImageIcon iconSave = new ImageIcon(new ImageIcon("menuImages/save.png").getImage().getScaledInstance(24, 24, Image.SCALE_AREA_AVERAGING));
-		ImageIcon iconExit = new ImageIcon(new ImageIcon("menuImages/exit.png").getImage().getScaledInstance(24, 24, Image.SCALE_AREA_AVERAGING));
-		ImageIcon iconAbout = new ImageIcon(new ImageIcon("menuImages/about.png").getImage().getScaledInstance(24, 24, Image.SCALE_AREA_AVERAGING));
-
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic(KeyEvent.VK_F);
-
-		JMenu newMenu = new JMenu(new MenuItemAction("New...", iconNew, KeyEvent.VK_N));
-
-		JMenuItem blankMenuItem = new JMenuItem("Blank");
-		blankMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
-		newMenu.add(blankMenuItem);
-
-		JMenuItem circleMenuItem = new JMenuItem("Circle");
-		circleMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.CTRL_MASK));
-		circleMenuItem.addActionListener(new CreateCircleAction(MainWindow.this));
-		newMenu.add(circleMenuItem);
-
-		JMenuItem squareMenuItem = new JMenuItem("Square");
-		squareMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.CTRL_MASK));
-		squareMenuItem.addActionListener(new CreateSquareAction(MainWindow.this));
-		newMenu.add(squareMenuItem);
-
-		JMenuItem grayscaleGradientMenuItem = new JMenuItem("Grayscale Gradient");
-		grayscaleGradientMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.CTRL_MASK));
-		grayscaleGradientMenuItem.addActionListener(new CreateGradientAction(MainWindow.this, Color.black, Color.white));
-		newMenu.add(grayscaleGradientMenuItem);
-
-		JMenuItem colorGradientMenuItem = new JMenuItem("Color Gradient");
-		colorGradientMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, ActionEvent.CTRL_MASK));
-		colorGradientMenuItem.addActionListener(new CreateGradientAction(MainWindow.this, Color.red, Color.blue));
-		newMenu.add(colorGradientMenuItem);
-
-		JMenuItem openMenuItem = new JMenuItem(new MenuItemAction("Open", iconOpen, KeyEvent.VK_O));
-		openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-		openMenuItem.addActionListener(new OpenFileAction(MainWindow.this));
-
-		JMenuItem saveMenuItem = new JMenuItem(new MenuItemAction("Save", iconSave, KeyEvent.VK_S));
-		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-		saveMenuItem.addActionListener(new SaveFileAction(MainWindow.this));
-
-		JMenuItem exitMenuItem = new JMenuItem("Exit", iconExit);
-		exitMenuItem.setMnemonic(KeyEvent.VK_E);
-		exitMenuItem.setToolTipText("Exit application");
-		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
-		exitMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				System.exit(0);
-			}
-		});
-		fileMenu.add(newMenu);
-		fileMenu.add(openMenuItem);
-		fileMenu.add(saveMenuItem);
-		fileMenu.addSeparator();
-		fileMenu.add(exitMenuItem);
-
-		JMenu helpMenu = new JMenu("Help");
-		JMenuItem aboutMenuItem = new JMenuItem("About", iconAbout);
-		aboutMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				JOptionPane.showMessageDialog(MainWindow.this, "Desarrollado por: \n\n Altamiranda, Enzo \n Elli, Federico", "About",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
-		helpMenu.add(aboutMenuItem);
-		menubar.add(fileMenu);
-		// menubar.add(Box.createHorizontalGlue());
-		menubar.add(helpMenu);
+		createFileMenu(menubar);
+		createToolsMenu(menubar);
+		createHelpMenu(menubar);
 		setJMenuBar(menubar);
+	}
+
+	private void createToolsMenu(JMenuBar menubar) {
+		menubar.add(new ToolsMenu("Tools"));
+	}
+
+	private void createHelpMenu(JMenuBar menubar) {
+		menubar.add(new HelpMenu("Help", this));
+	}
+
+	private void createFileMenu(JMenuBar menubar) {
+		menubar.add(new FileMenu("File", this));
 	}
 
 	private void createQuickDrawPanel() {
@@ -136,8 +66,13 @@ public class MainWindow extends JFrame {
 		contentPane.add(new JScrollPane(quickDrawPanel), "Center");
 	}
 
-	public QuickDrawPanel quickDrawPanel() {
-		return quickDrawPanel;
+	public void updateQuickDrawPanel(BufferedImage image) {
+		activateToolsMenuItem();
+		quickDrawPanel.image(image);
+	}
+
+	private void activateToolsMenuItem() {
+//		getMenuBar().getMenu(1).setEnabled(true);
 	}
 
 	public static void main(String[] args) {
@@ -148,5 +83,9 @@ public class MainWindow extends JFrame {
 				window.setVisible(true);
 			}
 		});
+	}
+
+	public QuickDrawPanel getQuickDrawPanel() {
+		return quickDrawPanel;
 	}
 }

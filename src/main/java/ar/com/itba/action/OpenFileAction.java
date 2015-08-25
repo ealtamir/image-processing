@@ -1,5 +1,6 @@
 package ar.com.itba.action;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,23 +26,40 @@ public class OpenFileAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JFileChooser fileChooser = new JFileChooser("resources/Imagenes");
-		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff", "raw");
-		fileChooser.addChoosableFileFilter(filter);
-		int ret = fileChooser.showDialog(parent, "Open file");
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			File file = fileChooser.getSelectedFile();
-			loadImage(file);
+		File newFile = OpenFileAction.getFile(parent);
+		if (newFile != null) {
+			BufferedImage image = loadImage(newFile, parent);
+			((MainWindow) parent).updateQuickDrawPanel(image);
 		}
 	}
 
-	private void loadImage(File file) {
+	private static BufferedImage loadImage(File file, Component parent) {
 		BufferedImage image = null;
 		try {
 			image = ImageFileTools.loadImage(file, parent);
 		} catch (IOException e) {
 			System.out.println("Read error: " + e.getMessage());
 		}
-		((MainWindow) parent).quickDrawPanel().image(image);
+		return image;
+	}
+
+	static public File getFile(Component parent) {
+		JFileChooser fileChooser = new JFileChooser("resources/Imagenes");
+		FileFilter filter = new FileNameExtensionFilter("Image files", "bmp", "pgm", "ppm", "png", "jpeg", "jpg", "gif", "tiff", "raw");
+		fileChooser.addChoosableFileFilter(filter);
+		int ret = fileChooser.showDialog(parent, "Open file");
+		if (ret == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
+			return file;
+		}
+		return null;
+	}
+
+	static public BufferedImage getBufferedImageFromFile(Component parent) {
+		File newfile = getFile(parent);
+		if (newfile != null) {
+			return loadImage(newfile, parent);
+		}
+		return null;
 	}
 }

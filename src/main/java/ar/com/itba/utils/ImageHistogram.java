@@ -6,6 +6,7 @@ import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.StyleManager;
 import com.xeiam.xchart.SwingWrapper;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class ImageHistogram {
@@ -25,7 +26,9 @@ public class ImageHistogram {
             .xAxisTitle("Grises").yAxisTitle("Cantidad").build();
 
         populateChart(chart);
-        new SwingWrapper(chart).displayChart();
+        JFrame window = new SwingWrapper(chart).displayChart();
+        window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        window.setResizable(false);
     }
 
     private void populateChart(Chart chart) {
@@ -37,8 +40,9 @@ public class ImageHistogram {
             xAxis[i] += xAxis[i - 1] + 1;
         }
 
-        for (int x = 0; x < image.getHeight(); x++) {
-            for (int y = 0; y < image.getWidth(); y++) {
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+//                System.out.print(String.valueOf(x) + ", " + String.valueOf(y) + "\n");
                 buffer = BLUE_MASK & image.getRGB(x, y);
                 grayLevels[buffer] += 1;
             }

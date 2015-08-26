@@ -29,7 +29,7 @@ public class OpenFileAction extends AbstractAction {
 		File newFile = OpenFileAction.getFile(parent);
 		if (newFile != null) {
 			BufferedImage image = loadImage(newFile, parent);
-			((MainWindow) parent).updateQuickDrawPanel(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}
 

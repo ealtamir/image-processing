@@ -21,11 +21,11 @@ public class CreateCircleAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		((MainWindow) parent).createLeftQuickDrawPanel();
 		BufferedImage image = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.WHITE);
 		g.fillOval(128, 128, 256, 256);
-		((MainWindow) parent).updateQuickDrawPanel(image);
-
+		((MainWindow) parent).updateLeftQuickDrawPanel(image);
 	}
 }

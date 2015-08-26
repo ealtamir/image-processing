@@ -2,12 +2,14 @@ package ar.com.itba.frame;
 
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
+
 import ar.com.itba.menu_bar_items.FileMenu;
 import ar.com.itba.menu_bar_items.HelpMenu;
 import ar.com.itba.menu_bar_items.ToolsMenu;
@@ -16,7 +18,8 @@ import ar.com.itba.panel.QuickDrawPanel;
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 
-	private QuickDrawPanel quickDrawPanel;
+	private QuickDrawPanel leftQuickDrawPanel;
+	private QuickDrawPanel rightQuickDrawPanel;
 	private JLabel mousePosLabel;
 
 	public MainWindow() {
@@ -25,19 +28,20 @@ public class MainWindow extends JFrame {
 
 	private void initUI() {
 		createWindowElements();
+		createLeftQuickDrawPanel();
+		createRightQuickDrawPanel();
 		setWindowsConfiguration();
 	}
 
 	private void setWindowsConfiguration() {
 		setTitle("Image manipulator");
-		setSize(800, 600);
+		setSize(1440, 900);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	private void createWindowElements() {
 		createMenuBar();
-		createQuickDrawPanel();
 	}
 
 	private void createMenuBar() {
@@ -49,7 +53,7 @@ public class MainWindow extends JFrame {
 	}
 
 	private void createToolsMenu(JMenuBar menubar) {
-		menubar.add(new ToolsMenu("Tools"));
+		menubar.add(new ToolsMenu("Tools", this));
 	}
 
 	private void createHelpMenu(JMenuBar menubar) {
@@ -60,19 +64,34 @@ public class MainWindow extends JFrame {
 		menubar.add(new FileMenu("File", this));
 	}
 
-	private void createQuickDrawPanel() {
-		quickDrawPanel = new QuickDrawPanel();
+	public void createLeftQuickDrawPanel() {
+		leftQuickDrawPanel = new QuickDrawPanel();
 		Container contentPane = getContentPane();
-		contentPane.add(new JScrollPane(quickDrawPanel), "Center");
+		contentPane.setLayout(new FlowLayout());
+		contentPane.add(new JScrollPane(leftQuickDrawPanel), "Center");
+		contentPane.setVisible(true);
 	}
 
-	public void updateQuickDrawPanel(BufferedImage image) {
+	public void createRightQuickDrawPanel() {
+		rightQuickDrawPanel = new QuickDrawPanel();
+		Container contentPane = getContentPane();
+		contentPane.add(new JScrollPane(rightQuickDrawPanel), "Center");
+	}
+
+	public void updateLeftQuickDrawPanel(BufferedImage image) {
 		activateToolsMenuItem();
-		quickDrawPanel.image(image);
+		leftQuickDrawPanel.image(image);
+		this.pack();
+	}
+
+	public void updateRightQuickDrawPanel(BufferedImage image) {
+		activateToolsMenuItem();
+		rightQuickDrawPanel.image(image);
+		this.pack();
 	}
 
 	private void activateToolsMenuItem() {
-//		getMenuBar().getMenu(1).setEnabled(true);
+		// getMenuBar().getMenu(1).setEnabled(true);
 	}
 
 	public static void main(String[] args) {
@@ -85,7 +104,11 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	public QuickDrawPanel getQuickDrawPanel() {
-		return quickDrawPanel;
+	public QuickDrawPanel getLeftQuickDrawPanel() {
+		return leftQuickDrawPanel;
+	}
+
+	public QuickDrawPanel getRightQuickDrawPanel() {
+		return rightQuickDrawPanel;
 	}
 }

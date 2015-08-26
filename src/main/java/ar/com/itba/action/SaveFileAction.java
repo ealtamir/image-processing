@@ -31,7 +31,7 @@ public class SaveFileAction extends AbstractAction {
 		fileChooser.addChoosableFileFilter(filter);
 		int ret = fileChooser.showSaveDialog(parent);
 		if (ret == JFileChooser.APPROVE_OPTION) {
-			BufferedImage bufferedImage = ((MainWindow) parent).getQuickDrawPanel().image();
+			BufferedImage bufferedImage = ((MainWindow) parent).getLeftQuickDrawPanel().image();
 			if (bufferedImage != null) {
 				try {
 					String filePath = fileChooser.getCurrentDirectory().toString();

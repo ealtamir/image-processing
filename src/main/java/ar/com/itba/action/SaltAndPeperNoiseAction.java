@@ -1,9 +1,7 @@
 package ar.com.itba.action;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -13,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image.noise.SaltAndPepperNoise;
+import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
 public class SaltAndPeperNoiseAction extends AbstractAction {
@@ -27,33 +27,17 @@ public class SaltAndPeperNoiseAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		image = ((MainWindow) parent).getLeftQuickDrawPanel().image();
-		JTextField density = new JTextField(3);
+		JTextField intensity = new JTextField(3);
 
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.add(new JLabel("Intensity: "));
-		optionsPanel.add(density);
+		optionsPanel.add(intensity);
 
 		String msg = "Select filter itensity:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			int height = image.getHeight();
-			int width = image.getWidth();
-			Random randomGenerator = new Random();
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					float randomNumber = randomGenerator.nextFloat();
-					if (randomNumber < Float.valueOf(density.getText())) {
-						randomNumber = randomGenerator.nextFloat();
-						if (randomNumber < 0.3) {
-							image.setRGB(x, y, Color.white.getRGB());
-						} else if (randomNumber > 0.7) {
-							image.setRGB(x, y, Color.black.getRGB());
-						}
-					}
-				}
-			}
+			new SaltAndPepperNoise(Float.valueOf(intensity.getText()), 0.3f, 0.7f).setRandomGenerator(new UniformRandomGenerator(0, 1)).apply(image);
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
-
 	}
 }

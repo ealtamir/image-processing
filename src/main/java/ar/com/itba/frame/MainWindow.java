@@ -15,7 +15,6 @@ import ar.com.itba.menu_bar_items.HelpMenu;
 import ar.com.itba.menu_bar_items.MenuEventsListener;
 import ar.com.itba.menu_bar_items.ToolsMenu;
 import ar.com.itba.panel.QuickDrawPanel;
-import javassist.tools.rmi.ObjectNotFoundException;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {

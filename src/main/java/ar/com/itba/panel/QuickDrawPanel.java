@@ -34,11 +34,10 @@ public class QuickDrawPanel extends JPanel {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-                optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
-                mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
-						bufferedImage.getWidth(), bufferedImage.getHeight());
-                addMouseMotionListener(mouseTracker);
-                addMouseListener(mouseTracker);
+				optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
+				mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow, bufferedImage.getWidth(), bufferedImage.getHeight());
+				addMouseMotionListener(mouseTracker);
+				addMouseListener(mouseTracker);
 			}
 		});
 	}

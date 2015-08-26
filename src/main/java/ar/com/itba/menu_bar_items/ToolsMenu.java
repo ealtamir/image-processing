@@ -11,6 +11,7 @@ import javax.swing.KeyStroke;
 
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.action.EnchanceContrastAction;
 
 /**
  * Created by Enzo on 25.08.15.
@@ -41,14 +42,19 @@ public class ToolsMenu extends JMenu {
 	}
 
 	private void createMiscMenuSet(ActionListener listener) {
-		JMenuItem copyRightMenu = new JMenuItem("Copy left to right frame");
-		copyRightMenu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.KEY_LOCATION_RIGHT, ActionEvent.CTRL_MASK));
-		copyRightMenu.addActionListener(new CopyRightAction(parent));
-		add(copyRightMenu);
+		JMenuItem copyRightMenuItem = new JMenuItem("Copy left to right frame");
+		copyRightMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_KP_RIGHT, ActionEvent.CTRL_MASK));
+		copyRightMenuItem.addActionListener(new CopyRightAction(parent));
+		add(copyRightMenuItem);
 
 		JMenuItem imageOptionsWindow = new JMenuItem(SHOW_IMAGE_OPTIONS);
 		imageOptionsWindow.addActionListener(listener);
 		add(imageOptionsWindow);
+		
+		JMenuItem enhanceContrastMenuItem = new JMenuItem("Enhance Contrast...");
+		enhanceContrastMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_KP_UP, ActionEvent.CTRL_MASK));
+		enhanceContrastMenuItem.addActionListener(new EnchanceContrastAction(parent));
+		add(enhanceContrastMenuItem);
 	}
 
 	private void createHistogramMenuSet(ActionListener listener) {

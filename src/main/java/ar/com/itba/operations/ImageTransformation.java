@@ -5,5 +5,6 @@ package ar.com.itba.operations;
  */
 public interface ImageTransformation {
 
-    public int apply(int pixel);
+	public int apply(int pixel);
+
 }

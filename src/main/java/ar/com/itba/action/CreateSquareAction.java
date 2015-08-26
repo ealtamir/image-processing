@@ -26,6 +26,5 @@ public class CreateSquareAction extends AbstractAction {
 		g.setColor(Color.WHITE);
 		g.fillRect(128, 128, 256, 256);
 		((MainWindow) parent).updateLeftQuickDrawPanel(image);
-
 	}
 }

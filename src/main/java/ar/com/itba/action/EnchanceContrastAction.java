@@ -57,7 +57,6 @@ public class EnchanceContrastAction extends AbstractAction {
 					int r = (image.getRGB(x, y)) & 0xFF;
 					int g = (image.getRGB(x, y) >> 8) & 0xFF;
 					int b = (image.getRGB(x, y) >> 16) & 0xFF;
-
 					if (r < Integer.valueOf(value1.getText())) {
 						r = r - Integer.valueOf(enhancement.getText()) < 0 ? 0 : r - Integer.valueOf(enhancement.getText());
 					} else if (r > Integer.valueOf(value2.getText())) {
@@ -77,9 +76,6 @@ public class EnchanceContrastAction extends AbstractAction {
 					image.setRGB(x, y, color.getRGB());
 				}
 			}
-			System.out.println(value1.getText());
-			System.out.println(value2.getText());
-			System.out.println(enhancement.getText());
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}

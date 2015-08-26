@@ -10,8 +10,9 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import ar.com.itba.action.CopyRightAction;
-import ar.com.itba.frame.MainWindow;
 import ar.com.itba.action.EnchanceContrastAction;
+import ar.com.itba.action.SaltAndPeperNoiseAction;
+import ar.com.itba.frame.MainWindow;
 
 /**
  * Created by Enzo on 25.08.15.
@@ -50,11 +51,16 @@ public class ToolsMenu extends JMenu {
 		JMenuItem imageOptionsWindow = new JMenuItem(SHOW_IMAGE_OPTIONS);
 		imageOptionsWindow.addActionListener(listener);
 		add(imageOptionsWindow);
-		
+
 		JMenuItem enhanceContrastMenuItem = new JMenuItem("Enhance Contrast...");
 		enhanceContrastMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_KP_UP, ActionEvent.CTRL_MASK));
 		enhanceContrastMenuItem.addActionListener(new EnchanceContrastAction(parent));
 		add(enhanceContrastMenuItem);
+
+		JMenuItem saltAndPepperNoiseMenuItem = new JMenuItem("Generate Salt and Pepper Noise...");
+		saltAndPepperNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		saltAndPepperNoiseMenuItem.addActionListener(new SaltAndPeperNoiseAction(parent));
+		add(saltAndPepperNoiseMenuItem);
 	}
 
 	private void createHistogramMenuSet(ActionListener listener) {

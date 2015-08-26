@@ -19,7 +19,11 @@ public class CopyRightAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		BufferedImage leftImage = ((MainWindow) parent).getLeftQuickDrawPanel().image();
-		((MainWindow) parent).updateRightQuickDrawPanel(leftImage);
+		peformCopyRightAction((MainWindow) parent);
+	}
+
+	public static void peformCopyRightAction(MainWindow window) {
+		BufferedImage leftImage = window.getLeftQuickDrawPanel().image();
+		window.updateRightQuickDrawPanel(leftImage);
 	}
 }

@@ -1,6 +1,7 @@
 package ar.com.itba.utils;
 
 import java.awt.Component;
+import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.security.InvalidParameterException;

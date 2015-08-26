@@ -21,16 +21,10 @@ public class QuickDrawPanel extends JPanel {
 	private MouseTracker mouseTracker;
 	private ImageHistogram histogram;
 
-	public QuickDrawPanel() {}
-
-	public QuickDrawPanel(BufferedImage bufferedImage) {
-		this.bufferedImage = bufferedImage;
-		setComponentSize();
-		createImageOptionsWindow();
-		createImageHistogram(bufferedImage);
-	}
-
 	private void createImageHistogram(BufferedImage bufferedImage) {
+		if (histogram != null) {
+			histogram.close();
+		}
 		histogram = new ImageHistogram("test", bufferedImage);
 	}
 
@@ -82,7 +76,6 @@ public class QuickDrawPanel extends JPanel {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
 		createImageOptionsWindow();
-		createImageHistogram(bufferedImage);
 		repaint();
 	}
 
@@ -114,4 +107,18 @@ public class QuickDrawPanel extends JPanel {
 		return rgb;
 	}
 
+	public void toggleImageHistogram() {
+		if (histogram == null) {
+			createImageHistogram(bufferedImage);
+		}
+		if (histogram.isVisible()) {
+			histogram.hideHistogram();
+		} else {
+			histogram.showHistogram();
+		}
+	}
+
+	public void toggleImageTools() {
+		optionsWindow.toggleVisibility();
+	}
 }

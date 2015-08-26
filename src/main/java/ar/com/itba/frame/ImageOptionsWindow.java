@@ -7,6 +7,8 @@ import ar.com.itba.panel.RectSelectionPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
 
@@ -22,9 +24,10 @@ public class ImageOptionsWindow extends JFrame {
     public ImageOptionsWindow(QuickDrawPanel owner, BufferedImage image) {
         this.owner = owner;
         this.image = image;
+        addWindowListener(new WindowEventsListener());
         createWindowContents();
         setFrameConfiguration();
-        setVisible(true);
+        setVisible(false);
         pixelColorChanger.setElementsVisibility(true);
         rectSelectionPanel.setElementsVisibility(true);
     }
@@ -40,9 +43,9 @@ public class ImageOptionsWindow extends JFrame {
         panel.add(pointerLabel);
         panel.add(pixelColorChanger);
 
-        rectSelectionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        rectSelectionPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-        panel.add(rectSelectionPanel);
+//        rectSelectionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        rectSelectionPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+//        panel.add(rectSelectionPanel);
 
     }
 
@@ -57,7 +60,7 @@ public class ImageOptionsWindow extends JFrame {
     }
 
     private void setFrameConfiguration() {
-        setSize(300, 500);
+        pack();
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -122,5 +125,22 @@ public class ImageOptionsWindow extends JFrame {
 
     static public int getGreen(int rgb) {
         return rgb & 0x000000FF;
+    }
+
+    public void toggleVisibility() {
+        if (isVisible()) {
+            setVisible(false);
+        } else {
+            setVisible(true);
+        }
+    }
+
+    private class WindowEventsListener extends WindowAdapter {
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            ImageOptionsWindow.this.setVisible(false);
+        }
+
     }
 }

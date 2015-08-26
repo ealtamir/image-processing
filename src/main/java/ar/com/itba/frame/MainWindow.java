@@ -12,8 +12,10 @@ import javax.swing.JScrollPane;
 
 import ar.com.itba.menu_bar_items.FileMenu;
 import ar.com.itba.menu_bar_items.HelpMenu;
+import ar.com.itba.menu_bar_items.MenuEventsListener;
 import ar.com.itba.menu_bar_items.ToolsMenu;
 import ar.com.itba.panel.QuickDrawPanel;
+import javassist.tools.rmi.ObjectNotFoundException;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
@@ -21,27 +23,32 @@ public class MainWindow extends JFrame {
 	private QuickDrawPanel leftQuickDrawPanel;
 	private QuickDrawPanel rightQuickDrawPanel;
 	private JLabel mousePosLabel;
+	private MenuEventsListener menuListener;
 
 	public MainWindow() {
 		initUI();
 	}
 
 	private void initUI() {
-		createWindowElements();
 		createLeftQuickDrawPanel();
 		createRightQuickDrawPanel();
+		createWindowElements();
 		setWindowsConfiguration();
 	}
 
 	private void setWindowsConfiguration() {
 		setTitle("Image manipulator");
-		setSize(1440, 900);
+		setSize(600, 400);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	private void createWindowElements() {
-		createMenuBar();
+		if (leftQuickDrawPanel != null) {
+			createMenuBar();
+		} else {
+			throw new RuntimeException("Quick draw panel must be initialized.");
+		}
 	}
 
 	private void createMenuBar() {
@@ -110,5 +117,12 @@ public class MainWindow extends JFrame {
 
 	public QuickDrawPanel getRightQuickDrawPanel() {
 		return rightQuickDrawPanel;
+	}
+
+	public MenuEventsListener fetchMenuEventsListener() {
+		if (menuListener == null) {
+			menuListener = new MenuEventsListener(leftQuickDrawPanel, this);
+		}
+		return menuListener;
 	}
 }

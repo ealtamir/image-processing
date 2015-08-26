@@ -102,14 +102,12 @@ public class PixelColorChanger extends JPanel implements ChangeListener, ActionL
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if ("SWITCH_COLOR_MODE".equals(e.getActionCommand())) {
-			disableSliderEvents();
+		if (pixel != null && "SWITCH_COLOR_MODE".equals(e.getActionCommand())) {
 			if (colorMode == ColorMode.RGB) {
 				switchToHSVColorMode();
 			} else {
 				switchToRGBColorMode();
 			}
-			enableSliderEvents();
 		}
 
 	}

@@ -9,12 +9,7 @@
 	<name>rfid</name>
 	<description></description>
 	<properties>
-		<wicket.version>7.0.0-M6</wicket.version>
-		<jetty.version>8.1.17.v20150415</jetty.version>
-		<spring.version>4.1.7.RELEASE</spring.version>
-		<spring.data.version>1.8.1.RELEASE</spring.data.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
-		<wicket.bootstrap.version>0.10.2</wicket.bootstrap.version>
 		<guava.version>18.0</guava.version>
 		<apache.commons.version>3.4</apache.commons.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,100 +21,15 @@
 			<artifactId>xchart</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		<!--MySQL -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.35</version>
-		</dependency>
-		<!-- hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${apache.commons.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.agilecoders.wicket</groupId>
-			<artifactId>wicket-bootstrap-core</artifactId>
-			<version>${wicket.bootstrap.version}</version>
-		</dependency>
-		<!-- WICKET DEPENDENCIES -->
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
-			<version>${wicket.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-spring</artifactId>
-			<version>${wicket.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- Spring framework -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-			<version>${spring.data.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jcl-over-slf4j</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -127,37 +37,18 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.12</version>
 		</dependency>
-		<!--Guava-->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.google.guava</groupId> -->
-<!-- 			<artifactId>guava</artifactId> -->
-<!-- 			<version>${guava.version}</version> -->
-<!-- 		</dependency> -->
+		<!--Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
 		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jayway.awaitility</groupId>
-			<artifactId>awaitility</artifactId>
-			<version>1.6.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- JETTY DEPENDENCIES FOR TESTING -->
-		<dependency>
-			<groupId>org.eclipse.jetty.aggregate</groupId>
-			<artifactId>jetty-all-server</artifactId>
-			<version>${jetty.version}</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -208,26 +99,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
-				<configuration>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>7001</port>
-							<maxIdleTime>3600000</maxIdleTime>
-						</connector>
-						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-							<port>8443</port>
-							<maxIdleTime>3600000</maxIdleTime>
-							<keystore>${project.build.directory}/test-classes/keystore</keystore>
-							<password>wicket</password>
-							<keyPassword>wicket</keyPassword>
-						</connector>
-					</connectors>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.10</version>
@@ -238,17 +109,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>Apache Nexus</id>
-			<url>https://repository.apache.org/content/repositories/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 </project>

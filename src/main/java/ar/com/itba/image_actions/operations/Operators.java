@@ -1,4 +1,4 @@
-package ar.com.itba.operations;
+package ar.com.itba.image_actions.operations;
 
 import java.awt.image.BufferedImage;
 
@@ -7,6 +7,7 @@ public class Operators {
     static private final int RED_MASK = 0x00FF0000;
     static private final int GREEN_MASK = 0x0000FF00;
     static private final int BLUE_MASK = 0x000000FF;
+    static private final int BYTE_MASK = BLUE_MASK;
 
     static public BufferedImage imageScalarMult(float c, BufferedImage img) {
         BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
@@ -21,11 +22,31 @@ public class Operators {
         return result;
     }
 
-    private static int multiplyPixelByScalar(float c, int rgb) {
-        int r = (int) ((RED_MASK & rgb) * c) & RED_MASK;
-        int g = (int) ((GREEN_MASK & rgb) * c) & GREEN_MASK;
-        int b = (int) ((BLUE_MASK & rgb) * c) & BLUE_MASK;
-        return r | g | b;
+    private static int multiplyPixelByScalar(float c, int pixel) {
+        int r = (RED_MASK & pixel) >>> 16;
+        int g = (GREEN_MASK & pixel) >>> 8;
+        int b = (BLUE_MASK & pixel);
+
+        float r1 = c * r;
+        float g1 = c * g;
+        float b1 = c * b;
+
+        if (r1 < 255.0) {
+            r = BYTE_MASK & ((int) r1);
+        } else {
+            r = 255;
+        }
+        if (g1 < 255.0) {
+            g = BYTE_MASK & ((int) g1);
+        } else {
+            g = 255;
+        }
+        if (b1 < 255.0) {
+            b = BYTE_MASK & ((int) b1);
+        } else {
+            b = 255;
+        }
+        return r << 16 | g << 8 | b;
     }
 
     static public BufferedImage imageAddition(BufferedImage img1, BufferedImage img2) {
@@ -74,10 +95,26 @@ public class Operators {
 
         @Override
         public int applyOperation(int pixel1, int pixel2) {
-            int r = RED_MASK & ((RED_MASK & pixel1) + (RED_MASK & pixel2));
-            int g = GREEN_MASK & ((GREEN_MASK & pixel1) + (GREEN_MASK & pixel2));
-            int b = BLUE_MASK & ((BLUE_MASK & pixel1) + (BLUE_MASK & pixel2));
-            return r | g | b;
+            int r1 = (RED_MASK & pixel1) >>> 16, r2 = (RED_MASK & pixel2) >>> 16;
+            int g1 = (GREEN_MASK & pixel1) >>> 8, g2 = (GREEN_MASK & pixel2) >>> 8;
+            int b1 = (BLUE_MASK & pixel1), b2 = (BLUE_MASK & pixel2);
+            int r, g, b;
+            if (r1 + r2 < 255) {
+                r = BYTE_MASK & (r1 + r2);
+            } else {
+                r = 255;
+            }
+            if (g2 + g2 < 255) {
+                g = BYTE_MASK & (g1 + g2);
+            } else {
+                g = 255;
+            }
+            if (b1 + b2 < 255) {
+                b = BYTE_MASK & (b1 + b2);
+            } else {
+                b = 255;
+            }
+            return r << 16 | g << 8 | b;
         }
     }
 
@@ -85,10 +122,26 @@ public class Operators {
 
         @Override
         public int applyOperation(int pixel1, int pixel2) {
-            int r = RED_MASK & ((RED_MASK & pixel1) - (RED_MASK & pixel2));
-            int g = GREEN_MASK & ((GREEN_MASK & pixel1) - (GREEN_MASK & pixel2));
-            int b = BLUE_MASK & ((BLUE_MASK & pixel1) - (BLUE_MASK & pixel2));
-            return r | g | b;
+            int r1 = (RED_MASK & pixel1) >>> 16, r2 = (RED_MASK & pixel2) >>> 16;
+            int g1 = (GREEN_MASK & pixel1) >>> 8, g2 = (GREEN_MASK & pixel2) >>> 8;
+            int b1 = (BLUE_MASK & pixel1), b2 = (BLUE_MASK & pixel2);
+            int r, g, b;
+            if (r1 - r2 >= 0) {
+                r = BYTE_MASK & (r1 - r2);
+            } else {
+                r = 0;
+            }
+            if (g2 - g2 >= 0) {
+                g = BYTE_MASK & (g1 - g2);
+            } else {
+                g = 0;
+            }
+            if (b1 - b2 >= 0) {
+                b = BYTE_MASK & (b1 - b2);
+            } else {
+                b = 0;
+            }
+            return r << 16 | g << 8 | b;
         }
     }
 
@@ -96,10 +149,26 @@ public class Operators {
 
         @Override
         public int applyOperation(int pixel1, int pixel2) {
-            int r = RED_MASK & ((RED_MASK & pixel1) * (RED_MASK & pixel2));
-            int g = GREEN_MASK & ((GREEN_MASK & pixel1) * (GREEN_MASK & pixel2));
-            int b = BLUE_MASK & ((BLUE_MASK & pixel1) * (BLUE_MASK & pixel2));
-            return r | g | b;
+            int r1 = (RED_MASK & pixel1) >>> 16, r2 = (RED_MASK & pixel2) >>> 16;
+            int g1 = (GREEN_MASK & pixel1) >>> 8, g2 = (GREEN_MASK & pixel2) >>> 8;
+            int b1 = (BLUE_MASK & pixel1), b2 = (BLUE_MASK & pixel2);
+            int r, g, b;
+            if (r1 * r2 < 255) {
+                r = BYTE_MASK & (r1 * r2);
+            } else {
+                r = 255;
+            }
+            if (g2 * g2 < 255) {
+                g = BYTE_MASK & (g1 * g2);
+            } else {
+                g = 255;
+            }
+            if (b1 * b2 < 255) {
+                b = BYTE_MASK & (b1 * b2);
+            } else {
+                b = 255;
+            }
+            return r << 16 | g << 8 | b;
         }
     }
 

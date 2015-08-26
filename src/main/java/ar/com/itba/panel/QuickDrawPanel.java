@@ -9,6 +9,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import ar.com.itba.frame.ImageOptionsWindow;
+import ar.com.itba.image_actions.ParameterizedImageAction;
+import ar.com.itba.image_actions.operations.ScalarMultOperation;
 import ar.com.itba.utils.ImageHistogram;
 import ar.com.itba.utils.MouseTracker;
 
@@ -20,6 +22,7 @@ public class QuickDrawPanel extends JPanel {
 	private ImageOptionsWindow optionsWindow = null;
 	private MouseTracker mouseTracker;
 	private ImageHistogram histogram;
+	private ParameterizedImageAction actionWindow = null;
 
 	private void createImageHistogram(BufferedImage bufferedImage) {
 		if (histogram != null) {
@@ -29,18 +32,23 @@ public class QuickDrawPanel extends JPanel {
 	}
 
 	private void createImageOptionsWindow() {
-		closePreviousOptionsWindow();
-		QuickDrawPanel quickDrawPanel = this;
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-                optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
-                mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
-						bufferedImage.getWidth(), bufferedImage.getHeight());
-                addMouseMotionListener(mouseTracker);
-                addMouseListener(mouseTracker);
-			}
-		});
+		if (optionsWindow != null) {
+			optionsWindow.changeImage(this);
+		} else {
+//			closePreviousOptionsWindow();
+			QuickDrawPanel quickDrawPanel = this;
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
+					mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
+							bufferedImage.getWidth(), bufferedImage.getHeight());
+					addMouseMotionListener(mouseTracker);
+					addMouseListener(mouseTracker);
+				}
+			});
+
+		}
 	}
 
 	private void closePreviousOptionsWindow() {
@@ -120,5 +128,14 @@ public class QuickDrawPanel extends JPanel {
 
 	public void toggleImageTools() {
 		optionsWindow.toggleVisibility();
+	}
+
+	public void setParameterizedActionWindow(ScalarMultOperation scalarMultOperation) {
+		if (actionWindow == null) {
+			actionWindow = scalarMultOperation;
+		} else {
+			actionWindow.close();
+			actionWindow = scalarMultOperation;
+		}
 	}
 }

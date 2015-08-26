@@ -135,6 +135,11 @@ public class ImageOptionsWindow extends JFrame {
         }
     }
 
+    public void changeImage(QuickDrawPanel quickDrawPanel) {
+        this.owner = quickDrawPanel;
+        pixelColorChanger.changeImage(quickDrawPanel);
+    }
+
     private class WindowEventsListener extends WindowAdapter {
 
         @Override

@@ -19,10 +19,12 @@ import ar.com.itba.frame.MainWindow;
 public class ToolsMenu extends JMenu {
 
 	static public final String SHOW_HISTOGRAM = "Show";
-	static public final String HISTOGRAM_ADDITION = "Addition";
-	static public final String HISTOGRAM_SUBSTRACTION = "Substraction";
-	static public final String HISTOGRAM_MULTIPLICATION = "Multiplication";
+	static public final String IMAGE_ADDITION = "Addition";
+	static public final String IMAGE_SUBSTRACTION = "Substraction";
+	static public final String IMAGE_MULTIPLICATION = "Multiplication";
 	static public final String SHOW_IMAGE_OPTIONS = "Show Image Options";
+	static public final String IMAGE_NEGATIVE = "Image Negative";
+	static public final String SCALAR_MULTIPLICATION = "Scalar Multiply";
 
 	JFrame parent;
 
@@ -36,8 +38,19 @@ public class ToolsMenu extends JMenu {
 	private void populateMenu(MenuEventsListener listener) {
 		createOperationsMenuSet(listener);
 		createHistogramMenuSet(listener);
+		createTransformationsMenuSet(listener);
 		addSeparator();
 		createMiscMenuSet(listener);
+	}
+
+	private void createTransformationsMenuSet(MenuEventsListener listener) {
+		JMenu transformations = new JMenu("Transformations");
+		add(transformations);
+
+		JMenuItem imageNegative = new JMenuItem(IMAGE_NEGATIVE);
+		imageNegative.addActionListener(listener);
+		transformations.add(imageNegative);
+
 	}
 
 	private void createMiscMenuSet(ActionListener listener) {
@@ -64,16 +77,20 @@ public class ToolsMenu extends JMenu {
 		JMenu operations = new JMenu("Operations");
 		add(operations);
 
-		JMenuItem addition = new JMenuItem(HISTOGRAM_ADDITION);
-		JMenuItem substraction = new JMenuItem(HISTOGRAM_SUBSTRACTION);
-		JMenuItem multiplication = new JMenuItem(HISTOGRAM_MULTIPLICATION);
+		JMenuItem addition = new JMenuItem(IMAGE_ADDITION);
+		JMenuItem substraction = new JMenuItem(IMAGE_SUBSTRACTION);
+		JMenuItem multiplication = new JMenuItem(IMAGE_MULTIPLICATION);
+		JMenuItem scalarMultiplication = new JMenuItem(SCALAR_MULTIPLICATION);
+
 
 		addition.addActionListener(listener);
 		substraction.addActionListener(listener);
 		multiplication.addActionListener(listener);
+		scalarMultiplication.addActionListener(listener);
 
 		operations.add(addition);
 		operations.add(substraction);
 		operations.add(multiplication);
+		operations.add(scalarMultiplication);
 	}
 }

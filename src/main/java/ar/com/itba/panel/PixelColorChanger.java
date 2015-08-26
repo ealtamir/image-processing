@@ -275,4 +275,9 @@ public class PixelColorChanger extends JPanel implements ChangeListener, ActionL
 		colors[2].setValue(b);
 		colorLabels[2].setText("B:" + String.valueOf(b));
 	}
+
+	public void changeImage(QuickDrawPanel quickDrawPanel) {
+		this.parent = quickDrawPanel;
+	}
+
 }

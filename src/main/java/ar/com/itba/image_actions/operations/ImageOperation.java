@@ -1,4 +1,4 @@
-package ar.com.itba.operations;
+package ar.com.itba.image_actions.operations;
 
 /**
  * Created by Enzo on 22.08.15.

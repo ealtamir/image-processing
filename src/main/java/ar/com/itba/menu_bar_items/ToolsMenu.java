@@ -24,9 +24,10 @@ public class ToolsMenu extends JMenu {
 	static public final String IMAGE_ADDITION = "Addition";
 	static public final String IMAGE_SUBSTRACTION = "Substraction";
 	static public final String IMAGE_MULTIPLICATION = "Multiplication";
-	static public final String SHOW_IMAGE_OPTIONS = "Show Image Options";
-	static public final String IMAGE_NEGATIVE = "Image Negative";
-	static public final String SCALAR_MULTIPLICATION = "Scalar Multiply";
+	static public final String SHOW_IMAGE_OPTIONS = "Show image options";
+	static public final String IMAGE_NEGATIVE = "Image negative";
+	static public final String SCALAR_MULTIPLICATION = "Scalar multiply";
+	static public final String DYNAMIC_RANGE_COMPRESS = "Apply dynamic range compression";
 
 	JFrame parent;
 
@@ -52,6 +53,10 @@ public class ToolsMenu extends JMenu {
 		JMenuItem imageNegative = new JMenuItem(IMAGE_NEGATIVE);
 		imageNegative.addActionListener(listener);
 		transformations.add(imageNegative);
+
+		JMenuItem dynamicRange = new JMenuItem(DYNAMIC_RANGE_COMPRESS);
+		dynamicRange.addActionListener(listener);
+		transformations.add(dynamicRange);
 
 	}
 

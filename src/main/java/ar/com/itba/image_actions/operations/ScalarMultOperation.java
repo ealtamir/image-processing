@@ -18,31 +18,12 @@ public class ScalarMultOperation extends ParameterizedImageAction {
     private final int MAX_VAL = 300;
     private final int DEFAULT_VAL = 100;
     private final int DIV = 100;
-    private float scalar;
+    private float scalar = (float) DEFAULT_VAL / (float) DIV;
 
     public ScalarMultOperation(QuickDrawPanel quickDrawPanel) {
         super(quickDrawPanel);
-        scalar = DEFAULT_VAL / DIV;
-        addScalarSlider();
+        addScalarSlider(DEFAULT_VAL, MIN_VAL, MAX_VAL, DIV, true, this, new TextFormatter(DIV));
         contents.setVisible(true);
-    }
-
-    private void addScalarSlider() {
-        LabeledSliderPanel scalarSlider = new LabeledSliderPanel(DEFAULT_VAL, MIN_VAL,
-                MAX_VAL, true, this, new TextFormatter(DIV));
-        contents.add(scalarSlider);
-        scalarSlider.setVisible(true);
-        sliderPanels.add(scalarSlider);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        processActionEvent(e);
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        identifyChangedSlider(e);
     }
 
     @Override
@@ -57,6 +38,6 @@ public class ScalarMultOperation extends ParameterizedImageAction {
     @Override
     protected void updateImage() {
         BufferedImage newImg = Operators.imageScalarMult(scalar, originalImage);
-        quickDrawPanel.image(newImg);
+        quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

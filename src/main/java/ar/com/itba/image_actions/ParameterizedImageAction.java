@@ -1,5 +1,6 @@
 package ar.com.itba.image_actions;
 
+import ar.com.itba.image_actions.operations.ScalarMultOperation;
 import ar.com.itba.panel.LabeledSliderPanel;
 import ar.com.itba.panel.QuickDrawPanel;
 import com.sun.xml.internal.bind.v2.model.annotation.Quick;
@@ -22,6 +23,7 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
 
     private JCheckBox automaticSwitch;
     private JButton doChange;
+    private final int DIV = 1;
 
     protected BufferedImage originalImage;
 
@@ -71,6 +73,11 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
         dispose();
     }
 
+    public void changeTargetImage(QuickDrawPanel quickDrawPanel) {
+        this.quickDrawPanel = quickDrawPanel;
+        originalImage = quickDrawPanel.image();
+    }
+
 
     static public class TextFormatter {
         private int div;
@@ -97,6 +104,26 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
             }
         }
     }
+
+    protected void addScalarSlider(int DEFAULT_VAL, int MIN_VAL, int MAX_VAL, int DIV, boolean b,
+                                 ParameterizedImageAction scalarMultOperation, TextFormatter textFormatter) {
+        LabeledSliderPanel scalarSlider = new LabeledSliderPanel(DEFAULT_VAL, MIN_VAL,
+                MAX_VAL, true, this, new TextFormatter(DIV));
+        contents.add(scalarSlider);
+        scalarSlider.setVisible(true);
+        sliderPanels.add(scalarSlider);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        processActionEvent(e);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        identifyChangedSlider(e);
+    }
+
 
     abstract protected void processSliderChange(JSlider changedSlider);
 

@@ -32,23 +32,17 @@ public class QuickDrawPanel extends JPanel {
 	}
 
 	private void createImageOptionsWindow() {
-		if (optionsWindow != null) {
-			optionsWindow.changeImage(this);
-		} else {
-//			closePreviousOptionsWindow();
-			QuickDrawPanel quickDrawPanel = this;
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
-					mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
-							bufferedImage.getWidth(), bufferedImage.getHeight());
-					addMouseMotionListener(mouseTracker);
-					addMouseListener(mouseTracker);
-				}
-			});
-
-		}
+        QuickDrawPanel quickDrawPanel = this;
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                optionsWindow = new ImageOptionsWindow(quickDrawPanel, bufferedImage);
+                mouseTracker = new MouseTracker(quickDrawPanel, optionsWindow,
+                        bufferedImage.getWidth(), bufferedImage.getHeight());
+                addMouseMotionListener(mouseTracker);
+                addMouseListener(mouseTracker);
+            }
+        });
 	}
 
 	private void closePreviousOptionsWindow() {
@@ -80,11 +74,26 @@ public class QuickDrawPanel extends JPanel {
 		return size;
 	}
 
-	public void image(BufferedImage bufferedImage) {
+	public void openNewImage(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
 		setComponentSize();
 		createImageOptionsWindow();
+		closeOpenActionWindows();
 		repaint();
+	}
+
+	public void modifyCurrentImage(BufferedImage bufferedImage) {
+		this.bufferedImage = bufferedImage;
+		repaint();
+	}
+
+	private void closeOpenActionWindows() {
+		if (histogram != null) {
+			histogram.close();
+		}
+		if (actionWindow != null) {
+			actionWindow.close();
+		}
 	}
 
 	public BufferedImage image() {
@@ -130,7 +139,7 @@ public class QuickDrawPanel extends JPanel {
 		optionsWindow.toggleVisibility();
 	}
 
-	public void setParameterizedActionWindow(ScalarMultOperation scalarMultOperation) {
+	public void setParameterizedActionWindow(ParameterizedImageAction scalarMultOperation) {
 		if (actionWindow == null) {
 			actionWindow = scalarMultOperation;
 		} else {

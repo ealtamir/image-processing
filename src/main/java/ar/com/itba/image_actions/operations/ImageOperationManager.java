@@ -18,7 +18,7 @@ public class ImageOperationManager {
         }
         CopyRightAction.peformCopyRightAction(window);
         BufferedImage result = Operators.imageAddition(first, second);
-        window.getLeftQuickDrawPanel().image(result);
+        window.getLeftQuickDrawPanel().modifyCurrentImage(result);
     }
 
     public static void performSubstraction(QuickDrawPanel quickDrawPanel, MainWindow window) {
@@ -29,7 +29,7 @@ public class ImageOperationManager {
         }
         CopyRightAction.peformCopyRightAction(window);
         BufferedImage result = Operators.imageSubstraction(first, second);
-        window.getLeftQuickDrawPanel().image(result);
+        window.getLeftQuickDrawPanel().modifyCurrentImage(result);
     }
 
     public static void performMultiplication(QuickDrawPanel quickDrawPanel, MainWindow window) {
@@ -40,7 +40,7 @@ public class ImageOperationManager {
         }
         CopyRightAction.peformCopyRightAction(window);
         BufferedImage result = Operators.imageMultiplication(first, second);
-        window.getLeftQuickDrawPanel().image(result);
+        window.getLeftQuickDrawPanel().modifyCurrentImage(result);
     }
 
     public static void imageScalarMult(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {

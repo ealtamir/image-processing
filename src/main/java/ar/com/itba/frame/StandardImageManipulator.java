@@ -16,7 +16,7 @@ public class StandardImageManipulator extends JFrame {
     public StandardImageManipulator() {
         originalImage = loadImage();
         QuickDrawPanel quickDrawPanel = new QuickDrawPanel();
-        quickDrawPanel.image(originalImage);
+        quickDrawPanel.openNewImage(originalImage);
         add(quickDrawPanel);
 
     }

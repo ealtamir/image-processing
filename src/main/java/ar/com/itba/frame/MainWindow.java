@@ -86,13 +86,13 @@ public class MainWindow extends JFrame {
 
 	public void updateLeftQuickDrawPanel(BufferedImage image) {
 		activateToolsMenuItem();
-		leftQuickDrawPanel.image(image);
+		leftQuickDrawPanel.openNewImage(image);
 		this.pack();
 	}
 
 	public void updateRightQuickDrawPanel(BufferedImage image) {
 		activateToolsMenuItem();
-		rightQuickDrawPanel.image(image);
+		rightQuickDrawPanel.openNewImage(image);
 		this.pack();
 	}
 

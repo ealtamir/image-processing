@@ -36,6 +36,9 @@ public class MenuEventsListener implements ActionListener {
         boolean belongs = true;
         if (e.getActionCommand().equals(ToolsMenu.IMAGE_NEGATIVE)) {
             ImageTransformationManager.showNegative(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.DYNAMIC_RANGE_COMPRESS)) {
+            ImageTransformationManager.showDynamicCompression(quickDrawPanel, mainWindow);
         } else {
             belongs = false;
         }

@@ -23,9 +23,16 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
 
     private JCheckBox automaticSwitch;
     private JButton doChange;
-    private final int DIV = 1;
 
     protected BufferedImage originalImage;
+
+    protected final int MIN_VAL = 0;
+    protected final int MAX_VAL = 255;
+    protected final int DEFAULT_VAL = 100;
+    protected final int DIV = 1;
+
+    protected int sliderValue = DEFAULT_VAL;
+
 
     public ParameterizedImageAction(QuickDrawPanel quickDrawPanel) {
         this.quickDrawPanel = quickDrawPanel;
@@ -125,7 +132,12 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
     }
 
 
-    abstract protected void processSliderChange(JSlider changedSlider);
+    protected void processSliderChange(JSlider changedSlider) {
+        sliderValue = changedSlider.getValue();
+        if (automaticChange) {
+            updateImage();
+        }
+    }
 
     protected abstract void updateImage();
 

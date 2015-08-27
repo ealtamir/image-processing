@@ -39,6 +39,10 @@ public class MenuEventsListener implements ActionListener {
 
         } else if (e.getActionCommand().equals(ToolsMenu.DYNAMIC_RANGE_COMPRESS)) {
             ImageTransformationManager.showDynamicCompression(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.THRESHOLDING)) {
+            ImageTransformationManager.showThresholdTransform(quickDrawPanel, mainWindow);
+
         } else {
             belongs = false;
         }

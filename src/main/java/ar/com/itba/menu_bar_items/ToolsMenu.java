@@ -27,7 +27,8 @@ public class ToolsMenu extends JMenu {
 	static public final String SHOW_IMAGE_OPTIONS = "Show image options";
 	static public final String IMAGE_NEGATIVE = "Image negative";
 	static public final String SCALAR_MULTIPLICATION = "Scalar multiply";
-	static public final String DYNAMIC_RANGE_COMPRESS = "Apply dynamic range compression";
+	static public final String DYNAMIC_RANGE_COMPRESS = "Dynamic range compression";
+	static public final String THRESHOLDING = "Thresholding";
 
 	JFrame parent;
 
@@ -58,6 +59,9 @@ public class ToolsMenu extends JMenu {
 		dynamicRange.addActionListener(listener);
 		transformations.add(dynamicRange);
 
+		JMenuItem threshold = new JMenuItem(THRESHOLDING);
+		threshold.addActionListener(listener);
+		transformations.add(threshold);
 	}
 
 	private void createMiscMenuSet(ActionListener listener) {

@@ -23,6 +23,10 @@ public class Transformations {
         return applyTransformation(img, new DynamicRangeCompressionTransform(levels));
     }
 
+    public static BufferedImage applyThreshold(BufferedImage img, int threshold) {
+        return applyTransformation(img, new ThresholdTransform(threshold));
+    }
+
     private static BufferedImage applyTransformation(BufferedImage img, ImageTransformation imgTrans) {
         BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
         for (int width = 0; width < img.getWidth(); width++) {
@@ -70,6 +74,30 @@ public class Transformations {
             r = (int) (c * Math.log(1 + r));
             g = (int) (c * Math.log(1 + g));
             b = (int) (c * Math.log(1 + b));
+            return r << 16 | g << 8 | b;
+        }
+    }
+
+    private static class ThresholdTransform implements ImageTransformation {
+
+        private int threshold;
+
+        public ThresholdTransform(int threshold) {
+            if (threshold < 0 || threshold > 255) {
+                throw new RuntimeException("Invalid gray levels value.");
+            }
+            this.threshold = threshold;
+        }
+
+        @Override
+        public int apply(int pixel) {
+            int r = (RED_MASK & pixel) >>> 16;
+            int g = (GREEN_MASK & pixel) >>> 8;
+            int b = (BLUE_MASK & pixel);
+
+            r = (r <= threshold)? 0: GRAY_LEVELS - 1;
+            g = (g <= threshold)? 0: GRAY_LEVELS - 1;
+            b = (b <= threshold)? 0: GRAY_LEVELS - 1;
             return r << 16 | g << 8 | b;
         }
     }

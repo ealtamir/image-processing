@@ -6,15 +6,12 @@ import ar.com.itba.panel.QuickDrawPanel;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
-public class DynamicRangeTransform extends ParameterizedImageAction {
+/**
+ * Created by Enzo on 26.08.15.
+ */
+public class ThresholdTransform extends ParameterizedImageAction{
 
-    private final int MIN_VAL = 0;
-    private final int MAX_VAL = 255;
-    private final int DEFAULT_VAL = 255;
-    private final int DIV = 1;
-    private int range;
-
-    public DynamicRangeTransform(QuickDrawPanel quickDrawPanel) {
+    public ThresholdTransform(QuickDrawPanel quickDrawPanel) {
         super(quickDrawPanel);
         addScalarSlider(DEFAULT_VAL, MIN_VAL, MAX_VAL, DIV,
                 true, this, new TextFormatter(DIV));
@@ -23,7 +20,7 @@ public class DynamicRangeTransform extends ParameterizedImageAction {
 
     @Override
     protected void updateImage() {
-        BufferedImage newImg = Transformations.applyDynamicCompression(originalImage, range);
+        BufferedImage newImg = Transformations.applyThreshold(originalImage, sliderValue);
         quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

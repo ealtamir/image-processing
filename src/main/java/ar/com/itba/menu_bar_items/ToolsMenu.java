@@ -20,15 +20,23 @@ import ar.com.itba.frame.MainWindow;
 @SuppressWarnings("serial")
 public class ToolsMenu extends JMenu {
 
+	// Histogram
 	static public final String SHOW_HISTOGRAM = "Show";
+	static public final String EQUALIZE = "Equalize";
+
+	// Operations
 	static public final String IMAGE_ADDITION = "Addition";
 	static public final String IMAGE_SUBSTRACTION = "Substraction";
 	static public final String IMAGE_MULTIPLICATION = "Multiplication";
-	static public final String SHOW_IMAGE_OPTIONS = "Show image options";
-	static public final String IMAGE_NEGATIVE = "Image negative";
 	static public final String SCALAR_MULTIPLICATION = "Scalar multiply";
+
+	// Transformations
+	static public final String IMAGE_NEGATIVE = "Image negative";
 	static public final String DYNAMIC_RANGE_COMPRESS = "Dynamic range compression";
 	static public final String THRESHOLDING = "Thresholding";
+
+	// Misc
+	static public final String SHOW_IMAGE_OPTIONS = "Show image options";
 
 	JFrame parent;
 
@@ -92,6 +100,10 @@ public class ToolsMenu extends JMenu {
 		JMenuItem showHistogram = new JMenuItem(SHOW_HISTOGRAM);
 		showHistogram.addActionListener(listener);
 		histogram.add(showHistogram);
+
+		JMenuItem equalize = new JMenuItem(EQUALIZE);
+		equalize.addActionListener(listener);
+		histogram.add(equalize);
 	}
 
 	private void createOperationsMenuSet(ActionListener listener) {

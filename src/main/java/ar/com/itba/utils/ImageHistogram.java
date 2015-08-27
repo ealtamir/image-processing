@@ -36,9 +36,10 @@ public class ImageHistogram extends WindowAdapter {
     }
 
     private void populateChart(Chart chart) {
-        int[] grayLevels = new int[GRAY_LEVELS];
-        int[] xAxis = new int[GRAY_LEVELS];
+        double[] grayLevels = new double[GRAY_LEVELS];
+        double[] xAxis = new double[GRAY_LEVELS];
         int buffer = 0;
+        int totalPixels = image.getHeight() * image.getWidth();
 
         for (int i = 1; i < GRAY_LEVELS; i++) {
             xAxis[i] += xAxis[i - 1] + 1;
@@ -49,6 +50,10 @@ public class ImageHistogram extends WindowAdapter {
                 buffer = BLUE_MASK & image.getRGB(x, y);
                 grayLevels[buffer] += 1;
             }
+        }
+
+        for (int i = 0; i < GRAY_LEVELS; i++) {
+            grayLevels[i] /= totalPixels;
         }
         chart.addSeries("Levels", xAxis, grayLevels);
     }
@@ -73,5 +78,9 @@ public class ImageHistogram extends WindowAdapter {
     @Override
     public void windowClosed(WindowEvent e) {
        swingWrapper.setVisible(false);
+    }
+
+    public void setVisibility(boolean visibility) {
+        swingWrapper.setVisible(visibility);
     }
 }

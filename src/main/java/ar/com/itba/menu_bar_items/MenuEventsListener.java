@@ -43,6 +43,9 @@ public class MenuEventsListener implements ActionListener {
         } else if (e.getActionCommand().equals(ToolsMenu.THRESHOLDING)) {
             ImageTransformationManager.showThresholdTransform(quickDrawPanel, mainWindow);
 
+        } else if (e.getActionCommand().equals(ToolsMenu.EQUALIZE)) {
+            ImageTransformationManager.performEqualization(quickDrawPanel, mainWindow);
+
         } else {
             belongs = false;
         }

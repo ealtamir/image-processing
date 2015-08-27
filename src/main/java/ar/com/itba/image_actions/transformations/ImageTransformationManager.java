@@ -15,6 +15,12 @@ public class ImageTransformationManager {
         quickDrawPanel.modifyCurrentImage(negative);
     }
 
+    public static void performEqualization(QuickDrawPanel quickDrawPanel, MainWindow window) {
+        BufferedImage equalized = Transformations.getEqualized(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(window);
+        quickDrawPanel.modifyCurrentImage(equalized);
+    }
+
     public static void showDynamicCompression(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -35,4 +41,5 @@ public class ImageTransformationManager {
         });
 
     }
+
 }

@@ -1,6 +1,9 @@
 package ar.com.itba.image_actions.transformations;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Enzo on 22.08.15.
@@ -14,7 +17,6 @@ public class Transformations {
 
     static private final int GRAY_LEVELS = 256;
 
-
     public static BufferedImage getNegative(BufferedImage img) {
         return applyTransformation(img, new NegativeTransform());
     }
@@ -26,6 +28,57 @@ public class Transformations {
     public static BufferedImage applyThreshold(BufferedImage img, int threshold) {
         return applyTransformation(img, new ThresholdTransform(threshold));
     }
+
+    public static BufferedImage getEqualized(BufferedImage img) {
+        BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        float[] relativeFreq = getRelativeFreqArr(img);
+        float minFreq = getSmallestEl(relativeFreq);
+
+        float buffer;
+        int index, val;
+
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                index = BYTE_MASK & img.getRGB(x, y);
+                buffer = relativeFreq[index];
+                val = BYTE_MASK & (int) (((buffer - minFreq) / (1 - minFreq)) * GRAY_LEVELS + 0.5);
+                val = val << 16 | val << 8 | val;
+                newImg.setRGB(x, y, val);
+            }
+        }
+        return newImg;
+    }
+
+    private static float getSmallestEl(float[] relativeFreq) {
+        float smallest = 1;
+        for (int i = 1; i < relativeFreq.length; i++) {
+            if (smallest > relativeFreq[i]) {
+                smallest = relativeFreq[i];
+            }
+        }
+        return smallest;
+    }
+
+    private static float[] getRelativeFreqArr(BufferedImage image) {
+        float[] relativeFreq = new float[GRAY_LEVELS];
+        int totalPixels = image.getHeight() * image.getWidth();
+
+        int index;
+
+        // Assumes image is in grayscale
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                index = BLUE_MASK & image.getRGB(x, y);
+                relativeFreq[index] += 1;
+            }
+        }
+        relativeFreq[0] /= totalPixels;
+        for (int i = 1; i < relativeFreq.length; i++) {
+            relativeFreq[i] = relativeFreq[i] / totalPixels + relativeFreq[i - 1];
+        }
+        return relativeFreq;
+    }
+
 
     private static BufferedImage applyTransformation(BufferedImage img, ImageTransformation imgTrans) {
         BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());

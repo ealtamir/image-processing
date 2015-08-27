@@ -82,8 +82,20 @@ public class QuickDrawPanel extends JPanel {
 		repaint();
 	}
 
+	private void updateEqualizationObject() {
+		boolean visibility;
+		if (histogram == null) {
+			return;
+		} else {
+			visibility = histogram.isVisible();
+		}
+		createImageHistogram(image());
+		histogram.setVisibility(visibility);
+	}
+
 	public void modifyCurrentImage(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
+		updateEqualizationObject();
 		repaint();
 	}
 

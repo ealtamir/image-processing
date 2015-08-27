@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
-import ar.com.itba.image.noise.SaltAndPepperNoise;
+import ar.com.itba.image_actions.noise.SaltAndPepperNoise;
 import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")

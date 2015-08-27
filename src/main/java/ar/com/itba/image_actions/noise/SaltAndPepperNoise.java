@@ -1,4 +1,4 @@
-package ar.com.itba.image.noise;
+package ar.com.itba.image_actions.noise;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

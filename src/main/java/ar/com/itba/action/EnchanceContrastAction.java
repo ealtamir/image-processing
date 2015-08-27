@@ -1,6 +1,5 @@
 package ar.com.itba.action;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -14,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
-import ar.com.itba.image.enhance.EnchanceContrast;
+import ar.com.itba.image_actions.enhance.EnchanceContrast;
 
 @SuppressWarnings("serial")
 public class EnchanceContrastAction extends AbstractAction {

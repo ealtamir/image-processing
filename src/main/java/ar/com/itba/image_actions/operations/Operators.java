@@ -126,17 +126,17 @@ public class Operators {
             int g1 = (GREEN_MASK & pixel1) >>> 8, g2 = (GREEN_MASK & pixel2) >>> 8;
             int b1 = (BLUE_MASK & pixel1), b2 = (BLUE_MASK & pixel2);
             int r, g, b;
-            if (r1 - r2 >= 0) {
+            if (r1 - r2 > 0) {
                 r = BYTE_MASK & (r1 - r2);
             } else {
                 r = 0;
             }
-            if (g2 - g2 >= 0) {
+            if (g2 - g2 > 0) {
                 g = BYTE_MASK & (g1 - g2);
             } else {
                 g = 0;
             }
-            if (b1 - b2 >= 0) {
+            if (b1 - b2 > 0) {
                 b = BYTE_MASK & (b1 - b2);
             } else {
                 b = 0;

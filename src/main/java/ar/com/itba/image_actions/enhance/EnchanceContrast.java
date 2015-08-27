@@ -1,9 +1,9 @@
-package ar.com.itba.image.enhance;
+package ar.com.itba.image_actions.enhance;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import ar.com.itba.image.noise.AbstractImageNoise;
+import ar.com.itba.image_actions.noise.AbstractImageNoise;
 
 @SuppressWarnings("serial")
 public class EnchanceContrast extends AbstractImageNoise {

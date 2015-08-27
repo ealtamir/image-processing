@@ -102,9 +102,11 @@ public class QuickDrawPanel extends JPanel {
 	private void closeOpenActionWindows() {
 		if (histogram != null) {
 			histogram.close();
+			histogram = null;
 		}
 		if (actionWindow != null) {
 			actionWindow.close();
+			actionWindow = null;
 		}
 	}
 

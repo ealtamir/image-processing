@@ -44,8 +44,8 @@ public class SaltAndPepperNoise extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(int value) {
-		return modifyWithSameProbabilities(value, generator().get(), generator().get());
+	public int modify(double value) {
+		return modifyWithSameProbabilities((int) value, generator().get(), generator().get());
 	}
 
 }

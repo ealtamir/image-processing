@@ -27,6 +27,7 @@ public class FileMenu extends JMenu {
 
 		JMenuItem blankMenuItem = new JMenuItem("Blank");
 		blankMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.CTRL_MASK));
+		blankMenuItem.addActionListener(new GenerateBlankAction(parent));
 		newMenu.add(blankMenuItem);
 
 		JMenuItem circleMenuItem = new JMenuItem("Circle");

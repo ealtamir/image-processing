@@ -11,8 +11,10 @@ import javax.swing.KeyStroke;
 
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.EnchanceContrastAction;
+import ar.com.itba.action.ExponentialNoiseAction;
 import ar.com.itba.action.GaussianNoiseAction;
 import ar.com.itba.action.ModifyGammaAction;
+import ar.com.itba.action.RayleighNoiseAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
 import ar.com.itba.frame.MainWindow;
 
@@ -51,6 +53,7 @@ public class ToolsMenu extends JMenu {
 
 	private void populateMenu(MenuEventsListener listener) {
 		createOperationsMenuSet(listener);
+		createNoiseMenuSet(listener);
 		createHistogramMenuSet(listener);
 		createTransformationsMenuSet(listener);
 		addSeparator();
@@ -74,6 +77,37 @@ public class ToolsMenu extends JMenu {
 		transformations.add(threshold);
 	}
 
+	private void createNoiseMenuSet(ActionListener listener) {
+		JMenu noise = new JMenu("Noise");
+		add(noise);
+
+		JMenu additiveNoise = new JMenu("Additive Noise");
+		noise.add(additiveNoise);
+
+		JMenu multiplicativeNoise = new JMenu("Multiplicative Noise");
+		noise.add(multiplicativeNoise);
+
+		JMenuItem saltAndPepperNoiseMenuItem = new JMenuItem("Salt and Pepper...");
+		saltAndPepperNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		saltAndPepperNoiseMenuItem.addActionListener(new SaltAndPeperNoiseAction(parent));
+		noise.add(saltAndPepperNoiseMenuItem);
+
+		JMenuItem gaussianNoiseMenuItem = new JMenuItem("Gaussian...");
+		gaussianNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
+		gaussianNoiseMenuItem.addActionListener(new GaussianNoiseAction(parent));
+		additiveNoise.add(gaussianNoiseMenuItem);
+
+		JMenuItem exponentialNoiseMenuItem = new JMenuItem("Exponential...");
+		exponentialNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		exponentialNoiseMenuItem.addActionListener(new ExponentialNoiseAction(parent));
+		multiplicativeNoise.add(exponentialNoiseMenuItem);
+
+		JMenuItem rayleighNoiseMenuItem = new JMenuItem("Rayleigh...");
+		rayleighNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+		rayleighNoiseMenuItem.addActionListener(new RayleighNoiseAction(parent));
+		multiplicativeNoise.add(rayleighNoiseMenuItem);
+	}
+
 	private void createMiscMenuSet(ActionListener listener) {
 		JMenuItem copyRightMenuItem = new JMenuItem("Copy left to right frame");
 		copyRightMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_KP_RIGHT, ActionEvent.CTRL_MASK));
@@ -94,15 +128,6 @@ public class ToolsMenu extends JMenu {
 		modifyGammaMenuItem.addActionListener(new ModifyGammaAction(parent));
 		add(modifyGammaMenuItem);
 
-		JMenuItem saltAndPepperNoiseMenuItem = new JMenuItem("Generate Salt and Pepper Noise...");
-		saltAndPepperNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
-		saltAndPepperNoiseMenuItem.addActionListener(new SaltAndPeperNoiseAction(parent));
-		add(saltAndPepperNoiseMenuItem);
-
-		JMenuItem gaussianNoiseMenuItem = new JMenuItem("Generate Gaussian Noise...");
-		gaussianNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
-		gaussianNoiseMenuItem.addActionListener(new GaussianNoiseAction(parent));
-		add(gaussianNoiseMenuItem);
 	}
 
 	private void createHistogramMenuSet(ActionListener listener) {

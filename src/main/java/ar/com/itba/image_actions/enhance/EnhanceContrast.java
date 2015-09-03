@@ -17,9 +17,9 @@ public class EnhanceContrast extends AbstractImageNoise {
 	@Override
 	public int modify(double value) {
 		if (value <= color1) {
-			return (int) capped(value - enhancement);
+			return (int) value - enhancement;
 		} else if (value >= color2) {
-			return (int) capped(value + enhancement);
+			return (int) value + enhancement;
 		}
 		return (int) value;
 	}

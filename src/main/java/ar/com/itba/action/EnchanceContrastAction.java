@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.correct.LinearImageCorrector;
 import ar.com.itba.image_actions.enhance.EnhanceContrast;
 
 @SuppressWarnings("serial")
@@ -50,6 +51,7 @@ public class EnchanceContrastAction extends AbstractAction {
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			new EnhanceContrast("Enchance Contrast", value1.getText(), value2.getText(), enhancement.getText()).apply(image);
+			new LinearImageCorrector().apply(image);
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}

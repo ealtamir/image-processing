@@ -15,7 +15,7 @@ public class EnhanceContrast extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value) {
+	public int modify(double value, float randomValue) {
 		if (value <= color1) {
 			return (int) value - enhancement;
 		} else if (value >= color2) {

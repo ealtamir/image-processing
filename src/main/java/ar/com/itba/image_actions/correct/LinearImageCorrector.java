@@ -42,7 +42,7 @@ public class LinearImageCorrector extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value) {
+	public int modify(double value, float randomValue) {
 		return (int) normalize(value, _minR, _maxR);
 	}
 

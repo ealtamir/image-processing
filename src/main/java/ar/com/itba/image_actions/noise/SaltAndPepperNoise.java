@@ -1,7 +1,8 @@
 package ar.com.itba.image_actions.noise;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
+
+import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
 public class SaltAndPepperNoise extends AbstractImageNoise {
@@ -12,24 +13,6 @@ public class SaltAndPepperNoise extends AbstractImageNoise {
 		this.intensity = intensity;
 		this.firstValue = firstValue;
 		this.secondValue = secondValue;
-	}
-
-	@Override
-	public BufferedImage apply(BufferedImage input) {
-		int height = input.getHeight();
-		int width = input.getWidth();
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				input.setRGB(x, y, modify(input.getRGB(x, y)));
-			}
-		}
-		return input;
-	}
-
-	// Remove this
-	@Override
-	public int apply(int pixel) {
-		return 0;
 	}
 
 	public int modifyWithSameProbabilities(int pixelValue, float intensityRandom, float uniformRandom) {
@@ -44,8 +27,22 @@ public class SaltAndPepperNoise extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value) {
-		return modifyWithSameProbabilities((int) value, generator().get(), generator().get());
+	public int modify(double value, float randomValue) {
+		float randomUniform = new UniformRandomGenerator(0, 1).get();
+		if (randomUniform <= intensity) {
+			if (randomValue <= firstValue) {
+				return 0;
+			} else if (randomValue >= secondValue) {
+				return 255;
+			}
+		}
+		return (int) value;
+	}
+
+	// Remove this
+	@Override
+	public int apply(int pixel) {
+		return 0;
 	}
 
 }

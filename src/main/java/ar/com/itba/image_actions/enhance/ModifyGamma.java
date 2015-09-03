@@ -13,7 +13,7 @@ public class ModifyGamma extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value) {
+	public int modify(double value, float randomValue) {
 		return (int) (255 * Math.pow((value / 255), (1 / gammaValue)));
 	}
 

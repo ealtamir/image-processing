@@ -10,7 +10,7 @@ abstract public class AbstractMask implements ImageMask {
 
     protected final int BYTE_MASK = 0x000000FF;
     protected final int GRAY_LEVELS = 256;
-    protected final int radius;
+    protected int radius;
     protected int n;
 
     public AbstractMask(int n ) {
@@ -25,5 +25,10 @@ abstract public class AbstractMask implements ImageMask {
     @Override
     public int getMaskDimension() {
         return n;
+    }
+
+    protected void updateRadiusValue(int n) {
+        this.n = n;
+        radius = (int) this.n / 2;
     }
 }

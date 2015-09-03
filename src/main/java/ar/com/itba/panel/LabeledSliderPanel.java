@@ -63,4 +63,8 @@ public class LabeledSliderPanel extends JPanel implements ChangeListener {
     private void changeLabel(int value) {
         label.setText(txtFmt.format(value));
     }
+
+    public void changeLabelWithoutFormat(double val) {
+        label.setText(String.valueOf(val));
+    }
 }

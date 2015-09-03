@@ -18,18 +18,18 @@ public class HighPassMask extends AbstractMask implements ImageMask {
 
         int avg = 0;
         int rgb = 0;
-        for (int w = x - radius; w < x + radius; w++) {
-            for (int h = y - radius; h < y + radius; h++) {
+        for (int w = x - radius; w <= x + radius; w++) {
+            for (int h = y - radius; h <= y + radius; h++) {
                 rgb = BYTE_MASK & oldImg.getRGB(w, h);
-                if (w != h) {
-                    avg += rgb * -1;
+                if (w == x && h == y) {
+                    avg += rgb * (n * n - 1);
                 } else {
-                    avg += rgb * 8;
+                    avg += rgb * -1;
                 }
             }
         }
 
-        avg = (int) avg / (n * n);
-        setPixel(x, y, newImg, avg);
+        avg = BYTE_MASK & (int) avg / (n * n);
+        setPixel(x, y, newImg, avg << 16 | avg << 8 | avg);
     }
 }

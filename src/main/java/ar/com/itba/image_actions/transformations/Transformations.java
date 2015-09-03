@@ -41,7 +41,7 @@ public class Transformations {
             for (int y = 0; y < img.getHeight(); y++) {
                 index = BYTE_MASK & img.getRGB(x, y);
                 buffer = relativeFreq[index];
-                val = BYTE_MASK & (int) (((buffer - minFreq) / (1 - minFreq)) * GRAY_LEVELS + 0.5);
+                val = BYTE_MASK & (int) (((buffer - minFreq) / (1 - minFreq)) * (GRAY_LEVELS - 1) + 0.5);
                 val = val << 16 | val << 8 | val;
                 newImg.setRGB(x, y, val);
             }

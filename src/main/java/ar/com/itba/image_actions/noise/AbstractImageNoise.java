@@ -38,14 +38,22 @@ public abstract class AbstractImageNoise implements NoiseGenerator {
 				int r = (input.getRGB(x, y)) & 0xFF;
 				int g = (input.getRGB(x, y) >> 8) & 0xFF;
 				int b = (input.getRGB(x, y) >> 16) & 0xFF;
-				Color color = new Color(r, g, b);
-				input.setRGB(x, y, modify(color.getRGB()));
+				Color color = new Color(modify(r), modify(g), modify(b));
+				input.setRGB(x, y, color.getRGB());
 			}
 		}
 		return input;
 	}
 
-	public abstract int modify(int value);
+	public double capped(double value) {
+		if (value <= 0) {
+			return 0;
+		} else if (value >= 255) {
+			return 255;
+		}
+		return value;
+	}
 
-	public abstract int modifyWithSameProbabilities(int pixelValue, float intensityRandom, float uniformRandom);
+	public abstract int modify(double value);
+
 }

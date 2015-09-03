@@ -48,6 +48,8 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
         setSize(300, 100);
     }
 
+
+
     public JPanel automaticSwitchOptions() {
         JPanel automaticSwitchOptions = new JPanel();
         automaticSwitchOptions.setLayout(new BoxLayout(automaticSwitchOptions, BoxLayout.X_AXIS));

@@ -1,6 +1,7 @@
 package ar.com.itba.menu_bar_items;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.masks.ImageMaskManager;
 import ar.com.itba.image_actions.operations.ImageOperationManager;
 import ar.com.itba.image_actions.transformations.ImageTransformationManager;
 import ar.com.itba.panel.QuickDrawPanel;
@@ -29,7 +30,27 @@ public class MenuEventsListener implements ActionListener {
             return;
         } else if (belongsToImageTransformations(e)) {
             return;
+        } else if (belongsToImageMasks(e)) {
+            return;
         }
+    }
+
+    private boolean belongsToImageMasks(ActionEvent e) {
+        boolean belongs = true;
+        if (e.getActionCommand().equals(ToolsMenu.MEAN_MASK)) {
+            ImageMaskManager.applyMeanMask(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.MEDIAN_MASK)) {
+            ImageMaskManager.applyMedianMask(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.GAUSSIAN_MASK)) {
+            ImageMaskManager.applyGaussianMask(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.HIGH_PASS_MASK)) {
+            ImageMaskManager.applyHighPassMask(quickDrawPanel, mainWindow);
+
+        }
+        return false;
     }
 
     private boolean belongsToImageTransformations(ActionEvent e) {

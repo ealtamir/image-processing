@@ -38,6 +38,11 @@ public class ToolsMenu extends JMenu {
 	// Misc
 	static public final String SHOW_IMAGE_OPTIONS = "Show image options";
 
+	public static final String MEAN_MASK = "Mean Mask";
+	public static final String MEDIAN_MASK = "Median Mask";
+	public static final String GAUSSIAN_MASK = "Gaussian Mask";
+	public static final String HIGH_PASS_MASK = "High Pass Mask";
+
 	JFrame parent;
 
 	public ToolsMenu(String name, JFrame parent) {
@@ -51,8 +56,31 @@ public class ToolsMenu extends JMenu {
 		createOperationsMenuSet(listener);
 		createHistogramMenuSet(listener);
 		createTransformationsMenuSet(listener);
+		createMasksMenuSet(listener);
 		addSeparator();
 		createMiscMenuSet(listener);
+	}
+
+	private void createMasksMenuSet(MenuEventsListener listener) {
+		JMenu masks = new JMenu("Masks");
+		add(masks);
+
+		JMenuItem meanMask = new JMenuItem(MEAN_MASK);
+		meanMask.addActionListener(listener);
+		masks.add(meanMask);
+
+		JMenuItem medianMask = new JMenuItem(MEDIAN_MASK);
+		medianMask.addActionListener(listener);
+		masks.add(medianMask);
+
+		JMenuItem gaussianMask = new JMenuItem(GAUSSIAN_MASK);
+		gaussianMask.addActionListener(listener);
+		masks.add(gaussianMask);
+
+		JMenuItem highPassMask = new JMenuItem(HIGH_PASS_MASK);
+		highPassMask.addActionListener(listener);
+		masks.add(highPassMask);
+
 	}
 
 	private void createTransformationsMenuSet(MenuEventsListener listener) {

@@ -11,6 +11,8 @@ import javax.swing.KeyStroke;
 
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.EnchanceContrastAction;
+import ar.com.itba.action.GaussianNoiseAction;
+import ar.com.itba.action.ModifyGammaAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
 import ar.com.itba.frame.MainWindow;
 
@@ -115,10 +117,20 @@ public class ToolsMenu extends JMenu {
 		enhanceContrastMenuItem.addActionListener(new EnchanceContrastAction(parent));
 		add(enhanceContrastMenuItem);
 
+		JMenuItem modifyGammaMenuItem = new JMenuItem("Modify Gamma...");
+		modifyGammaMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
+		modifyGammaMenuItem.addActionListener(new ModifyGammaAction(parent));
+		add(modifyGammaMenuItem);
+
 		JMenuItem saltAndPepperNoiseMenuItem = new JMenuItem("Generate Salt and Pepper Noise...");
 		saltAndPepperNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
 		saltAndPepperNoiseMenuItem.addActionListener(new SaltAndPeperNoiseAction(parent));
 		add(saltAndPepperNoiseMenuItem);
+
+		JMenuItem gaussianNoiseMenuItem = new JMenuItem("Generate Gaussian Noise...");
+		gaussianNoiseMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		gaussianNoiseMenuItem.addActionListener(new GaussianNoiseAction(parent));
+		add(gaussianNoiseMenuItem);
 	}
 
 	private void createHistogramMenuSet(ActionListener listener) {
@@ -142,7 +154,6 @@ public class ToolsMenu extends JMenu {
 		JMenuItem substraction = new JMenuItem(IMAGE_SUBSTRACTION);
 		JMenuItem multiplication = new JMenuItem(IMAGE_MULTIPLICATION);
 		JMenuItem scalarMultiplication = new JMenuItem(SCALAR_MULTIPLICATION);
-
 
 		addition.addActionListener(listener);
 		substraction.addActionListener(listener);

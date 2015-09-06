@@ -42,7 +42,7 @@ public class GaussianNoiseAction extends AbstractAction {
 		if (result == JOptionPane.OK_OPTION) {
 			new GaussianNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new GaussianRandomGenerator(0, Float.valueOf(delta.getText())))
 					.apply(image);
-			new LinearImageCorrector().apply(image);
+//			new LinearImageCorrector().apply(image);
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}

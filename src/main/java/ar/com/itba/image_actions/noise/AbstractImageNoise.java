@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import ar.com.itba.utils.random.RandomGenerator;
+import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
 public abstract class AbstractImageNoise implements NoiseGenerator {
 
 	private RandomGenerator generator;
 	private String name;
+
+	protected float intensity;
 
 	public AbstractImageNoise(String name) {
 		this.name = name;
@@ -39,7 +42,8 @@ public abstract class AbstractImageNoise implements NoiseGenerator {
 				int g = (input.getRGB(x, y) >> 8) & 0xFF;
 				int b = (input.getRGB(x, y) >> 16) & 0xFF;
 				float random = generator == null ? 0 : generator.get();
-				Color color = new Color(capped(modify(r, random)), capped(modify(g, random)), capped(modify(b, random)));
+				float changePixel = new UniformRandomGenerator(0, 1).get();
+                Color color = new Color(capped(modify(r, random, changePixel)), capped(modify(g, random, changePixel)), capped(modify(b, random, changePixel)));
 				input.setRGB(x, y, color.getRGB());
 			}
 		}
@@ -55,6 +59,6 @@ public abstract class AbstractImageNoise implements NoiseGenerator {
 		return (int) value;
 	}
 
-	public abstract int modify(double value, float randomValue);
+	public abstract int modify(double value, float randomValue, float changePixel);
 
 }

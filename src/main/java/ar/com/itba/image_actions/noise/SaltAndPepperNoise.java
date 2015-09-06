@@ -27,9 +27,8 @@ public class SaltAndPepperNoise extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value, float randomValue) {
-		float randomUniform = new UniformRandomGenerator(0, 1).get();
-		if (randomUniform <= intensity) {
+	public int modify(double value, float randomValue, float changePixel) {
+		if (changePixel <= intensity) {
 			if (randomValue <= firstValue) {
 				return 0;
 			} else if (randomValue >= secondValue) {

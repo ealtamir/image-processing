@@ -21,15 +21,15 @@ public class GaussianMaskParameterizedAction extends ParameterizedImageAction {
         super(quickDrawPanel);
         addScalarSlider(DEFAULT_VAL, MIN_VAL, MAX_VAL, DIV,
                 true, this, new TextFormatter(DIV));
-        slider = sliderPanels.get(0);
-        slider.changeLabelWithoutFormat(0);
+//        slider = sliderPanels.get(0);
+//        slider.changeLabelWithoutFormat(0);
     }
 
     @Override
     protected void updateImage() {
-        double val = getRealValue(sliderValue);
-        slider.changeLabelWithoutFormat(val);
-        BufferedImage newImg = Masks.applyGaussianMask(originalImage, val);
+//        double val = getRealValue(sliderValue);
+//        slider.changeLabelWithoutFormat(val);
+        BufferedImage newImg = Masks.applyGaussianMask(originalImage, sliderValue);
         quickDrawPanel.modifyCurrentImage(newImg);
 
     }

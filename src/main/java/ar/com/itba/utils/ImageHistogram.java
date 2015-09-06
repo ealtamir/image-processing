@@ -26,13 +26,13 @@ public class ImageHistogram extends WindowAdapter {
         this.title = title;
 
         Chart chart = new ChartBuilder().chartType(StyleManager.ChartType.Bar)
-            .width(500).height(200).title("Score Histogram")
+            .width(700).height(500).title("Score Histogram")
             .xAxisTitle("Grises").yAxisTitle("Cantidad").build();
 
         populateChart(chart);
         swingWrapper = new SwingWrapper(chart).displayChart();
         swingWrapper.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        swingWrapper.setResizable(false);
+        swingWrapper.setResizable(true);
     }
 
     private void populateChart(Chart chart) {

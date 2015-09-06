@@ -48,7 +48,7 @@ public class ImageFileTools {
 	}
 
 	private static BufferedImage loadImageFromStandardFormatFile(File file, Component component) throws IOException {
-		BufferedImage img = ImageIO.read(file);
+		CustomBufferedImage img = new CustomBufferedImage(ImageIO.read(file));
 		if (img == null) {
 			tellUserImgFormatInvalid(component);
 		}
@@ -65,7 +65,7 @@ public class ImageFileTools {
 	}
 
 	private static BufferedImage generateBufferedImageFromRawData(byte[][] rawData, Component component) {
-		BufferedImage image = new BufferedImage(rawData[0].length, rawData.length, BufferedImage.TYPE_INT_RGB);
+		CustomBufferedImage image = new CustomBufferedImage(rawData[0].length, rawData.length, BufferedImage.TYPE_INT_RGB);
 		for (int h = 0; h < rawData.length; h++) {
 			for (int w = 0; w < rawData[0].length; w++) {
 				image.setRGB(w, h, byteToARGB(rawData[h][w]));

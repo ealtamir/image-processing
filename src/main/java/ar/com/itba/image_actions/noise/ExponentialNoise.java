@@ -13,8 +13,8 @@ public class ExponentialNoise extends AbstractImageNoise {
 	}
 
 	@Override
-	public int modify(double value, float randomValue) {
-		if (new UniformRandomGenerator(0, 1).get() <= intensity) {
+	public int modify(double value, float randomValue, float changePixel) {
+		if (changePixel <= intensity) {
 			return (int) (value * randomValue);
 		}
 		return (int) value;

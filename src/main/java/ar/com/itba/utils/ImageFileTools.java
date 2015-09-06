@@ -69,6 +69,7 @@ public class ImageFileTools {
 		for (int h = 0; h < rawData.length; h++) {
 			for (int w = 0; w < rawData[0].length; w++) {
 				image.setRGB(w, h, byteToARGB(rawData[h][w]));
+				image.setRGBCustom(w, h, byteToARGB(rawData[h][w]));
 			}
 		}
 		return image;

@@ -1,5 +1,7 @@
 package ar.com.itba.image_actions.operations;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.image.BufferedImage;
 
 public class Operators {
@@ -10,15 +12,20 @@ public class Operators {
     static private final int BYTE_MASK = BLUE_MASK;
 
     static public BufferedImage imageScalarMult(float c, BufferedImage img) {
-        BufferedImage result = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        CustomBufferedImage result = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
 
+        CustomBufferedImage oldImg = (CustomBufferedImage) img;
+        int r, g, b;
         int buffer = 0;
-        for (int width = 0; width < img.getWidth(); width++) {
-            for (int height = 0; height < img.getHeight(); height++) {
-                buffer = multiplyPixelByScalar(c, img.getRGB(width, height));
-                result.setRGB(width, height, buffer);
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                r = (int) (oldImg.getRed(x, y) * c);
+                g = (int) (oldImg.getGreen(x, y) * c);
+                b = (int) (oldImg.getBlue(x, y) * c);
+                result.setRGBCustom(x, y, r, g, b);
             }
         }
+        result.applyLinearTransform();
         return result;
     }
 

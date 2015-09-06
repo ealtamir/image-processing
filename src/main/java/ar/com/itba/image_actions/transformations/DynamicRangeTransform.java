@@ -23,7 +23,7 @@ public class DynamicRangeTransform extends ParameterizedImageAction {
 
     @Override
     protected void updateImage() {
-        BufferedImage newImg = Transformations.applyDynamicCompression(originalImage, sliderValue);
+        BufferedImage newImg = Transformations.applyDynamicCompression(originalImage);
         quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

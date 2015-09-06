@@ -22,14 +22,8 @@ public class ImageTransformationManager {
     }
 
     public static void showDynamicCompression(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                CopyRightAction.peformCopyRightAction(mainWindow);
-                quickDrawPanel.setParameterizedActionWindow(new DynamicRangeTransform(quickDrawPanel));
-            }
-        });
-
+        BufferedImage newImg = Transformations.applyDynamicCompression(quickDrawPanel.image());
+        quickDrawPanel.modifyCurrentImage(newImg);
     }
     public static void showThresholdTransform(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
         SwingUtilities.invokeLater(new Runnable() {

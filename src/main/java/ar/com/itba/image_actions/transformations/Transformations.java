@@ -1,9 +1,12 @@
 package ar.com.itba.image_actions.transformations;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Enzo on 22.08.15.
@@ -21,8 +24,20 @@ public class Transformations {
         return applyTransformation(img, new NegativeTransform());
     }
 
-    public static BufferedImage applyDynamicCompression(BufferedImage img, int levels) {
-        return applyTransformation(img, new DynamicRangeCompressionTransform(levels));
+    public static BufferedImage applyDynamicCompression(BufferedImage img) {
+        int r, g, b;
+        CustomBufferedImage oldImg = (CustomBufferedImage) img;
+        CustomBufferedImage newImg = new CustomBufferedImage(oldImg.getWidth(), oldImg.getHeight(), oldImg.getType());
+        for (int x = 0; x < img.getWidth(); x++) {
+            for (int y = 0; y < img.getHeight(); y++) {
+                r = BYTE_MASK & dynamicRangeCompress(oldImg.getRed(x, y), oldImg.getMaxRed());
+                g = BYTE_MASK & dynamicRangeCompress(oldImg.getGreen(x, y), oldImg.getMaxGreen());
+                b = BYTE_MASK & dynamicRangeCompress(oldImg.getBlue(x, y), oldImg.getMaxBlue());
+                newImg.setRGBCustom(x, y, oldImg.getRed(x, y), oldImg.getGreen(x, y), oldImg.getBlue(x, y));
+                newImg.setRGB(x, y, r << 16 | g << 8 | b);
+            }
+        }
+        return newImg;
     }
 
     public static BufferedImage applyThreshold(BufferedImage img, int threshold) {
@@ -81,16 +96,21 @@ public class Transformations {
 
 
     private static BufferedImage applyTransformation(BufferedImage img, ImageTransformation imgTrans) {
-        BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        CustomBufferedImage newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
         for (int width = 0; width < img.getWidth(); width++) {
             for (int height = 0; height < img.getHeight(); height++) {
-                newImg.setRGB(width, height, imgTrans.apply(img.getRGB(width, height)));
+                newImg.setRGB(width, height, imgTrans.apply(img.getRGB(height, width)));
             }
         }
         return newImg;
     }
 
     private static class NegativeTransform implements ImageTransformation {
+
+        @Override
+        public int apply(int x, int y, CustomBufferedImage oldImg, CustomBufferedImage newImg) {
+            return 0;
+        }
 
         @Override
         public int apply(int pixel) {
@@ -103,32 +123,7 @@ public class Transformations {
             b = GRAY_LEVELS - b - 1;
             return r << 16 | g << 8 | b;
         }
-    }
 
-    private static class DynamicRangeCompressionTransform implements ImageTransformation {
-
-        private int compressedLevels;
-        private double c;
-
-        public DynamicRangeCompressionTransform(int compressedLevels) {
-            if (compressedLevels < 0 || compressedLevels > 256) {
-                throw new RuntimeException("Invalid gray levels value.");
-            }
-            this.compressedLevels = compressedLevels;
-            c = (GRAY_LEVELS - 1.0) / Math.log(1 + compressedLevels);
-        }
-
-        @Override
-        public int apply(int pixel) {
-            int r = (RED_MASK & pixel) >>> 16;
-            int g = (GREEN_MASK & pixel) >>> 8;
-            int b = (BLUE_MASK & pixel);
-
-            r = (int) (c * Math.log(1 + r));
-            g = (int) (c * Math.log(1 + g));
-            b = (int) (c * Math.log(1 + b));
-            return r << 16 | g << 8 | b;
-        }
     }
 
     private static class ThresholdTransform implements ImageTransformation {
@@ -143,6 +138,11 @@ public class Transformations {
         }
 
         @Override
+        public int apply(int x, int y, CustomBufferedImage oldImg, CustomBufferedImage newImg) {
+            return 0;
+        }
+
+        @Override
         public int apply(int pixel) {
             int r = (RED_MASK & pixel) >>> 16;
             int g = (GREEN_MASK & pixel) >>> 8;
@@ -153,5 +153,12 @@ public class Transformations {
             b = (b <= threshold)? 0: GRAY_LEVELS - 1;
             return r << 16 | g << 8 | b;
         }
+
     }
+
+    public static int dynamicRangeCompress(int pixel, int R) {
+        double c = (GRAY_LEVELS - 1.0) / Math.log(1 + R);
+        return (int) Math.round(c * Math.log(1 + pixel));
+    }
+
 }

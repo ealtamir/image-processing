@@ -8,16 +8,18 @@ import java.awt.image.BufferedImage;
  */
 public class CustomBufferedImage extends BufferedImage {
 
-    private int redMax;
-    private int redMin;
+    private static final int GRAY_LEVELS = 256;
+
+    private int redMax = -1;
+    private int redMin = 10000;
     private int[] red;
 
-    private int greenMax;
-    private int greenMin;
+    private int greenMax = -1;
+    private int greenMin = 10000;
     private int[] green;
 
-    private int blueMax;
-    private int blueMin;
+    private int blueMax = -1;
+    private int blueMin = 10000;
     private int[] blue;
 
     private final int RED_MASK = 0x00FF0000;
@@ -43,20 +45,9 @@ public class CustomBufferedImage extends BufferedImage {
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
                 setRGB(x, y, img.getRGB(x, y));
+                setRGBCustom(x, y, img.getRGB(x, y));
             }
         }
-    }
-
-    @Override
-    public void setRGB(int x, int y, int rgb) {
-        super.setRGB(x, y, rgb);
-        int r = RED_MASK & rgb >>> 16;
-        int g = GREEN_MASK & rgb >>> 8;
-        int b = BLUE_MASK & rgb;
-        red[getWidth() * x + y] = r;
-        green[getWidth() * x + y] = g;
-        blue[getWidth() * x + y] = b;
-        updateMaxMinValues(r, g, b);
     }
 
     public void setRGBCustom(int x, int y, int r, int g, int b) {
@@ -66,21 +57,29 @@ public class CustomBufferedImage extends BufferedImage {
         updateMaxMinValues(r, g, b);
     }
 
+    public void setRGBCustom(int x, int y, int rgb) {
+        setRGBCustom(x, y, (RED_MASK & rgb) >>> 16, (GREEN_MASK & rgb) >>> 8, BLUE_MASK & rgb);
+    }
+
     public void applyLinearTransform() {
         Color color;
+        int r, g, b;
         for (int x = 0, i = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 i = x * getWidth() + y;
-                color = new Color(linearTransform(red[i], redMin, redMax),
-                        linearTransform(green[i], greenMin, greenMax),
-                        linearTransform(blue[i], blueMin, blueMax));
-                setRGB(x, y, color.getRGB());
+                r = linearTransform(red[i], redMin, redMax);
+                g = linearTransform(green[i], greenMin, greenMax);
+                b = linearTransform(blue[i], blueMin, blueMax);
+                setRGB(x, y, r << 16 | g << 8 | b);
             }
         }
     }
 
     private int linearTransform(int x, int min, int max) {
-        return 255 * ((x - min) / (max - min));
+        if (min >= 0 && max < GRAY_LEVELS) {
+            return x;
+        }
+        return Math.round(255 * ((float) (x - min) / (float) (max - min)));
     }
 
     private void updateMaxMinValues(int r, int g, int b) {
@@ -98,9 +97,32 @@ public class CustomBufferedImage extends BufferedImage {
 
         if (b > blueMax) {
             blueMax = b;
-        } else if (b < greenMin) {
+        } else if (b < blueMin) {
             blueMin = b;
         }
     }
 
+    public int getRed(int x, int y) {
+        return red[x * getWidth() + y];
+    }
+
+    public int getGreen(int x, int y) {
+        return green[x * getWidth() + y];
+    }
+
+    public int getBlue(int x, int y) {
+        return blue[x * getWidth() + y];
+    }
+
+    public int getMaxRed() {
+        return redMax;
+    }
+
+    public int getMaxGreen() {
+        return greenMax;
+    }
+
+    public int getMaxBlue() {
+        return blueMax;
+    }
 }

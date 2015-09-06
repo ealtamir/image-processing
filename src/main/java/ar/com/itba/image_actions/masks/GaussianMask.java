@@ -10,18 +10,13 @@ public class GaussianMask extends AbstractMask {
 
     public GaussianMask(int n, double dev) {
         super(n);
-//        if (dev == 0.1) {
-//            n = 15;
-//        } else if (dev == 0.01) {
-//            n = 9;
-//        } else if (dev == 0.001) {
-//            n = 5;
-//        } else if (dev == 0.0001) {
-//            n = 3;
-//        } else {
-//            n = 0;
-//        }
-//        updateRadiusValue(n);
+        if (dev <= 1) {
+            updateRadiusValue(3);
+        } else if (dev >= 7) {
+            updateRadiusValue(20);
+        } else {
+            updateRadiusValue((int) dev * 2 + 1);
+        }
         deviation = dev;
     }
 

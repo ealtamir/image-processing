@@ -51,9 +51,9 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     public void setRGBCustom(int x, int y, int r, int g, int b) {
-        red[getWidth() * x + y] = r;
-        green[getWidth() * x + y] = g;
-        blue[getWidth() * x + y] = b;
+        red[getWidth() * y + x] = r;
+        green[getWidth() * y + x] = g;
+        blue[getWidth() * y + x] = b;
         updateMaxMinValues(r, g, b);
     }
 
@@ -66,7 +66,7 @@ public class CustomBufferedImage extends BufferedImage {
         int r, g, b;
         for (int x = 0, i = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
-                i = x * getWidth() + y;
+                i = y * getWidth() + x;
                 r = linearTransform(red[i], redMin, redMax);
                 g = linearTransform(green[i], greenMin, greenMax);
                 b = linearTransform(blue[i], blueMin, blueMax);
@@ -76,9 +76,9 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     private int linearTransform(int x, int min, int max) {
-        if (min >= 0 && max < GRAY_LEVELS) {
-            return x;
-        }
+//        if (min >= 0 && max < GRAY_LEVELS) {
+//            return x;
+//        }
         return Math.round(255 * ((float) (x - min) / (float) (max - min)));
     }
 
@@ -103,15 +103,15 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     public int getRed(int x, int y) {
-        return red[x * getWidth() + y];
+        return red[y * getWidth() + x];
     }
 
     public int getGreen(int x, int y) {
-        return green[x * getWidth() + y];
+        return green[y * getWidth() + x];
     }
 
     public int getBlue(int x, int y) {
-        return blue[x * getWidth() + y];
+        return blue[y * getWidth() + x];
     }
 
     public int getMaxRed() {

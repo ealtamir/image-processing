@@ -24,6 +24,12 @@ import ar.com.itba.frame.MainWindow;
 @SuppressWarnings("serial")
 public class ToolsMenu extends JMenu {
 
+	// Edge Detection
+	static public final String PREWITT_HORIZONTAL = "Horizontal";
+	static public final String PREWITT_VERTICAL = "Vertical";
+	public static final String SOBEL_HORIZONTAL = "Horizontal";
+	public static final String SOBEL_VERTICAL = "Vertical";
+
 	// Histogram
 	static public final String SHOW_HISTOGRAM = "Show";
 	static public final String EQUALIZE = "Equalize";
@@ -47,6 +53,7 @@ public class ToolsMenu extends JMenu {
 	public static final String GAUSSIAN_MASK = "Gaussian Mask";
 	public static final String HIGH_PASS_MASK = "High Pass Mask";
 
+
 	JFrame parent;
 
 	public ToolsMenu(String name, JFrame parent) {
@@ -62,8 +69,33 @@ public class ToolsMenu extends JMenu {
 		createHistogramMenuSet(listener);
 		createTransformationsMenuSet(listener);
 		createMasksMenuSet(listener);
+		createEdgeDetectionSet(listener);
 		addSeparator();
 		createMiscMenuSet(listener);
+	}
+
+	private void createEdgeDetectionSet(MenuEventsListener listener) {
+		JMenu edge = new JMenu("Edge Detection");
+		add(edge);
+
+		JMenu prewitt = new JMenu("Prewitt");
+		edge.add(prewitt);
+		JMenuItem horizontal = new JMenuItem(PREWITT_HORIZONTAL);
+		prewitt.add(horizontal);
+		horizontal.addActionListener(listener);
+		JMenuItem vertical = new JMenuItem(PREWITT_VERTICAL);
+		prewitt.add(vertical);
+		vertical.addActionListener(listener);
+
+		JMenu sobel = new JMenu("Sobel");
+		edge.add(sobel);
+		JMenuItem sobel_horizontal = new JMenuItem(SOBEL_HORIZONTAL);
+		sobel.add(sobel_horizontal);
+		sobel_horizontal.addActionListener(listener);
+
+		JMenuItem sobel_vertical = new JMenuItem(SOBEL_VERTICAL);
+		sobel.add(sobel_vertical);
+		sobel_vertical.addActionListener(listener);
 	}
 
 	private void createMasksMenuSet(MenuEventsListener listener) {

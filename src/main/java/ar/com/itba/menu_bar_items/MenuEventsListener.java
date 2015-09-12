@@ -1,6 +1,7 @@
 package ar.com.itba.menu_bar_items;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
 import ar.com.itba.image_actions.masks.ImageMaskManager;
 import ar.com.itba.image_actions.operations.ImageOperationManager;
 import ar.com.itba.image_actions.transformations.ImageTransformationManager;
@@ -32,7 +33,29 @@ public class MenuEventsListener implements ActionListener {
             return;
         } else if (belongsToImageMasks(e)) {
             return;
+        } else if (belongsToEdgeDetection(e)) {
+            return;
         }
+    }
+
+    private boolean belongsToEdgeDetection(ActionEvent e) {
+        boolean belongs = true;
+        if (e.getActionCommand().equals(ToolsMenu.PREWITT_HORIZONTAL)) {
+            EdgeDetectionManager.applyPrewittHorizontal(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.PREWITT_VERTICAL)) {
+            EdgeDetectionManager.applyPrewittVertical(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_HORIZONTAL)) {
+            EdgeDetectionManager.applySobelHorizontal(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_VERTICAL)) {
+            EdgeDetectionManager.applySobelVertical(quickDrawPanel, mainWindow);
+
+        } else {
+            belongs = false;
+        }
+        return belongs;
     }
 
     private boolean belongsToImageMasks(ActionEvent e) {
@@ -49,8 +72,10 @@ public class MenuEventsListener implements ActionListener {
         } else if (e.getActionCommand().equals(ToolsMenu.HIGH_PASS_MASK)) {
             ImageMaskManager.applyHighPassMask(quickDrawPanel, mainWindow);
 
+        } else {
+            belongs = false;
         }
-        return false;
+        return belongs;
     }
 
     private boolean belongsToImageTransformations(ActionEvent e) {

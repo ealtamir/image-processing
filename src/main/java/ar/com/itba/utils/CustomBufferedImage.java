@@ -26,8 +26,11 @@ public class CustomBufferedImage extends BufferedImage {
     private final int GREEN_MASK = 0x0000FF00;
     private final int BLUE_MASK = 0x000000FF;
 
+    private final int imgSize;
+
     public CustomBufferedImage(int width, int height, int imageType) {
         super(width, height, imageType);
+        imgSize = width * height;
         red = new int[width * height];
         green = new int[width * height];
         blue = new int[width * height];
@@ -35,6 +38,7 @@ public class CustomBufferedImage extends BufferedImage {
 
     public CustomBufferedImage(BufferedImage img) {
         super(img.getWidth(), img.getHeight(), img.getType());
+        imgSize = img.getWidth() * img.getHeight();
         red = new int[img.getWidth() * img.getHeight()];
         green = new int[img.getWidth() * img.getHeight()];
         blue = new int[img.getWidth() * img.getHeight()];
@@ -76,9 +80,6 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     private int linearTransform(int x, int min, int max) {
-//        if (min >= 0 && max < GRAY_LEVELS) {
-//            return x;
-//        }
         return Math.round(255 * ((float) (x - min) / (float) (max - min)));
     }
 

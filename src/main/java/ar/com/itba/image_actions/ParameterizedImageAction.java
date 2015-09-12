@@ -32,6 +32,7 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
     protected final int DIV = 1;
 
     protected int sliderValue = DEFAULT_VAL;
+    protected int changedSliderNum = -1;
 
 
     public ParameterizedImageAction(QuickDrawPanel quickDrawPanel) {
@@ -45,7 +46,7 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
         contents.setVisible(true);
         setVisible(true);
         setResizable(false);
-        setSize(300, 100);
+//        setSize(300, 100);
     }
 
 
@@ -105,8 +106,10 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
     protected void identifyChangedSlider(ChangeEvent e) {
         JSlider changedSlider = (JSlider) e.getSource();
         JSlider slider;
+        changedSliderNum = -1;
 
         for (LabeledSliderPanel panel : sliderPanels) {
+            changedSliderNum += 1;
             slider = panel.getSlider();
             if (slider.equals(changedSlider)) {
                 processSliderChange(changedSlider);
@@ -121,6 +124,7 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
         contents.add(scalarSlider);
         scalarSlider.setVisible(true);
         sliderPanels.add(scalarSlider);
+        pack();
     }
 
     @Override

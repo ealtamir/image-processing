@@ -65,6 +65,14 @@ public class CustomBufferedImage extends BufferedImage {
         setRGBCustom(x, y, (RED_MASK & rgb) >>> 16, (GREEN_MASK & rgb) >>> 8, BLUE_MASK & rgb);
     }
 
+    public int getGray(int x, int y) {
+        return red[getWidth() * y + x];
+    }
+
+    public void setGray(int x, int y, int grayLevel) {
+        red[getWidth() * y + x] = green[getWidth() * y + x] = blue[getWidth() * y + x] = grayLevel;
+    }
+
     public void applyLinearTransform() {
         Color color;
         int r, g, b;
@@ -126,4 +134,5 @@ public class CustomBufferedImage extends BufferedImage {
     public int getMaxBlue() {
         return blueMax;
     }
+
 }

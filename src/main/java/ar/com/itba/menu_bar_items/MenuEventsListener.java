@@ -1,6 +1,7 @@
 package ar.com.itba.menu_bar_items;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.Thresholding.ThresholdManager;
 import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
 import ar.com.itba.image_actions.masks.ImageMaskManager;
 import ar.com.itba.image_actions.operations.ImageOperationManager;
@@ -35,7 +36,24 @@ public class MenuEventsListener implements ActionListener {
             return;
         } else if (belongsToEdgeDetection(e)) {
             return;
+
+        } else if (belongsToThresholding(e)) {
+            return;
         }
+    }
+
+    private boolean belongsToThresholding(ActionEvent e) {
+        boolean belongs = true;
+        if (e.getActionCommand().equals(ToolsMenu.GLOBAL_THRESHOLD)) {
+            ThresholdManager.applyGlobalThreshold(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.OTSU_THRESHOLD)) {
+            ThresholdManager.applyOtsuThreshold(quickDrawPanel, mainWindow);
+
+        } else {
+            belongs = false;
+        }
+        return belongs;
     }
 
     private boolean belongsToEdgeDetection(ActionEvent e) {
@@ -51,6 +69,15 @@ public class MenuEventsListener implements ActionListener {
 
         } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_VERTICAL)) {
             EdgeDetectionManager.applySobelVertical(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.LAPLACIAN)) {
+            EdgeDetectionManager.applyLaplacian(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.LAPLACIAN_SLOPE)) {
+            EdgeDetectionManager.applyLaplacianWithSlope(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.LAPLACIAN_GAUSSIAN)) {
+            EdgeDetectionManager.applyLaplacianGaussian(quickDrawPanel, mainWindow);
 
         } else {
             belongs = false;

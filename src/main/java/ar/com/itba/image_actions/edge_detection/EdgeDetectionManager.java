@@ -35,4 +35,19 @@ public class EdgeDetectionManager {
         quickDrawPanel.modifyCurrentImage(resultImg);
     }
 
+    public static void applyLaplacian(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = LaplacianMethods.standardLaplacian(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+
+    }
+
+    public static void applyLaplacianWithSlope(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = LaplacianMethods.laplacianWithSlope(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
+
+    public static void applyLaplacianGaussian(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+    }
 }

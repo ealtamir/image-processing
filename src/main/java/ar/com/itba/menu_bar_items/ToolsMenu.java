@@ -30,6 +30,10 @@ public class ToolsMenu extends JMenu {
 	public static final String SOBEL_HORIZONTAL = "Horizontal";
 	public static final String SOBEL_VERTICAL = "Vertical";
 
+	// Thresholding
+	public static final String OTSU_THRESHOLD = "Otsu";
+	public static final String GLOBAL_THRESHOLD = "Global";
+
 	// Histogram
 	static public final String SHOW_HISTOGRAM = "Show";
 	static public final String EQUALIZE = "Equalize";
@@ -52,7 +56,9 @@ public class ToolsMenu extends JMenu {
 	public static final String MEDIAN_MASK = "Median Mask";
 	public static final String GAUSSIAN_MASK = "Gaussian Mask";
 	public static final String HIGH_PASS_MASK = "High Pass Mask";
-
+	public static final String LAPLACIAN = "Laplacian";
+	public static final String LAPLACIAN_SLOPE = "Laplacian Slope";
+	public static final String LAPLACIAN_GAUSSIAN = "Laplacian Gaussian";
 
 	JFrame parent;
 
@@ -70,8 +76,23 @@ public class ToolsMenu extends JMenu {
 		createTransformationsMenuSet(listener);
 		createMasksMenuSet(listener);
 		createEdgeDetectionSet(listener);
+		createThresholdSet(listener);
 		addSeparator();
 		createMiscMenuSet(listener);
+	}
+
+	private void createThresholdSet(MenuEventsListener listener) {
+		JMenu threshold = new JMenu("Umbralización");
+		add(threshold);
+
+		JMenuItem global = new JMenuItem(GLOBAL_THRESHOLD);
+		threshold.add(global);
+		global.addActionListener(listener);
+
+		JMenuItem otsu = new JMenuItem(OTSU_THRESHOLD);
+		threshold.add(otsu);
+		otsu.addActionListener(listener);
+
 	}
 
 	private void createEdgeDetectionSet(MenuEventsListener listener) {
@@ -92,10 +113,21 @@ public class ToolsMenu extends JMenu {
 		JMenuItem sobel_horizontal = new JMenuItem(SOBEL_HORIZONTAL);
 		sobel.add(sobel_horizontal);
 		sobel_horizontal.addActionListener(listener);
-
 		JMenuItem sobel_vertical = new JMenuItem(SOBEL_VERTICAL);
 		sobel.add(sobel_vertical);
 		sobel_vertical.addActionListener(listener);
+
+		JMenu second_deriv = new JMenu("Segunda Derivada");
+		edge.add(second_deriv);
+		JMenuItem laplacian = new JMenuItem(LAPLACIAN);
+		second_deriv.add(laplacian);
+		laplacian.addActionListener(listener);
+		JMenuItem laplacian_slope = new JMenuItem(LAPLACIAN_SLOPE) ;
+		second_deriv.add(laplacian_slope);
+		laplacian_slope.addActionListener(listener);
+		JMenuItem laplacian_gaussian = new JMenuItem(LAPLACIAN_GAUSSIAN);
+		second_deriv.add(laplacian_gaussian);
+		laplacian_gaussian.addActionListener(listener);
 	}
 
 	private void createMasksMenuSet(MenuEventsListener listener) {

@@ -23,6 +23,8 @@ public class ThresholdManager {
     }
 
     public static void applyOtsuThreshold(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
-
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        BufferedImage newImg = OtsuThreshold.applyTransformation(quickDrawPanel.image());
+        quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

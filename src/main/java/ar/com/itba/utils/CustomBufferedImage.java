@@ -27,6 +27,7 @@ public class CustomBufferedImage extends BufferedImage {
     private final int BLUE_MASK = 0x000000FF;
 
     private final int imgSize;
+    private int[] frequenciesHisogram;
 
     public CustomBufferedImage(int width, int height, int imageType) {
         super(width, height, imageType);
@@ -70,7 +71,9 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     public void setGray(int x, int y, int grayLevel) {
-        red[getWidth() * y + x] = green[getWidth() * y + x] = blue[getWidth() * y + x] = grayLevel;
+        red[getWidth() * y + x] = green[getWidth() * y + x] = blue[getWidth() * y + x] = 0xFF & grayLevel;
+        int rgb = (0xFF & grayLevel) << 16 | (0xFF & grayLevel) << 8 | 0xFF & grayLevel;
+        setRGB(x, y, rgb);
     }
 
     public void applyLinearTransform() {
@@ -135,4 +138,13 @@ public class CustomBufferedImage extends BufferedImage {
         return blueMax;
     }
 
+    public int[] getHistogram() {
+        int[] histogram = new int[256];
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                histogram[red[y * getHeight() + x]] += 1;
+            }
+        }
+        return histogram;
+    }
 }

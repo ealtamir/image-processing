@@ -20,7 +20,6 @@ public class GlobalThreshold {
             threshold = buffer.threshold;
             newImg = buffer.img;
         }
-        newImg.applyLinearTransform();
         return newImg;
 
     }

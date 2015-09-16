@@ -1,9 +1,9 @@
 package ar.com.itba.image_actions.enhance;
 
-import ar.com.itba.image_actions.noise.AbstractImageNoise;
+import ar.com.itba.image_actions.noise.PerPixelOperation;
 
 @SuppressWarnings("serial")
-public class ModifyGamma extends AbstractImageNoise {
+public class ModifyGamma extends PerPixelOperation {
 
 	double gammaValue;
 

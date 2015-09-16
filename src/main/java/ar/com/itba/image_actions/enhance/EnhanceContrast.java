@@ -1,9 +1,9 @@
 package ar.com.itba.image_actions.enhance;
 
-import ar.com.itba.image_actions.noise.AbstractImageNoise;
+import ar.com.itba.image_actions.noise.PerPixelOperation;
 
 @SuppressWarnings("serial")
-public class EnhanceContrast extends AbstractImageNoise {
+public class EnhanceContrast extends PerPixelOperation {
 
 	int color1, color2, enhancement;
 

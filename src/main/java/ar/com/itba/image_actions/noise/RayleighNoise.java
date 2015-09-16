@@ -3,7 +3,7 @@ package ar.com.itba.image_actions.noise;
 import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
-public class RayleighNoise extends AbstractImageNoise {
+public class RayleighNoise extends PerPixelOperation {
 
 	private float intensity;
 

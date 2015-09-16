@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import ar.com.itba.action.AnisotropicDifussionAction;
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.EnchanceContrastAction;
 import ar.com.itba.action.ExponentialNoiseAction;
@@ -122,7 +123,7 @@ public class ToolsMenu extends JMenu {
 		JMenuItem laplacian = new JMenuItem(LAPLACIAN);
 		second_deriv.add(laplacian);
 		laplacian.addActionListener(listener);
-		JMenuItem laplacian_slope = new JMenuItem(LAPLACIAN_SLOPE) ;
+		JMenuItem laplacian_slope = new JMenuItem(LAPLACIAN_SLOPE);
 		second_deriv.add(laplacian_slope);
 		laplacian_slope.addActionListener(listener);
 		JMenuItem laplacian_gaussian = new JMenuItem(LAPLACIAN_GAUSSIAN);
@@ -219,6 +220,11 @@ public class ToolsMenu extends JMenu {
 		modifyGammaMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
 		modifyGammaMenuItem.addActionListener(new ModifyGammaAction(parent));
 		add(modifyGammaMenuItem);
+
+		JMenuItem anisotropicMenuItem = new JMenuItem("Anisotropic Difussion...");
+		anisotropicMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		anisotropicMenuItem.addActionListener(new AnisotropicDifussionAction(parent));
+		add(anisotropicMenuItem);
 
 	}
 

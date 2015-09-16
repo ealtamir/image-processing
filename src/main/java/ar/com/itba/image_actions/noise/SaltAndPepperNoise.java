@@ -5,7 +5,7 @@ import java.awt.Color;
 import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
-public class SaltAndPepperNoise extends AbstractImageNoise {
+public class SaltAndPepperNoise extends PerPixelOperation {
 	private float intensity, firstValue, secondValue;
 
 	public SaltAndPepperNoise(float intensity, float firstValue, float secondValue) {

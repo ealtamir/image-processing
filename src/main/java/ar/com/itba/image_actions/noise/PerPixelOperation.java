@@ -7,14 +7,14 @@ import ar.com.itba.utils.random.RandomGenerator;
 import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
-public abstract class AbstractImageNoise implements NoiseGenerator {
+public abstract class PerPixelOperation implements NoiseGenerator {
 
 	private RandomGenerator generator;
 	private String name;
 
 	protected float intensity;
 
-	public AbstractImageNoise(String name) {
+	public PerPixelOperation(String name) {
 		this.name = name;
 	}
 

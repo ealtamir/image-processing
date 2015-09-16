@@ -2,10 +2,10 @@ package ar.com.itba.image_actions.correct;
 
 import java.awt.image.BufferedImage;
 
-import ar.com.itba.image_actions.noise.AbstractImageNoise;
+import ar.com.itba.image_actions.noise.PerPixelOperation;
 
 @SuppressWarnings("serial")
-public class LinearImageCorrector extends AbstractImageNoise {
+public class LinearImageCorrector extends PerPixelOperation {
 
 	private float _maxR, _maxG, _maxB;
 	private float _minR, _minG, _minB;

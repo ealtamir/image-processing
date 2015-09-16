@@ -82,9 +82,9 @@ public class CustomBufferedImage extends BufferedImage {
         for (int x = 0, i = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
                 i = y * getWidth() + x;
-                r = linearTransform(red[i], redMin, redMax);
-                g = linearTransform(green[i], greenMin, greenMax);
-                b = linearTransform(blue[i], blueMin, blueMax);
+                r = 0xFF & linearTransform(red[i], redMin, redMax);
+                g = 0xFF & linearTransform(green[i], greenMin, greenMax);
+                b = 0xFF & linearTransform(blue[i], blueMin, blueMax);
                 setRGB(x, y, r << 16 | g << 8 | b);
             }
         }

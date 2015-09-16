@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.google.common.base.Function;
+
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.denoise.AnisotropicDifussion;
 
@@ -34,9 +36,16 @@ public class AnisotropicDifussionAction extends AbstractAction {
 		String msg = "Choose delta:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new AnisotropicDifussion(Float.valueOf(delta.getText())).apply(image);
 			// new LinearImageCorrector().apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(new AnisotropicDifussion(Float.valueOf(delta.getText()), new One()).apply(image));
+		}
+	}
+
+	public class One implements Function<Float, Float> {
+
+		@Override
+		public Float apply(Float input) {
+			return 1f;
 		}
 	}
 }

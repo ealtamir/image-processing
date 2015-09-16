@@ -44,12 +44,11 @@ public class AnisotropicDifussion extends PerPixelOperation {
 					int bdown = image.getBlue(x, y + 1);
 					int bleft = image.getBlue(x - 1, y);
 					int bright = image.getBlue(x + 1, y);
-					Color color = new Color(modify(r, rup, rdown, rleft, rright), modify(g, gup, gdown, gleft, gright), modify(b, bup, bdown, bleft, bright));
-					image.setRGBCustom(x, y, color.getRGB());
-					image.applyLinearTransform();
+					image.setRGBCustom(x, y, modify(r, rup, rdown, rleft, rright), modify(g, gup, gdown, gleft, gright), modify(b, bup, bdown, bleft, bright));
 				}
 			}
 		}
+		image.applyLinearTransform();
 		return image;
 	}
 

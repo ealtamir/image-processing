@@ -1,11 +1,12 @@
 package ar.com.itba.panel;
 
+import java.awt.Component;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import ar.com.itba.frame.ImageOptionsWindow;
-
-import javax.swing.*;
-import java.awt.*;
-
-import static java.awt.Component.LEFT_ALIGNMENT;
 
 public class RectSelectionPanel extends JPanel {
 

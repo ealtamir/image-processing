@@ -1,16 +1,17 @@
 package ar.com.itba.utils;
 
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.StyleManager;
 import com.xeiam.xchart.SwingWrapper;
-
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
 
 public class ImageHistogram extends WindowAdapter {
 

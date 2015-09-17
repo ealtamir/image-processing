@@ -1,12 +1,8 @@
 package ar.com.itba.image_actions.transformations;
 
-import ar.com.itba.utils.CustomBufferedImage;
-
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+
+import ar.com.itba.utils.CustomBufferedImage;
 
 /**
  * Created by Enzo on 22.08.15.

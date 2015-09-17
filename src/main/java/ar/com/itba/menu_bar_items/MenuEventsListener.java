@@ -1,5 +1,8 @@
 package ar.com.itba.menu_bar_items;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.Thresholding.ThresholdManager;
 import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
@@ -7,9 +10,6 @@ import ar.com.itba.image_actions.masks.ImageMaskManager;
 import ar.com.itba.image_actions.operations.ImageOperationManager;
 import ar.com.itba.image_actions.transformations.ImageTransformationManager;
 import ar.com.itba.panel.QuickDrawPanel;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class MenuEventsListener implements ActionListener {

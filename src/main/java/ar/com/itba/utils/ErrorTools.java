@@ -1,7 +1,8 @@
 package ar.com.itba.utils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+
+import javax.swing.JOptionPane;
 
 public class ErrorTools {
 

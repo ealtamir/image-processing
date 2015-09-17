@@ -1,8 +1,8 @@
 package ar.com.itba.image_actions.edge_detection;
 
-import ar.com.itba.utils.CustomBufferedImage;
-
 import java.awt.image.BufferedImage;
+
+import ar.com.itba.utils.CustomBufferedImage;
 
 /**
  * Created by Enzo on 12.09.15.

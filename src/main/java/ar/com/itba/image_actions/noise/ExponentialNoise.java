@@ -1,7 +1,5 @@
 package ar.com.itba.image_actions.noise;
 
-import ar.com.itba.utils.random.UniformRandomGenerator;
-
 @SuppressWarnings("serial")
 public class ExponentialNoise extends PerPixelOperation {
 

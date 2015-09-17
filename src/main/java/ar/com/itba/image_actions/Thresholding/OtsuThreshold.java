@@ -1,8 +1,8 @@
 package ar.com.itba.image_actions.Thresholding;
 
-import ar.com.itba.utils.CustomBufferedImage;
-
 import java.awt.image.BufferedImage;
+
+import ar.com.itba.utils.CustomBufferedImage;
 
 /**
  * Created by Enzo on 16.09.15.

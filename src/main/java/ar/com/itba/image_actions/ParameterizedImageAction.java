@@ -1,18 +1,22 @@
 package ar.com.itba.image_actions;
 
-import ar.com.itba.image_actions.operations.ScalarMultOperation;
-import ar.com.itba.panel.LabeledSliderPanel;
-import ar.com.itba.panel.QuickDrawPanel;
-import com.sun.xml.internal.bind.v2.model.annotation.Quick;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import ar.com.itba.panel.LabeledSliderPanel;
+import ar.com.itba.panel.QuickDrawPanel;
 
 abstract public class ParameterizedImageAction extends JFrame implements ActionListener, ChangeListener {
 

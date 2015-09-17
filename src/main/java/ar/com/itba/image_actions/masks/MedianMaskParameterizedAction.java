@@ -1,10 +1,9 @@
 package ar.com.itba.image_actions.masks;
 
-import ar.com.itba.image_actions.ParameterizedImageAction;
-import ar.com.itba.panel.LabeledSliderPanel;
-import ar.com.itba.panel.QuickDrawPanel;
-
 import java.awt.image.BufferedImage;
+
+import ar.com.itba.image_actions.ParameterizedImageAction;
+import ar.com.itba.panel.QuickDrawPanel;
 
 /**
  * Created by Enzo on 03.09.15.

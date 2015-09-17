@@ -1,15 +1,21 @@
 package ar.com.itba.frame;
 
-import ar.com.itba.panel.PixelColorChanger;
-import ar.com.itba.panel.QuickDrawPanel;
-import ar.com.itba.panel.RectSelectionPanel;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import ar.com.itba.panel.PixelColorChanger;
+import ar.com.itba.panel.QuickDrawPanel;
+import ar.com.itba.panel.RectSelectionPanel;
 
 
 public class ImageOptionsWindow extends JFrame {

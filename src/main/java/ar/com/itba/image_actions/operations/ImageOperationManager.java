@@ -1,12 +1,13 @@
 package ar.com.itba.image_actions.operations;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.SwingUtilities;
+
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.OpenFileAction;
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.panel.QuickDrawPanel;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 public class ImageOperationManager {
 

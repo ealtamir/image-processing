@@ -1,11 +1,15 @@
 package ar.com.itba.panel;
 
-import ar.com.itba.image_actions.ParameterizedImageAction;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import ar.com.itba.image_actions.ParameterizedImageAction;
 
 /**
  * Created by Enzo on 26.08.15.

@@ -1,13 +1,20 @@
 package ar.com.itba.panel;
 
-import ar.com.itba.frame.ImageOptionsWindow;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import ar.com.itba.frame.ImageOptionsWindow;
 
 
 public class PixelColorChanger extends JPanel implements ChangeListener, ActionListener {

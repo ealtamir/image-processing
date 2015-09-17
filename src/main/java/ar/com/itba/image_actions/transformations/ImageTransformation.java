@@ -2,8 +2,6 @@ package ar.com.itba.image_actions.transformations;
 
 import ar.com.itba.utils.CustomBufferedImage;
 
-import java.awt.image.BufferedImage;
-
 /**
  * Created by Enzo on 22.08.15.
  */

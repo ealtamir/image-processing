@@ -1,11 +1,14 @@
 package ar.com.itba.utils;
 
-import ar.com.itba.frame.ImageOptionsWindow;
-
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.security.InvalidParameterException;
+
+import javax.swing.event.MouseInputAdapter;
+
+import ar.com.itba.frame.ImageOptionsWindow;
 
 public class MouseTracker extends MouseInputAdapter {
 

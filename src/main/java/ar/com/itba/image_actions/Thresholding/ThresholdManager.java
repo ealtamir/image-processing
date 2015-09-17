@@ -1,11 +1,12 @@
 package ar.com.itba.image_actions.Thresholding;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.SwingUtilities;
+
 import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.panel.QuickDrawPanel;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Enzo on 12.09.15.

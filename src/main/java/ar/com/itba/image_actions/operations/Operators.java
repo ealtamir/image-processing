@@ -1,8 +1,8 @@
 package ar.com.itba.image_actions.operations;
 
-import ar.com.itba.utils.CustomBufferedImage;
-
 import java.awt.image.BufferedImage;
+
+import ar.com.itba.utils.CustomBufferedImage;
 
 public class Operators {
 

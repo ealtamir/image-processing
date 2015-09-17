@@ -14,6 +14,7 @@ import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.EnchanceContrastAction;
 import ar.com.itba.action.ExponentialNoiseAction;
 import ar.com.itba.action.GaussianNoiseAction;
+import ar.com.itba.action.IsotropicDifussionAction;
 import ar.com.itba.action.ModifyGammaAction;
 import ar.com.itba.action.RayleighNoiseAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
@@ -220,6 +221,11 @@ public class ToolsMenu extends JMenu {
 		modifyGammaMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
 		modifyGammaMenuItem.addActionListener(new ModifyGammaAction(parent));
 		add(modifyGammaMenuItem);
+
+		JMenuItem isotropicMenuItem = new JMenuItem("Isotropic Difussion...");
+		isotropicMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
+		isotropicMenuItem.addActionListener(new IsotropicDifussionAction(parent));
+		add(isotropicMenuItem);
 
 		JMenuItem anisotropicMenuItem = new JMenuItem("Anisotropic Difussion...");
 		anisotropicMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));

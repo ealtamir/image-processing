@@ -2,8 +2,6 @@ package ar.com.itba.image_actions.noise;
 
 import java.awt.Color;
 
-import ar.com.itba.utils.random.UniformRandomGenerator;
-
 @SuppressWarnings("serial")
 public class SaltAndPepperNoise extends PerPixelOperation {
 	private float intensity, firstValue, secondValue;

@@ -1,9 +1,8 @@
 package ar.com.itba.image_actions.masks;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 

@@ -1,6 +1,6 @@
 package ar.com.itba.utils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**

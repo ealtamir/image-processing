@@ -1,9 +1,9 @@
 package ar.com.itba.image_actions.Thresholding;
 
+import java.awt.image.BufferedImage;
+
 import ar.com.itba.image_actions.ParameterizedImageAction;
 import ar.com.itba.panel.QuickDrawPanel;
-
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Enzo on 12.09.15.

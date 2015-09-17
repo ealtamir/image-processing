@@ -1,6 +1,5 @@
 package ar.com.itba.image_actions.masks;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**

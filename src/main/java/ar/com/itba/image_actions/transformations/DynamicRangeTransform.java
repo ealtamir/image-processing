@@ -1,10 +1,9 @@
 package ar.com.itba.image_actions.transformations;
 
+import java.awt.image.BufferedImage;
+
 import ar.com.itba.image_actions.ParameterizedImageAction;
 import ar.com.itba.panel.QuickDrawPanel;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 public class DynamicRangeTransform extends ParameterizedImageAction {
 

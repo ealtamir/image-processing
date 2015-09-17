@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
-import ar.com.itba.image_actions.correct.LinearImageCorrector;
 import ar.com.itba.image_actions.noise.GaussianNoise;
 import ar.com.itba.utils.random.GaussianRandomGenerator;
 

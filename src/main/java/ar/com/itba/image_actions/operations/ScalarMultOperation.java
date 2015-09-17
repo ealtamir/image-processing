@@ -1,13 +1,11 @@
 package ar.com.itba.image_actions.operations;
 
-import ar.com.itba.image_actions.ParameterizedImageAction;
-import ar.com.itba.panel.LabeledSliderPanel;
-import ar.com.itba.panel.QuickDrawPanel;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+
+import javax.swing.JSlider;
+
+import ar.com.itba.image_actions.ParameterizedImageAction;
+import ar.com.itba.panel.QuickDrawPanel;
 
 /**
  * Created by Enzo on 26.08.15.

@@ -68,4 +68,25 @@ public class LaplacianMethods {
         }
         return newImg;
     }
+
+    public static BufferedImage laplacianOfGaussian(BufferedImage originalImage, int sigma) {
+        CustomBufferedImage customImg = (CustomBufferedImage) originalImage;
+        int maskSize = 7;
+        int radius = (int) Math.floor((double) maskSize / 2);
+        double[][] mask = new double[maskSize][maskSize];
+
+        for (int x = -radius, i = 0; i < maskSize; x++, i++) {
+            for (int y = -radius, j = 0; j < maskSize; y++, j++) {
+                mask[j][i] = getLOGValue(x, y, sigma);
+            }
+        }
+        return EdgeDetection.applyEdgeDetectionMask(customImg, mask, maskSize);
+    }
+
+    private static double getLOGValue(float x, float y, float sigma) {
+        double fraction1 = (1 / ((Math.sqrt(2 * Math.PI) * (sigma * sigma * sigma))));
+        double fraction2 = (2 - (((x*x) + (y*y)) / (sigma * sigma)));
+        double fraction3 = Math.exp(-(((x*x) + (y*y)) / (2 * sigma * sigma)));
+        return - fraction1 * fraction2 * fraction3;
+    }
 }

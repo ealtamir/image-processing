@@ -128,6 +128,7 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
         contents.add(scalarSlider);
         scalarSlider.setVisible(true);
         sliderPanels.add(scalarSlider);
+        sliderValue = DEFAULT_VAL;
         pack();
     }
 

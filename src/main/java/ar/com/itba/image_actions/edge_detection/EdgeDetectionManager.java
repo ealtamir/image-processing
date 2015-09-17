@@ -55,5 +55,12 @@ public class EdgeDetectionManager {
     }
 
     public static void applyLaplacianGaussian(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                CopyRightAction.peformCopyRightAction(mainWindow);
+                quickDrawPanel.setParameterizedActionWindow(new ParameterizedLaplacianOfGaussian(quickDrawPanel));
+            }
+        });
     }
 }

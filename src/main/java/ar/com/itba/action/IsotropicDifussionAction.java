@@ -16,12 +16,12 @@ import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.denoise.AnisotropicDifussion;
 
 @SuppressWarnings("serial")
-public class AnisotropicDifussionAction extends AbstractAction {
+public class IsotropicDifussionAction extends AbstractAction {
 
 	private JFrame parent;
 	private BufferedImage image;
 
-	public AnisotropicDifussionAction(JFrame parent) {
+	public IsotropicDifussionAction(JFrame parent) {
 		this.parent = parent;
 	}
 
@@ -38,19 +38,16 @@ public class AnisotropicDifussionAction extends AbstractAction {
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			for (int i = 0; i < Integer.valueOf(iterations.getText()); i++) {
-				image = new AnisotropicDifussion(new Lorentz()).apply(image);
+				image = new AnisotropicDifussion(new One()).apply(image);
 			}
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}
 
-	public class Lorentz implements Function<Double, Double> {
+	public class One implements Function<Double, Double> {
 		@Override
 		public Double apply(Double input) {
-			double dividend = Math.pow(Math.abs(input), 2);
-			double divisor = Math.pow(1, 2);
-			return Math.exp(dividend / divisor);
+			return 1d;
 		}
 	}
-
 }

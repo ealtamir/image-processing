@@ -14,7 +14,6 @@ public class ThresholdTransform extends ParameterizedImageAction{
         super(quickDrawPanel);
         addScalarSlider(DEFAULT_VAL, MIN_VAL, MAX_VAL, DIV,
                 true, this, new TextFormatter(DIV));
-        contents.setVisible(true);
     }
 
     @Override

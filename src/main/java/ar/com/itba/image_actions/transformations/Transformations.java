@@ -95,7 +95,7 @@ public class Transformations {
         CustomBufferedImage newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
         for (int width = 0; width < img.getWidth(); width++) {
             for (int height = 0; height < img.getHeight(); height++) {
-                newImg.setRGB(width, height, imgTrans.apply(img.getRGB(height, width)));
+                newImg.setRGB(width, height, imgTrans.apply(img.getRGB(width, height)));
             }
         }
         return newImg;
@@ -144,9 +144,9 @@ public class Transformations {
             int g = (GREEN_MASK & pixel) >>> 8;
             int b = (BLUE_MASK & pixel);
 
-            r = (r <= threshold)? 0: GRAY_LEVELS - 1;
-            g = (g <= threshold)? 0: GRAY_LEVELS - 1;
-            b = (b <= threshold)? 0: GRAY_LEVELS - 1;
+            r = (r < threshold)? 0: GRAY_LEVELS - 1;
+            g = (g < threshold)? 0: GRAY_LEVELS - 1;
+            b = (b < threshold)? 0: GRAY_LEVELS - 1;
             return r << 16 | g << 8 | b;
         }
 

@@ -16,6 +16,12 @@ public class EdgeDetection {
     private static int[] totalRGB = new int[3];
 
     static public BufferedImage applyEdgeDetectionMask(CustomBufferedImage img, int[][] mask, int size) {
+        CustomBufferedImage customImg = (CustomBufferedImage) applyEdgeDetectionWithoutNormalization(img, mask, size);
+        customImg.applyLinearTransform();
+        return customImg;
+    }
+
+    static public BufferedImage applyEdgeDetectionWithoutNormalization(CustomBufferedImage img, int[][] mask, int size) {
         CustomBufferedImage customImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
         int radius = size / 2;
         int[] rgbMaskVal;
@@ -26,7 +32,6 @@ public class EdgeDetection {
                 customImg.setRGBCustom(x, y, rgbMaskVal[RED], rgbMaskVal[GREEN], rgbMaskVal[BLUE]);
             }
         }
-        customImg.applyLinearTransform();
         return customImg;
     }
 

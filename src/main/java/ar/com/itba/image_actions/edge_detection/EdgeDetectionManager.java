@@ -6,6 +6,8 @@ import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.panel.QuickDrawPanel;
 
+import javax.swing.*;
+
 /**
  * Created by Enzo on 12.09.15.
  */
@@ -43,9 +45,13 @@ public class EdgeDetectionManager {
     }
 
     public static void applyLaplacianWithSlope(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
-        BufferedImage resultImg = LaplacianMethods.laplacianWithSlope(quickDrawPanel.image());
-        CopyRightAction.peformCopyRightAction(mainWindow);
-        quickDrawPanel.modifyCurrentImage(resultImg);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                CopyRightAction.peformCopyRightAction(mainWindow);
+                quickDrawPanel.setParameterizedActionWindow(new ParameterizedLaplacianWithSlope(quickDrawPanel));
+            }
+        });
     }
 
     public static void applyLaplacianGaussian(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {

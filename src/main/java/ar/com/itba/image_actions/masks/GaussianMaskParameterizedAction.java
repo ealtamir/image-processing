@@ -27,7 +27,6 @@ public class GaussianMaskParameterizedAction extends ParameterizedImageAction {
     protected void updateImage() {
         BufferedImage newImg = Masks.applyGaussianMask(originalImage, sliderValue);
         quickDrawPanel.modifyCurrentImage(newImg);
-
     }
 
 }

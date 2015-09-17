@@ -50,9 +50,8 @@ public class EnchanceContrastAction extends AbstractAction {
 		String msg = "Choose value 1, value 2 and enchancement:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new EnhanceContrast("Enchance Contrast", value1.getText(), value2.getText(), enhancement.getText()).apply(image);
-			new LinearImageCorrector().apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			BufferedImage img = new EnhanceContrast("Enchance Contrast", value1.getText(), value2.getText(), enhancement.getText()).apply(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 

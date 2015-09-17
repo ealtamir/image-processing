@@ -64,11 +64,29 @@ public class MenuEventsListener implements ActionListener {
         } else if (e.getActionCommand().equals(ToolsMenu.PREWITT_VERTICAL)) {
             EdgeDetectionManager.applyPrewittVertical(quickDrawPanel, mainWindow);
 
+        } else if (e.getActionCommand().equals(ToolsMenu.PREWITT_MODULE)) {
+            EdgeDetectionManager.applyPrewittModule(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.PREWITT_DIRECTIONAL)) {
+            EdgeDetectionManager.applyPrewittDirectional(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.DIRECTIONAL_KIRSH)) {
+            EdgeDetectionManager.applyKirshDirectional(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.DEFAULT_EDGE_DETECTION)) {
+            EdgeDetectionManager.applyDefaultDirectional(quickDrawPanel, mainWindow);
+
         } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_HORIZONTAL)) {
             EdgeDetectionManager.applySobelHorizontal(quickDrawPanel, mainWindow);
 
         } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_VERTICAL)) {
             EdgeDetectionManager.applySobelVertical(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_MODULE)) {
+            EdgeDetectionManager.applySobelModule(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.SOBEL_DIRECTIONAL)) {
+            EdgeDetectionManager.applySobelDirectional(quickDrawPanel, mainWindow);
 
         } else if (e.getActionCommand().equals(ToolsMenu.LAPLACIAN)) {
             EdgeDetectionManager.applyLaplacian(quickDrawPanel, mainWindow);

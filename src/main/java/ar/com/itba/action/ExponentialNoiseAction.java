@@ -40,10 +40,8 @@ public class ExponentialNoiseAction extends AbstractAction {
 		String msg = "Choose intensity:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new ExponentialNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new ExponentialRandomGenerator(Float.valueOf(delta.getText())))
-					.apply(image);
-			new LinearImageCorrector().apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			BufferedImage img = new ExponentialNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new ExponentialRandomGenerator(Float.valueOf(delta.getText()))).apply(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 }

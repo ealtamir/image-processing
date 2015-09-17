@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.noise.SaltAndPepperNoise;
+import ar.com.itba.utils.CustomBufferedImage;
 import ar.com.itba.utils.random.UniformRandomGenerator;
 
 @SuppressWarnings("serial")
@@ -36,8 +37,8 @@ public class SaltAndPeperNoiseAction extends AbstractAction {
 		String msg = "Select filter itensity:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new SaltAndPepperNoise(Float.valueOf(intensity.getText()), 0.3f, 0.7f).setRandomGenerator(new UniformRandomGenerator(0, 1)).apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			BufferedImage img = new SaltAndPepperNoise(Float.valueOf(intensity.getText()), 0.3f, 0.7f).setRandomGenerator(new UniformRandomGenerator(0, 1)).apply(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 }

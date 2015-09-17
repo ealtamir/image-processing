@@ -1,5 +1,7 @@
 package ar.com.itba.image_actions.masks;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.image.BufferedImage;
 
 /**
@@ -18,7 +20,8 @@ abstract public class AbstractMask implements ImageMask {
     }
 
     protected void setPixel(int x, int y, BufferedImage img, int grayLevel) {
-        img.setRGB(x, y, grayLevel << 16 | grayLevel << 8 | grayLevel);
+        CustomBufferedImage customImg = (CustomBufferedImage) img;
+        customImg.setGray(x, y, grayLevel);
     }
 
     @Override

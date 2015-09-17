@@ -39,10 +39,9 @@ public class GaussianNoiseAction extends AbstractAction {
 		String msg = "Choose intensity:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new GaussianNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new GaussianRandomGenerator(0, Float.valueOf(delta.getText())))
+			BufferedImage img = new GaussianNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new GaussianRandomGenerator(0, Float.valueOf(delta.getText())))
 					.apply(image);
-//			new LinearImageCorrector().apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+            ((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 }

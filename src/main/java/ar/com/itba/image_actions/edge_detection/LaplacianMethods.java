@@ -17,7 +17,42 @@ public class LaplacianMethods {
 
     public static BufferedImage standardLaplacian(BufferedImage image) {
         CustomBufferedImage customImg = (CustomBufferedImage) image;
-        return EdgeDetection.applyEdgeDetectionMask(customImg, laplacianMask, laplacianMask[0].length);
+        CustomBufferedImage newImg = (CustomBufferedImage) EdgeDetection.applyEdgeDetectionWithoutNormalization(
+                customImg, laplacianMask, laplacianMask[0].length);
+        int slope = 0;
+
+        int i, current, nextX, nextY, fnextX, fnextY;
+        for (int x = 0; x < newImg.getWidth() - 2; x++) {
+            for (int y = 0; y < newImg.getHeight() - 2; y++) {
+                i = y * newImg.getWidth() + x;
+                current = newImg.getGray(x, y);
+                nextX = newImg.getGray(x + 1, y);
+                nextY = newImg.getGray(x, y + 1);
+                fnextX = newImg.getGray(x + 2, y);
+                fnextY = newImg.getGray(x, y + 2);
+
+                if (Math.signum(current) > Math.signum(nextX) ||
+                        Math.signum(current) < Math.signum(nextX)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(nextY) ||
+                        Math.signum(current) < Math.signum(nextY)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(fnextX) ||
+                        Math.signum(current) < Math.signum(fnextX)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(fnextY) ||
+                        Math.signum(current) < Math.signum(fnextY)) {
+                    slope = 255;
+                } else {
+                    slope = 0;
+                }
+                newImg.setGray(x, y, slope);
+            }
+        }
+        return newImg;
     }
 
     public static BufferedImage laplacianWithSlope(BufferedImage image, int threshold) {
@@ -80,7 +115,42 @@ public class LaplacianMethods {
                 mask[j][i] = getLOGValue(x, y, sigma);
             }
         }
-        return EdgeDetection.applyEdgeDetectionMask(customImg, mask, maskSize);
+
+        CustomBufferedImage newImg = (CustomBufferedImage) EdgeDetection.applyEdgeDetectionMask(customImg, mask, maskSize);
+
+        int slope = 0;
+        int i, current, nextX, nextY, fnextX, fnextY;
+        for (int x = 0; x < newImg.getWidth() - 2; x++) {
+            for (int y = 0; y < newImg.getHeight() - 2; y++) {
+                i = y * newImg.getWidth() + x;
+                current = newImg.getGray(x, y);
+                nextX = newImg.getGray(x + 1, y);
+                nextY = newImg.getGray(x, y + 1);
+                fnextX = newImg.getGray(x + 2, y);
+                fnextY = newImg.getGray(x, y + 2);
+
+                if (Math.signum(current) > Math.signum(nextX) ||
+                        Math.signum(current) < Math.signum(nextX)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(nextY) ||
+                        Math.signum(current) < Math.signum(nextY)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(fnextX) ||
+                        Math.signum(current) < Math.signum(fnextX)) {
+                    slope = 255;
+
+                } else if (Math.signum(current) > Math.signum(fnextY) ||
+                        Math.signum(current) < Math.signum(fnextY)) {
+                    slope = 255;
+                } else {
+                    slope = 0;
+                }
+                newImg.setGray(x, y, slope);
+            }
+        }
+        return newImg;
     }
 
     private static double getLOGValue(float x, float y, float sigma) {

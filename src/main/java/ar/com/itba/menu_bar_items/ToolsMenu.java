@@ -61,6 +61,12 @@ public class ToolsMenu extends JMenu {
 	public static final String LAPLACIAN = "Laplacian";
 	public static final String LAPLACIAN_SLOPE = "Laplacian Slope";
 	public static final String LAPLACIAN_GAUSSIAN = "Laplacian Gaussian";
+	public static final String SOBEL_MODULE = "Module";
+	public static final String PREWITT_MODULE = "Module";
+	public static final String DIRECTIONAL_KIRSH = "Directional Kirsh";
+	public static final String PREWITT_DIRECTIONAL = "Directional";
+	public static final String SOBEL_DIRECTIONAL = "Directional";
+	public static final String DEFAULT_EDGE_DETECTION = "Default";
 
 	JFrame parent;
 
@@ -101,6 +107,14 @@ public class ToolsMenu extends JMenu {
 		JMenu edge = new JMenu("Edge Detection");
 		add(edge);
 
+		JMenu default_edge = new JMenu(DEFAULT_EDGE_DETECTION);
+		edge.add(default_edge);
+		default_edge.addActionListener(listener);
+
+		JMenu kirsh = new JMenu(DIRECTIONAL_KIRSH);
+		edge.add(kirsh);
+		kirsh.addActionListener(listener);
+
 		JMenu prewitt = new JMenu("Prewitt");
 		edge.add(prewitt);
 		JMenuItem horizontal = new JMenuItem(PREWITT_HORIZONTAL);
@@ -109,6 +123,12 @@ public class ToolsMenu extends JMenu {
 		JMenuItem vertical = new JMenuItem(PREWITT_VERTICAL);
 		prewitt.add(vertical);
 		vertical.addActionListener(listener);
+		JMenuItem module = new JMenuItem(PREWITT_MODULE);
+		prewitt.add(module);
+		module.addActionListener(listener);
+		JMenuItem directional = new JMenuItem(PREWITT_DIRECTIONAL);
+		prewitt.add(directional);
+		directional.addActionListener(listener);
 
 		JMenu sobel = new JMenu("Sobel");
 		edge.add(sobel);
@@ -117,7 +137,12 @@ public class ToolsMenu extends JMenu {
 		sobel_horizontal.addActionListener(listener);
 		JMenuItem sobel_vertical = new JMenuItem(SOBEL_VERTICAL);
 		sobel.add(sobel_vertical);
-		sobel_vertical.addActionListener(listener);
+		JMenuItem sobel_module = new JMenuItem(SOBEL_MODULE);
+		sobel.add(sobel_module);
+		sobel_module.addActionListener(listener);
+		JMenuItem sobel_directional = new JMenuItem(SOBEL_DIRECTIONAL);
+		sobel.add(sobel_directional);
+		sobel_directional.addActionListener(listener);
 
 		JMenu second_deriv = new JMenu("Segunda Derivada");
 		edge.add(second_deriv);

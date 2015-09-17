@@ -49,7 +49,11 @@ public class AnisotropicDifussion extends PerPixelOperation {
 
 	public int modify(int value, double up, double down, double left, double right) {
 		return (int) (value
-				+ Math.round(((up * g.apply(up - value) + down * g.apply(down - value) + left * g.apply(left - value) + right * g.apply(right - value)) / 4)));
+				+ Math.round(((
+				(up - value) * g.apply(up - value) +
+				(down - value) * g.apply(down - value) +
+				(left - value) * g.apply(left - value) +
+				(right - value) * g.apply(right - value)) / 4)));
 	}
 
 	// Remove this

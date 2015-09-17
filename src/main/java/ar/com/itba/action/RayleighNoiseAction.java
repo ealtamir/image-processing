@@ -39,8 +39,8 @@ public class RayleighNoiseAction extends AbstractAction {
 		String msg = "Choose intensity:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new RayleighNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new RayleighRandomGenerator(Float.valueOf(delta.getText()))).apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			BufferedImage img = new RayleighNoise(Float.valueOf(intensity.getText())).setRandomGenerator(new RayleighRandomGenerator(Float.valueOf(delta.getText()))).apply(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 

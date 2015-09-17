@@ -38,17 +38,17 @@ public class AnisotropicDifussionAction extends AbstractAction {
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
 			for (int i = 0; i < Integer.valueOf(iterations.getText()); i++) {
-				image = new AnisotropicDifussion(new Lorentz()).apply(image);
+				image = new AnisotropicDifussion(new Leclerc()).apply(image);
 			}
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
 	}
 
-	public class Lorentz implements Function<Double, Double> {
+	public class Leclerc implements Function<Double, Double> {
 		@Override
 		public Double apply(Double input) {
-			double dividend = Math.pow(Math.abs(input), 2);
-			double divisor = Math.pow(1, 2);
+			double dividend = Math.pow(-input, 2);
+			double divisor = Math.pow(100, 2);
 			return Math.exp(dividend / divisor);
 		}
 	}

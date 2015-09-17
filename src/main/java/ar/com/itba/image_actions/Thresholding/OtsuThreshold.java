@@ -13,6 +13,7 @@ public class OtsuThreshold {
         CustomBufferedImage customImg = (CustomBufferedImage) image;
         CustomBufferedImage newImg = new CustomBufferedImage(image.getWidth(), image.getHeight(), customImg.getType());
         int threshold = getOtsuThreshold(customImg);
+        System.out.println("Outsu threshold: " + String.valueOf(threshold));
 
         for (int x = 0; x < customImg.getWidth(); x++) {
             for (int y = 0; y < customImg.getHeight(); y++) {

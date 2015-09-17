@@ -41,9 +41,8 @@ public class ModifyGammaAction extends AbstractAction {
 		String msg = "Choose gamma value:";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			new ModifyGamma("Modify Gamma", gammaValue.getText()).apply(image);
-			new LinearImageCorrector().apply(image);
-			((MainWindow) parent).updateLeftQuickDrawPanel(image);
+			BufferedImage img = new ModifyGamma("Modify Gamma", gammaValue.getText()).apply(image);
+			((MainWindow) parent).updateLeftQuickDrawPanel(img);
 		}
 	}
 

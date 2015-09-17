@@ -11,9 +11,11 @@ import java.awt.image.BufferedImage;
  */
 public class ParameterizedLaplacianOfGaussian extends ParameterizedImageAction {
 
-    private final int MIN_VAL = 1;
-    private final int MAX_VAL = 10;
-    private final int DEFAULT_VAL = 3;
+    private final int MIN_VAL = 10;
+    private final int MAX_VAL = 200;
+    private final int DEFAULT_VAL = 100;
+    private final int DIV = 100;
+
 
     public ParameterizedLaplacianOfGaussian(QuickDrawPanel quickDrawPanel) {
         super(quickDrawPanel);

@@ -63,4 +63,41 @@ public class EdgeDetectionManager {
             }
         });
     }
+
+    public static void applySobelModule(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = SobelEdgeDetection.applyModule(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+
+    }
+
+    public static void applyPrewittModule(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = PrewittEdgeDetection.applyModule(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
+
+    public static void applyPrewittDirectional(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = Prewitt2EdgeDetection.applyEdgeDetection(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
+
+    public static void applyKirshDirectional(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = KirshEdgeDetection.applyEdgeDetection(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
+
+    public static void applySobelDirectional(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = Sobel2EdgeDetection.applyEdgeDetection(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
+
+    public static void applyDefaultDirectional(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        BufferedImage resultImg = DefaultEdgeDetection.applyEdgeDetection(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(resultImg);
+    }
 }

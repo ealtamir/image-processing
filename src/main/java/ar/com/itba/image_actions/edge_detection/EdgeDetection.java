@@ -13,7 +13,6 @@ public class EdgeDetection {
     private static final int GREEN = 1;
     private static final int BLUE = 2;
 
-    private static int[] totalRGB = new int[3];
     private static double[] totalRGBdouble = new double[3];
 
     static public BufferedImage applyEdgeDetectionMask(CustomBufferedImage img, int[][] mask, int size) {
@@ -68,8 +67,8 @@ public class EdgeDetection {
         return customImg;
     }
 
-    private static int[] getMaskValue(int x, int y, CustomBufferedImage img, int[][] mask, int radius) {
-        totalRGB[RED] = totalRGB[GREEN] = totalRGB[BLUE] = 0;
+    public static int[] getMaskValue(int x, int y, CustomBufferedImage img, int[][] mask, int radius) {
+        int[] totalRGB = new int[3];
 
         for (int h = y - radius, j = 0; h <= y + radius; h++, j++) {
             for (int w = x - radius, i = 0; w <= x + radius; w++, i++) {

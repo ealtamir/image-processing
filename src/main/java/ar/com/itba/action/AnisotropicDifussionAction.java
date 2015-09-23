@@ -20,6 +20,7 @@ public class AnisotropicDifussionAction extends AbstractAction {
 
 	private JFrame parent;
 	private BufferedImage image;
+	private double sigma;
 
 	public AnisotropicDifussionAction(JFrame parent) {
 		this.parent = parent;
@@ -28,17 +29,21 @@ public class AnisotropicDifussionAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		image = ((MainWindow) parent).getLeftQuickDrawPanel().image();
-		JTextField iterations = new JTextField(3);
+		JTextField iterationsTF = new JTextField(3);
+		JTextField sigmaTF = new JTextField(3);
 
 		JPanel optionsPanel = new JPanel();
 		optionsPanel.add(new JLabel("Iterations: "));
-		optionsPanel.add(iterations);
+		optionsPanel.add(iterationsTF);
+		optionsPanel.add(new JLabel("Sigma: "));
+		optionsPanel.add(sigmaTF);
 
-		String msg = "Choose iterations:";
+		String msg = "Choose iterations: ";
 		int result = JOptionPane.showConfirmDialog(null, optionsPanel, msg, JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.OK_OPTION) {
-			for (int i = 0; i < Integer.valueOf(iterations.getText()); i++) {
-				image = new AnisotropicDifussion(new Leclerc()).apply(image);
+			sigma = Double.valueOf(sigmaTF.getText());
+			for (int i = 0; i < Integer.valueOf(iterationsTF.getText()); i++) {
+				image = new AnisotropicDifussion(new Lorentz()).apply(image);
 			}
 			((MainWindow) parent).updateLeftQuickDrawPanel(image);
 		}
@@ -47,9 +52,14 @@ public class AnisotropicDifussionAction extends AbstractAction {
 	public class Leclerc implements Function<Double, Double> {
 		@Override
 		public Double apply(Double input) {
-			double dividend = Math.pow(-input, 2);
-			double divisor = Math.pow(100, 2);
-			return Math.exp(dividend / divisor);
+			return Math.exp((-input * input) / (sigma * sigma));
+		}
+	}
+
+	public class Lorentz implements Function<Double, Double> {
+		@Override
+		public Double apply(Double input) {
+			return 1 / ((input * input / sigma) + 1);
 		}
 	}
 

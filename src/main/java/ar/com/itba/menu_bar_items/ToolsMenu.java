@@ -107,11 +107,11 @@ public class ToolsMenu extends JMenu {
 		JMenu edge = new JMenu("Edge Detection");
 		add(edge);
 
-		JMenu default_edge = new JMenu(DEFAULT_EDGE_DETECTION);
+		JMenuItem default_edge = new JMenuItem(DEFAULT_EDGE_DETECTION);
 		edge.add(default_edge);
 		default_edge.addActionListener(listener);
 
-		JMenu kirsh = new JMenu(DIRECTIONAL_KIRSH);
+		JMenuItem kirsh = new JMenuItem(DIRECTIONAL_KIRSH);
 		edge.add(kirsh);
 		kirsh.addActionListener(listener);
 

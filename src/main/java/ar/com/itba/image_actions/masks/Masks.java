@@ -1,5 +1,7 @@
 package ar.com.itba.image_actions.masks;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
@@ -32,7 +34,7 @@ public class Masks {
         if (mask.getMaskDimension() < 3)
             return img;
 
-        BufferedImage newImg = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        CustomBufferedImage newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
         Point p = new Point();
 
         int radius = (int) mask.getMaskDimension() / 2;
@@ -43,19 +45,13 @@ public class Masks {
                 y_border = y < radius || (y >= img.getHeight() - radius && y < img.getHeight());
 
                 if (x_border || y_border) {
-                    newImg.setRGB(x, y, img.getRGB(x, y));
+                    newImg.setGray(x, y, img.getRGB(x, y));
                 } else {
                     p.setLocation(x, y);
                     mask.applyMask(p, img, newImg);
                 }
             }
         }
-        for(int x = 0; x < radius || (x >= img.getWidth() - radius && x < img.getWidth()); x++) {
-            for (int y = 0; y < radius || (y >= img.getHeight() - radius && y < img.getHeight()); y++) {
-
-            }
-        }
-
         return newImg;
     }
 

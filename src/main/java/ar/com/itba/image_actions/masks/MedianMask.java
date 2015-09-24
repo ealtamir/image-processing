@@ -1,5 +1,7 @@
 package ar.com.itba.image_actions.masks;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public class MedianMask extends AbstractMask implements ImageMask {
 
     @Override
     public void applyMask(Point p, BufferedImage oldImg, BufferedImage newImg) {
+        CustomBufferedImage customImg = (CustomBufferedImage) newImg;
         int x = (int) p.getX(), y = (int) p.getY();
         ArrayList<Integer> maskPoints = new ArrayList<Integer>();
 

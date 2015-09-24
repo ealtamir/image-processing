@@ -11,21 +11,22 @@ import java.awt.image.BufferedImage;
  */
 public class ParameterizedLaplacianOfGaussian extends ParameterizedImageAction {
 
-    private final int MIN_VAL = 10;
-    private final int MAX_VAL = 200;
-    private final int DEFAULT_VAL = 100;
-    private final int DIV = 100;
-
 
     public ParameterizedLaplacianOfGaussian(QuickDrawPanel quickDrawPanel) {
         super(quickDrawPanel);
+        MIN_VAL = 1;
+        MAX_VAL = 500;
+        DEFAULT_VAL = 100;
+        DIV = 100;
         addScalarSlider(DEFAULT_VAL, MIN_VAL, MAX_VAL, DIV,
                 true, this, new TextFormatter(DIV));
     }
 
     @Override
     protected void updateImage() {
-        BufferedImage newImg = LaplacianMethods.laplacianOfGaussian(originalImage, sliderValue);
+        float val = (float) sliderValue / DIV;
+        System.out.println(val);
+        BufferedImage newImg = LaplacianMethods.laplacianOfGaussian(originalImage, val);
         quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

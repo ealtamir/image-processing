@@ -30,10 +30,10 @@ abstract public class ParameterizedImageAction extends JFrame implements ActionL
 
     protected BufferedImage originalImage;
 
-    protected final int MIN_VAL = 0;
-    protected final int MAX_VAL = 255;
-    protected final int DEFAULT_VAL = 100;
-    protected final int DIV = 1;
+    protected int MIN_VAL = 0;
+    protected int MAX_VAL = 255;
+    protected int DEFAULT_VAL = 100;
+    protected int DIV = 1;
 
     protected int sliderValue = DEFAULT_VAL;
     protected int changedSliderNum = -1;

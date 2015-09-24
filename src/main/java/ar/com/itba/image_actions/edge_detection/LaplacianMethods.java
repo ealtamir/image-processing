@@ -104,9 +104,9 @@ public class LaplacianMethods {
         return newImg;
     }
 
-    public static BufferedImage laplacianOfGaussian(BufferedImage originalImage, int sigma) {
+    public static BufferedImage laplacianOfGaussian(BufferedImage originalImage, float sigma) {
         CustomBufferedImage customImg = (CustomBufferedImage) originalImage;
-        int maskSize = 7;
+        int maskSize = 15;
         int radius = (int) Math.floor((double) maskSize / 2);
         double[][] mask = new double[maskSize][maskSize];
 

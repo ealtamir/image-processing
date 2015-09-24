@@ -1,5 +1,7 @@
 package ar.com.itba.image_actions.masks;
 
+import ar.com.itba.utils.CustomBufferedImage;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 

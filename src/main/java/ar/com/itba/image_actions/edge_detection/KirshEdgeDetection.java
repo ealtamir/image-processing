@@ -17,7 +17,8 @@ public class KirshEdgeDetection extends AbstractEdgeDetection {
         sw = -3;
         s = -3;
         se = -3;
-        return DefaultEdgeDetection.applyMasks(image);
+        KirshEdgeDetection maskApplier = new KirshEdgeDetection();
+        return maskApplier.applyMasks(image);
     }
 
 }

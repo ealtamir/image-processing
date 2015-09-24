@@ -16,6 +16,8 @@ public class Sobel2EdgeDetection extends AbstractEdgeDetection {
         sw = -1;
         s = -2;
         se = -1;
-        return DefaultEdgeDetection.applyMasks(image);
+        Sobel2EdgeDetection maskApplier = new Sobel2EdgeDetection();
+        return maskApplier.applyMasks(image);
     }
+
 }

@@ -16,7 +16,9 @@ public class DefaultEdgeDetection extends AbstractEdgeDetection {
 		sw = -1;
 		s = -1;
 		se = -1;
-		return DefaultEdgeDetection.applyMasks(image);
+
+		DefaultEdgeDetection maskApplier = new DefaultEdgeDetection();
+		return maskApplier.applyMasks(image);
 	}
 
 }

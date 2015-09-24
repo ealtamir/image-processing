@@ -16,6 +16,8 @@ public class Prewitt2EdgeDetection extends AbstractEdgeDetection {
         sw = -1;
         s = -1;
         se = -1;
-        return DefaultEdgeDetection.applyMasks(image);
+
+        Prewitt2EdgeDetection maskApplier = new Prewitt2EdgeDetection();
+        return maskApplier.applyMasks(image);
     }
 }

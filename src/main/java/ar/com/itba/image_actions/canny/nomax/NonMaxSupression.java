@@ -5,29 +5,39 @@ import java.awt.image.BufferedImage;
 import ar.com.itba.image_actions.edge_detection.SobelEdgeDetection;
 import ar.com.itba.image_actions.masks.Masks;
 import ar.com.itba.image_actions.noise.PerPixelOperation;
+import ar.com.itba.utils.CustomBufferedImage;
 
 @SuppressWarnings("serial")
 public class NonMaxSupression extends PerPixelOperation {
 
-	BufferedImage suppresedImage;
+	CustomBufferedImage suppresedImage;
 	double[][] angles;
+	double[][] xGradient;
+	double[][] yGradient;
 
 	public NonMaxSupression(BufferedImage image, double gaussianValue) {
 		super("Non-Max Supression");
-		BufferedImage gaussian = Masks.applyGaussianMask(image, gaussianValue);
-		BufferedImage gx = SobelEdgeDetection.horizontalEdgeDetection(gaussian);
-		BufferedImage gy = SobelEdgeDetection.verticalEdgeDetection(gaussian);
-		suppresedImage = SobelEdgeDetection.applyModule(image);
+		CustomBufferedImage gaussian = new CustomBufferedImage(Masks.applyGaussianMask(image, gaussianValue));
+		// CustomBufferedImage gx = new
+		// CustomBufferedImage(SobelEdgeDetection.horizontalEdgeDetection(gaussian));
+		// CustomBufferedImage gy = new
+		// CustomBufferedImage(SobelEdgeDetection.verticalEdgeDetection(gaussian));
+		suppresedImage = new CustomBufferedImage(SobelEdgeDetection.applyModule(image));
 		int height = image.getHeight();
 		int width = image.getWidth();
-		angles = new double[height][width];
+		angles = new double[width][height];
+		xGradient = new double[width][height];
+		yGradient = new double[width][height];
 		for (int x = 1; x < width - 1; x++) {
 			for (int y = 1; y < height - 1; y++) {
-				if (gx.getRGB(x, y) == 0) {
-					angles[x][y] = 0;
-				} else {
-					angles[x][y] = angleTransform(Math.atan2(gy.getRGB(x, y), gx.getRGB(x, y)));
-				}
+				xGradient[x][y] = (gaussian.getGray(x + 1, y) - gaussian.getGray(x - 1, y)) / 2;
+				yGradient[x][y] = (gaussian.getGray(x, y + 1) - gaussian.getGray(x, y - 1)) / 2;
+				double angle = Math.atan2(yGradient[x][y], xGradient[x][y]);
+				System.out.println(Math.toDegrees(angle));
+				angles[x][y] = angleTransform(angle);
+				System.out.println(angles[x][y]);
+				int magnitude = (int) Math.sqrt((xGradient[x][y] * xGradient[x][y]) + (yGradient[x][y] * yGradient[x][y]));
+				suppresedImage.setGray(x, y, magnitude);
 			}
 		}
 	}
@@ -69,7 +79,7 @@ public class NonMaxSupression extends PerPixelOperation {
 						right = suppresedImage.getRGB(x - 1, y + 1);
 					}
 					if (left > currentColor || right > currentColor) {
-						currentColor = 0;
+					//	currentColor = 0;
 					}
 				}
 			}

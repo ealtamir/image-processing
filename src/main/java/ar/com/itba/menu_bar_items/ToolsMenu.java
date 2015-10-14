@@ -16,6 +16,7 @@ import ar.com.itba.action.ExponentialNoiseAction;
 import ar.com.itba.action.GaussianNoiseAction;
 import ar.com.itba.action.IsotropicDifussionAction;
 import ar.com.itba.action.ModifyGammaAction;
+import ar.com.itba.action.NonMaxSupressionAction;
 import ar.com.itba.action.RayleighNoiseAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
 import ar.com.itba.frame.MainWindow;
@@ -155,6 +156,14 @@ public class ToolsMenu extends JMenu {
 		JMenuItem laplacian_gaussian = new JMenuItem(LAPLACIAN_GAUSSIAN);
 		second_deriv.add(laplacian_gaussian);
 		laplacian_gaussian.addActionListener(listener);
+
+		JMenu canny = new JMenu("Canny");
+		edge.add(canny);
+
+		JMenuItem nonMax = new JMenuItem("Non Max Supression");
+		nonMax.addActionListener(new NonMaxSupressionAction(parent));
+		canny.add(nonMax);
+
 	}
 
 	private void createMasksMenuSet(MenuEventsListener listener) {

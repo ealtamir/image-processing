@@ -137,6 +137,7 @@ public class ToolsMenu extends JMenu {
 		sobel_horizontal.addActionListener(listener);
 		JMenuItem sobel_vertical = new JMenuItem(SOBEL_VERTICAL);
 		sobel.add(sobel_vertical);
+		sobel_vertical.addActionListener(listener);
 		JMenuItem sobel_module = new JMenuItem(SOBEL_MODULE);
 		sobel.add(sobel_module);
 		sobel_module.addActionListener(listener);

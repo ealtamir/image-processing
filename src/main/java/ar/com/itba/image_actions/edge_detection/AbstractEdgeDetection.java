@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 
 abstract public class AbstractEdgeDetection {
 
-    static int nw = 0, n = 0, ne = 0;
-    static int w = 0, m = 0, e = 0;
-    static int sw = 0, s = 0, se = 0;
+    static protected int nw = 0, n = 0, ne = 0;
+    static protected int w = 0, m = 0, e = 0;
+    static protected int sw = 0, s = 0, se = 0;
 
     static protected int[][] NMask = {
             {nw, n, ne},

@@ -18,26 +18,16 @@ public class NonMaxSupression extends PerPixelOperation {
 	public NonMaxSupression(BufferedImage image, double gaussianValue) {
 		super("Non-Max Supression");
 		CustomBufferedImage gaussian = new CustomBufferedImage(Masks.applyGaussianMask(image, gaussianValue));
-		// CustomBufferedImage gx = new
-		// CustomBufferedImage(SobelEdgeDetection.horizontalEdgeDetection(gaussian));
-		// CustomBufferedImage gy = new
-		// CustomBufferedImage(SobelEdgeDetection.verticalEdgeDetection(gaussian));
+		CustomBufferedImage gx = new CustomBufferedImage(SobelEdgeDetection.horizontalEdgeDetection(gaussian));
+		CustomBufferedImage gy = new CustomBufferedImage(SobelEdgeDetection.verticalEdgeDetection(gaussian));
 		suppresedImage = new CustomBufferedImage(SobelEdgeDetection.applyModule(image));
 		int height = image.getHeight();
 		int width = image.getWidth();
 		angles = new double[width][height];
-		xGradient = new double[width][height];
-		yGradient = new double[width][height];
 		for (int x = 1; x < width - 1; x++) {
 			for (int y = 1; y < height - 1; y++) {
-				xGradient[x][y] = (gaussian.getGray(x + 1, y) - gaussian.getGray(x - 1, y)) / 2;
-				yGradient[x][y] = (gaussian.getGray(x, y + 1) - gaussian.getGray(x, y - 1)) / 2;
-				double angle = Math.atan2(yGradient[x][y], xGradient[x][y]);
-				System.out.println(Math.toDegrees(angle));
-				angles[x][y] = angleTransform(angle);
-				System.out.println(angles[x][y]);
-				int magnitude = (int) Math.sqrt((xGradient[x][y] * xGradient[x][y]) + (yGradient[x][y] * yGradient[x][y]));
-				suppresedImage.setGray(x, y, magnitude);
+				double angle = Math.atan2(gy.getGray(x, y), gx.getGray(x, y));
+				angles[x][y] = angleTransform(Math.toDegrees(angle));
 			}
 		}
 	}
@@ -60,31 +50,30 @@ public class NonMaxSupression extends PerPixelOperation {
 		int width = suppresedImage.getWidth();
 		for (int x = 1; x < width - 1; x++) {
 			for (int y = 1; y < height - 1; y++) {
-				double currentColor = suppresedImage.getRGB(x, y);
-				if (suppresedImage.getRGB(x, y) != 0) {
+				double currentColor = suppresedImage.getGray(x, y);
+				if (currentColor != 0) {
 					double angle = angles[x][y];
 					double left;
 					double right;
 					if (angle == 0) {
-						left = suppresedImage.getRGB(x - 1, y);
-						right = suppresedImage.getRGB(x + 1, y);
+						left = suppresedImage.getGray(x - 1, y);
+						right = suppresedImage.getGray(x + 1, y);
 					} else if (angle == 45) {
-						left = suppresedImage.getRGB(x - 1, y - 1);
-						right = suppresedImage.getRGB(x + 1, y + 1);
+						left = suppresedImage.getGray(x - 1, y - 1);
+						right = suppresedImage.getGray(x + 1, y + 1);
 					} else if (angle == 90) {
-						left = suppresedImage.getRGB(x, y - 1);
-						right = suppresedImage.getRGB(x, y + 1);
+						left = suppresedImage.getGray(x, y - 1);
+						right = suppresedImage.getGray(x, y + 1);
 					} else { // if (angle == 135) {
-						left = suppresedImage.getRGB(x + 1, y - 1);
-						right = suppresedImage.getRGB(x - 1, y + 1);
+						left = suppresedImage.getGray(x + 1, y - 1);
+						right = suppresedImage.getGray(x - 1, y + 1);
 					}
 					if (left > currentColor || right > currentColor) {
-					//	currentColor = 0;
+						suppresedImage.setGray(x, y, 0);
 					}
 				}
 			}
 		}
-
 		return suppresedImage;
 	}
 

@@ -7,6 +7,7 @@ import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -54,16 +55,21 @@ public class ContourDetection {
                                     HashMap<Point, Boolean> lout, int[][] phi,
                                     CustomBufferedImage img) {
         int NA = 20;
+        Iterator<Point> loutIter = lout.keySet().iterator();
+        Iterator<Point> linIter = lin.keySet().iterator();
+        Point p;
         for (int i = 0; i < NA; i++) {
-            for (Point p : lout.keySet()) {
+            while (loutIter.hasNext()) {
+                p = loutIter.next();
                 if (calculateProbability(p, avgRGB, img) > 0) {
                     expandBoundary(p, lin, lout, phi);
                 }
             }
             updateBoundaries(lin, lout, phi);
-            for (Point p : lin.keySet()) {
-                if (calculateProbability(p, avgRGB, img) < 0) {
-                    contractBoundary(p, lin, lout, phi);
+            while (linIter.hasNext()) {
+                p = linIter.next();
+                if (calculateProbability(p, avgRGB, img) > 0) {
+                    expandBoundary(p, lin, lout, phi);
                 }
             }
             updateBoundaries(lin, lout, phi);
@@ -73,14 +79,20 @@ public class ContourDetection {
     private static void second_cycle(HashMap<Point, Boolean> lin,
                                     HashMap<Point, Boolean> lout, int[][] phi,
                                     CustomBufferedImage img) {
+
+        Iterator<Point> loutIter = lout.keySet().iterator();
+        Iterator<Point> linIter = lin.keySet().iterator();
+        Point p;
         GaussianMask mask = new GaussianMask(maskSize, sigma);
         for (int i = 0; i < maskSize; i++) {
-            for (Point p : lin.keySet()) {
+            while (linIter.hasNext()) {
+                p = linIter.next();
                 if (mask.applyMask(p, phi) < 0)
                     expandBoundary(p, lin, lout, phi);
             }
             updateBoundaries(lin, lout, phi);
-            for (Point p : lout.keySet()) {
+            while (loutIter.hasNext()) {
+                p = loutIter.next();
                 if (mask.applyMask(p, phi) > 0)
                     contractBoundary(p, lin, lout, phi);
             }
@@ -205,7 +217,7 @@ public class ContourDetection {
     private static boolean hasInteriorNeighbor(int x, int y, int[][] phi) {
         int width = phi.length;
         int height = phi[0].length;
-        if (!(x > 0 && x < width && y > 0 && y < height)) {
+        if (!(x > 0 && x < width - 1 && y > 0 && y < height - 1)) {
             return false;
         }
         if (phi[x - 1][y] < 0) {
@@ -223,7 +235,7 @@ public class ContourDetection {
     private static boolean hasExteriorNeighbor(int x, int y, int[][] phi) {
         int width = phi.length;
         int height = phi[0].length;
-        if (!(x > 0 && x < width && y > 0 && y < height)) {
+        if (!(x > 0 && x < width - 1 && y > 0 && y < height - 1)) {
             return false;
         }
         if (phi[x - 1][y] > 0) {

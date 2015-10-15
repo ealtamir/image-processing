@@ -31,8 +31,8 @@ public class FigureDetectionManager {
         if (selectedContour == null)
            return;
         System.out.println("Contour identified");
-//        BufferedImage img = ContourDetection.detectContour(quickDrawPanel.image(), selectedContour);
-//        CopyRightAction.peformCopyRightAction(mainWindow);
-//        quickDrawPanel.modifyCurrentImage(img);
+        BufferedImage img = ContourDetection.detectContour(quickDrawPanel.image(), selectedContour);
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(img);
     }
 }

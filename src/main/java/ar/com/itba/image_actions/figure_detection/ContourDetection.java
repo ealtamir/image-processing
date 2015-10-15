@@ -16,6 +16,8 @@ public class ContourDetection {
 
     private static int maskSize = 7;
     private static int sigma = 2;
+    private static int KColors = 1;
+    private static int maxIters = 10;
 
     static public BufferedImage detectContour(BufferedImage img, Rectangle initialContour) {
         CustomBufferedImage customImg = (CustomBufferedImage) img;
@@ -24,6 +26,11 @@ public class ContourDetection {
         HashMap<Point, Boolean> lin = new HashMap<Point, Boolean>();
         HashMap<Point, Boolean> lout = new HashMap<Point, Boolean>();
         initBoundaryMaps(lin, lout, phi);
+        if (avgRGB[0] != avgRGB[1] || avgRGB[1] != avgRGB[2] || avgRGB[0] != avgRGB[2]) {
+            KColors = 3;
+        } else {
+            KColors = 1;
+        }
 
         for (Point point : lin.keySet()) {
             phi[point.x][point.y] = -1;
@@ -31,9 +38,16 @@ public class ContourDetection {
         for (Point point : lout.keySet()) {
             phi[point.x][point.y] = 1;
         }
+        for (int i = 0; i < maxIters; i++) {
+            first_cycle(avgRGB, lin, lout, phi, customImg);
+            second_cycle(lin, lout, phi, customImg);
+        }
+        drawContour(customImg);
+        return customImg;
+    }
 
-        // armar conjuntos Lin Lout y llenar la matriz phi
-        return img;
+    private static void drawContour(CustomBufferedImage customImg) {
+
     }
 
     private static void first_cycle(int[] avgRGB, HashMap<Point, Boolean> lin,
@@ -75,7 +89,12 @@ public class ContourDetection {
     }
 
     private static double calculateProbability(Point p, int[] avgRGB, CustomBufferedImage img) {
-        return 0;
+        int r = img.getRed(p);
+        int g = img.getGreen(p);
+        int b = img.getBlue(p);
+        double normVal = Math.sqrt((avgRGB[0] - r) * (avgRGB[0] - r) + (avgRGB[1] - g) * (avgRGB[1] - g) + (avgRGB[2] - b) * (avgRGB[2] - b));
+        double finalVal = normVal / (256 * 256 * KColors);
+        return (finalVal < 0.5)? 1: -1;
     }
 
     private static void updateBoundaries(HashMap<Point, Boolean> lin, HashMap<Point, Boolean> lout, int[][] phi) {

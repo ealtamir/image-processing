@@ -18,7 +18,7 @@ public class HoughFigureDetection {
     private static final int xStep = 2;
     private static final int yStep = 2;
     private static final int rStep = 5;
-    private static double threshold = 5;
+    private static double threshold = 1;
 
     static public BufferedImage detectLine(BufferedImage img) {
 //        CustomBufferedImage customImg = (CustomBufferedImage) OtsuThreshold.applyTransformation(img);

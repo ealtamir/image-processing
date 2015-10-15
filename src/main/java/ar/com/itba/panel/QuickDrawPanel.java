@@ -24,6 +24,7 @@ public class QuickDrawPanel extends JPanel {
 	private MouseTracker mouseTracker;
 	private ImageHistogram histogram;
 	private ParameterizedImageAction actionWindow = null;
+	private Rectangle drawnRectangle = null;
 
 	private void createImageHistogram(BufferedImage bufferedImage) {
 		if (histogram != null) {
@@ -64,10 +65,15 @@ public class QuickDrawPanel extends JPanel {
 
 	private void drawMouseSelectionRect(Graphics graphics) {
 		Rectangle r = mouseTracker.getRectToDraw();
+		drawnRectangle = r;
 		Color oldColor = graphics.getColor();
 		graphics.setColor(Color.MAGENTA);
 		graphics.drawRect(r.x, r.y, r.width, r.height);
 		graphics.setColor(oldColor);
+	}
+
+	public Rectangle getDrawnRectangle() {
+		return drawnRectangle;
 	}
 
 	@Override

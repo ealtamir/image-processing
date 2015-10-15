@@ -5,6 +5,7 @@ import ar.com.itba.frame.MainWindow;
 import ar.com.itba.panel.QuickDrawPanel;
 import ar.com.itba.utils.CustomBufferedImage;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -22,5 +23,16 @@ public class FigureDetectionManager {
         BufferedImage markedShapesImg = HoughFigureDetection.detectLine(quickDrawPanel.image());
         CopyRightAction.peformCopyRightAction(mainWindow);
         quickDrawPanel.modifyCurrentImage(markedShapesImg);
+    }
+
+    public static void applyContourDetection(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
+        Rectangle selectedContour = quickDrawPanel.getDrawnRectangle();
+
+        if (selectedContour == null)
+           return;
+        System.out.println("Contour identified");
+//        BufferedImage img = ContourDetection.detectContour(quickDrawPanel.image(), selectedContour);
+//        CopyRightAction.peformCopyRightAction(mainWindow);
+//        quickDrawPanel.modifyCurrentImage(img);
     }
 }

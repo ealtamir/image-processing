@@ -1,6 +1,6 @@
 package ar.com.itba.utils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -122,14 +122,23 @@ public class CustomBufferedImage extends BufferedImage {
         }
     }
 
+    public int getRed(Point p) {
+        return getRed(p.x, p.y);
+    }
     public int getRed(int x, int y) {
         return red[y * getWidth() + x];
     }
 
+    public int getGreen(Point p) {
+        return getGreen(p.x, p.y);
+    }
     public int getGreen(int x, int y) {
         return green[y * getWidth() + x];
     }
 
+    public int getBlue(Point p) {
+        return getBlue(p.x, p.y);
+    }
     public int getBlue(int x, int y) {
         return blue[y * getWidth() + x];
     }

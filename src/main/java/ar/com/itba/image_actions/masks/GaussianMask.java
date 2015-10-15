@@ -40,7 +40,7 @@ public class GaussianMask extends AbstractMask {
         setPixel(x, y, newImg, result << 16 | result << 8 | result);
     }
 
-    public void applyMask(Point p, int[][] phi) {
+    public double applyMask(Point p, int[][] phi) {
         int x = (int) p.getX(), y = (int) p.getY();
 
         double val = 0;
@@ -53,7 +53,7 @@ public class GaussianMask extends AbstractMask {
                 div += val;
             }
         }
-        
+        return Math.signum(avg / div);
     }
 
     private double getGaussianValue(int x, int y) {

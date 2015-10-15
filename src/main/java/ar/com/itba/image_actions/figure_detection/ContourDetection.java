@@ -1,5 +1,6 @@
 package ar.com.itba.image_actions.figure_detection;
 
+import ar.com.itba.image_actions.masks.GaussianMask;
 import ar.com.itba.utils.CustomBufferedImage;
 import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 public class ContourDetection {
 
     private static int maskSize = 7;
+    private static int sigma = 2;
 
     static public BufferedImage detectContour(BufferedImage img, Rectangle initialContour) {
         CustomBufferedImage customImg = (CustomBufferedImage) img;
@@ -31,6 +33,7 @@ public class ContourDetection {
         }
 
         // armar conjuntos Lin Lout y llenar la matriz phi
+        return img;
     }
 
     private static void first_cycle(int[] avgRGB, HashMap<Point, Boolean> lin,
@@ -56,7 +59,19 @@ public class ContourDetection {
     private static void second_cycle(HashMap<Point, Boolean> lin,
                                     HashMap<Point, Boolean> lout, int[][] phi,
                                     CustomBufferedImage img) {
-
+        GaussianMask mask = new GaussianMask(maskSize, sigma);
+        for (int i = 0; i < maskSize; i++) {
+            for (Point p : lin.keySet()) {
+                if (mask.applyMask(p, phi) < 0)
+                    expandBoundary(p, lin, lout, phi);
+            }
+            updateBoundaries(lin, lout, phi);
+            for (Point p : lout.keySet()) {
+                if (mask.applyMask(p, phi) > 0)
+                    contractBoundary(p, lin, lout, phi);
+            }
+            updateBoundaries(lin, lout, phi);
+        }
     }
 
     private static double calculateProbability(Point p, int[] avgRGB, CustomBufferedImage img) {

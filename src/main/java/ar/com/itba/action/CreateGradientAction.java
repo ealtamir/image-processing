@@ -10,6 +10,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.utils.CustomBufferedImage;
 
 @SuppressWarnings("serial")
 public class CreateGradientAction extends AbstractAction {
@@ -26,7 +27,7 @@ public class CreateGradientAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		BufferedImage image = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new CustomBufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		GradientPaint gradient = new GradientPaint(0, 0, color1, 0, 512, color2, false);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
 		g2.setPaint(gradient);

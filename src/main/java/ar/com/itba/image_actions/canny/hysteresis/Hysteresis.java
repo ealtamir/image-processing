@@ -37,9 +37,9 @@ public class Hysteresis extends PerPixelOperation {
 		for (int x = 1; x < width - 1; x++) {
 			for (int y = 1; y < height - 1; y++) {
 				double currentColor = image.getGray(x, y);
-				if (currentColor > maxVal) {
+				if (currentColor >= maxVal) {
 					image.setGray(x, y, 255);
-				} else if (currentColor < minVal) {
+				} else if (currentColor <= minVal) {
 					image.setGray(x, y, 0);
 				}
 			}
@@ -53,9 +53,9 @@ public class Hysteresis extends PerPixelOperation {
 					int left = image.getGray(x - 1, y);
 					int right = image.getGray(x + 1, y);
 					if (up == 255 || down == 255 || left == 255 || right == 255) {
-						currentColor = 255;
+						image.setGray(x, y, 255);
 					} else {
-						currentColor = 0;
+						image.setGray(x, y, 0);
 					}
 				}
 			}

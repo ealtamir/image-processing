@@ -11,9 +11,7 @@ import ar.com.itba.utils.CustomBufferedImage;
 public class NonMaxSupression extends PerPixelOperation {
 
 	CustomBufferedImage suppresedImage;
-	double[][] angles;
-	double[][] xGradient;
-	double[][] yGradient;
+	int[][] angles;
 
 	public NonMaxSupression(BufferedImage image, double gaussianValue) {
 		super("Non-Max Supression");
@@ -23,7 +21,7 @@ public class NonMaxSupression extends PerPixelOperation {
 		suppresedImage = new CustomBufferedImage(SobelEdgeDetection.applyModule(image));
 		int height = image.getHeight();
 		int width = image.getWidth();
-		angles = new double[width][height];
+		angles = new int[width][height];
 		for (int x = 1; x < width - 1; x++) {
 			for (int y = 1; y < height - 1; y++) {
 				double angle = Math.atan2(gy.getGray(x, y), gx.getGray(x, y));
@@ -77,14 +75,14 @@ public class NonMaxSupression extends PerPixelOperation {
 		return suppresedImage;
 	}
 
-	private double angleTransform(double angle) {
-		if (angle <= 22.5 && angle > 157.5) {
+	private int angleTransform(double angle) {
+		if (angle <= 22.5d && angle > 157.5d) {
 			return 0;
-		} else if (angle > 22.5 && angle <= 67.5) {
+		} else if (angle > 22.5d && angle <= 67.5d) {
 			return 45;
-		} else if (angle > 67.5 && angle <= 112.5) {
+		} else if (angle > 67.5d && angle <= 112.5d) {
 			return 90;
-		} else if (angle > 112.5 && angle < 157.5) {
+		} else if (angle > 112.5d && angle < 157.5d) {
 			return 135;
 		}
 		return 0;

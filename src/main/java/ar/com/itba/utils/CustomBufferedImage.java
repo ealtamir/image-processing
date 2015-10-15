@@ -46,6 +46,14 @@ public class CustomBufferedImage extends BufferedImage {
         loadColorBuffers(img);
     }
 
+     public void loadColorBuffers() {
+         for (int x = 0; x < getWidth(); x++) {
+             for (int y = 0; y < getHeight(); y++) {
+                 setRGBCustom(x, y, getRGB(x, y));
+             }
+         }
+     }
+
     private void loadColorBuffers(BufferedImage img) {
         for (int x = 0; x < img.getWidth(); x++) {
             for (int y = 0; y < img.getHeight(); y++) {
@@ -142,9 +150,17 @@ public class CustomBufferedImage extends BufferedImage {
         int[] histogram = new int[256];
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
-                histogram[red[y * getHeight() + x]] += 1;
+                histogram[0xFF & red[y * getWidth() + x]] += 1;
             }
         }
         return histogram;
+    }
+
+    public void markPoint(int x, int y) {
+        int r, g, b;
+        r = 0xFF & 255;
+        g = 0xFF & 3;
+        b = 0xFF & 251;
+        setRGBCustom(x, y, r, g, b);
     }
 }

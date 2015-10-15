@@ -9,6 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.utils.CustomBufferedImage;
 
 @SuppressWarnings("serial")
 public class CreateSquareAction extends AbstractAction {
@@ -21,7 +22,7 @@ public class CreateSquareAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		BufferedImage image = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
+		CustomBufferedImage image = new CustomBufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(128, 128, 256, 256);

@@ -68,6 +68,8 @@ public class ToolsMenu extends JMenu {
 	public static final String PREWITT_DIRECTIONAL = "Directional";
 	public static final String SOBEL_DIRECTIONAL = "Directional";
 	public static final String DEFAULT_EDGE_DETECTION = "Default";
+	public static final String HOUGH_CIRCLE_DETECTION = "Círculo";
+	public static final String HOUGH_LINE_DETECTION = "Línea";
 
 	JFrame parent;
 
@@ -86,8 +88,25 @@ public class ToolsMenu extends JMenu {
 		createMasksMenuSet(listener);
 		createEdgeDetectionSet(listener);
 		createThresholdSet(listener);
+		createParameterDetectionSet(listener);
 		addSeparator();
 		createMiscMenuSet(listener);
+	}
+
+	private void createParameterDetectionSet(MenuEventsListener listener) {
+		JMenu parameterDetection = new JMenu("Detección");
+		add(parameterDetection);
+
+		JMenu hough = new JMenu("Hough");
+		parameterDetection.add(hough);
+
+		JMenuItem lines = new JMenuItem(HOUGH_LINE_DETECTION);
+		hough.add(lines);
+		lines.addActionListener(listener);
+
+		JMenuItem circles = new JMenuItem(HOUGH_CIRCLE_DETECTION);
+		hough.add(circles);
+		circles.addActionListener(listener);
 	}
 
 	private void createThresholdSet(MenuEventsListener listener) {

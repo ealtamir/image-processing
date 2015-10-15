@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.Thresholding.ThresholdManager;
 import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
+import ar.com.itba.image_actions.figure_detection.FigureDetectionManager;
 import ar.com.itba.image_actions.masks.ImageMaskManager;
 import ar.com.itba.image_actions.operations.ImageOperationManager;
 import ar.com.itba.image_actions.transformations.ImageTransformationManager;
@@ -36,10 +37,26 @@ public class MenuEventsListener implements ActionListener {
             return;
         } else if (belongsToEdgeDetection(e)) {
             return;
+        } else if (belongsToShapeDetection(e)) {
+            return;
 
         } else if (belongsToThresholding(e)) {
             return;
         }
+    }
+
+    private boolean belongsToShapeDetection(ActionEvent e) {
+        boolean belongs = true;
+        if (e.getActionCommand().equals(ToolsMenu.HOUGH_LINE_DETECTION)) {
+            FigureDetectionManager.applyHoughLineDetection(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.HOUGH_CIRCLE_DETECTION)) {
+            FigureDetectionManager.applyHoughCircleDetection(quickDrawPanel, mainWindow);
+
+        } else {
+            belongs = false;
+        }
+        return belongs;
     }
 
     private boolean belongsToThresholding(ActionEvent e) {

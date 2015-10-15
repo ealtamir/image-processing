@@ -57,7 +57,20 @@ public class Operators {
     }
 
     static public BufferedImage imageAddition(BufferedImage img1, BufferedImage img2) {
-        return imageOperation("addition", img1, img2);
+        CustomBufferedImage customImg1 = (CustomBufferedImage) img1;
+        CustomBufferedImage customImg2 = (CustomBufferedImage) img2;
+        CustomBufferedImage newImg = new CustomBufferedImage(customImg1.getWidth(), customImg1.getHeight(), customImg1.getType());
+        int r, g, b;
+        for (int x = 0; x < customImg1.getWidth(); x++) {
+            for (int y = 0; y < customImg1.getHeight(); y++) {
+                r = customImg1.getRed(x, y) + customImg2.getRed(x, y);
+                g = customImg1.getGreen(x, y) + customImg2.getRed(x, y);
+                b = customImg1.getRed(x, y) + customImg2.getRed(x, y);
+                newImg.setRGBCustom(x, y, r, g, b);
+            }
+        }
+        newImg.applyLinearTransform();
+        return newImg;
     }
 
     static public BufferedImage imageSubstraction(BufferedImage img1, BufferedImage img2) {

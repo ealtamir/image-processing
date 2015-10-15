@@ -40,6 +40,22 @@ public class GaussianMask extends AbstractMask {
         setPixel(x, y, newImg, result << 16 | result << 8 | result);
     }
 
+    public void applyMask(Point p, int[][] phi) {
+        int x = (int) p.getX(), y = (int) p.getY();
+
+        double val = 0;
+        double avg = 0;
+        double div = 0;
+        for (int w = x - radius, i = -radius; w <= x + radius; w++, i++) {
+            for (int h = y - radius, j = -radius; h <= y + radius; h++, j++) {
+                val = getGaussianValue(i, j);
+                avg += val * phi[w][h];
+                div += val;
+            }
+        }
+        
+    }
+
     private double getGaussianValue(int x, int y) {
         return 1 / (2 * Math.PI * (deviation * deviation)) * Math.exp(-(x * x + y * y) / (deviation * deviation));
     }

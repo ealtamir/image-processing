@@ -14,11 +14,13 @@ import ar.com.itba.action.CopyRightAction;
 import ar.com.itba.action.EnchanceContrastAction;
 import ar.com.itba.action.ExponentialNoiseAction;
 import ar.com.itba.action.GaussianNoiseAction;
+import ar.com.itba.action.HysteresisAction;
 import ar.com.itba.action.IsotropicDifussionAction;
 import ar.com.itba.action.ModifyGammaAction;
 import ar.com.itba.action.NonMaxSupressionAction;
 import ar.com.itba.action.RayleighNoiseAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
+import ar.com.itba.action.SusanAction;
 import ar.com.itba.frame.MainWindow;
 
 /**
@@ -183,6 +185,14 @@ public class ToolsMenu extends JMenu {
 		JMenuItem nonMax = new JMenuItem("Non Max Supression");
 		nonMax.addActionListener(new NonMaxSupressionAction(parent));
 		canny.add(nonMax);
+
+		JMenuItem hysteresis = new JMenuItem("Hysteresis");
+		hysteresis.addActionListener(new HysteresisAction(parent));
+		canny.add(hysteresis);
+
+		JMenuItem susan = new JMenuItem("Susan");
+		edge.add(susan);
+		susan.addActionListener(new SusanAction(parent));
 
 	}
 

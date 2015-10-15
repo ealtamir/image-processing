@@ -13,13 +13,14 @@ import java.awt.image.BufferedImage;
 public class FigureDetectionManager {
 
     public static void applyHoughCircleDetection(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
-
+        BufferedImage markedShapesImg = HoughFigureDetection.detectCircle(quickDrawPanel.image());
+        CopyRightAction.peformCopyRightAction(mainWindow);
+        quickDrawPanel.modifyCurrentImage(markedShapesImg);
     }
 
     public static void applyHoughLineDetection(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
         BufferedImage markedShapesImg = HoughFigureDetection.detectLine(quickDrawPanel.image());
         CopyRightAction.peformCopyRightAction(mainWindow);
-
         quickDrawPanel.modifyCurrentImage(markedShapesImg);
     }
 }

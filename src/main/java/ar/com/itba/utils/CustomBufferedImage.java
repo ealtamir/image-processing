@@ -158,9 +158,10 @@ public class CustomBufferedImage extends BufferedImage {
 
     public void markPoint(int x, int y) {
         int r, g, b;
-        r = 0xFF & 255;
-        g = 0xFF & 3;
-        b = 0xFF & 251;
+        r = Color.CYAN.getRed();
+        g = Color.CYAN.getGreen();
+        b = Color.CYAN.getBlue();
         setRGBCustom(x, y, r, g, b);
+        setRGB(x, y, Color.CYAN.getRGB());
     }
 }

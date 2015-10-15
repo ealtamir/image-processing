@@ -15,7 +15,7 @@ public class MouseTracker extends MouseInputAdapter {
     private Component parent;
     private Rectangle rectToDraw;
     private Rectangle oldRectDrawn = new Rectangle();
-    private Rectangle currentSelection;
+    private Rectangle currentSelection = null;
     private ImageOptionsWindow optionsWindow;
     private int canvasWidth;
     private int canvasHeight;

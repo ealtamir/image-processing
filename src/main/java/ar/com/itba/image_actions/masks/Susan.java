@@ -34,17 +34,18 @@ public class Susan {
 						}
 					}
 				}
-				s = 1 - (pixelsWithinColorRange / 49d);
-				System.out.println(s);
+				s = 1 - (pixelsWithinColorRange / 37d);
 				if(Math.abs(s - 0d) < 0.01d) {
 					newImage.setGray(x, y, 0);
 				} else if(Math.abs(s - 0.5d) <= 0.02d) {
-					oldImage.setGray(x, y, 255);
+					newImage.setGray(x, y, 255);
+					newImage.setRGB(x, y, 65280);
 				} else if(Math.abs(s - 0.75d) <= 0.02d) {
-					oldImage.setGray(x, y, 255);
+					newImage.setGray(x, y, 255);
+					newImage.setRGB(x, y, 16711680);
 				}
 			}
 		}
-		return oldImage;
+		return newImage;
 	}
 }

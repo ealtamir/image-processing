@@ -20,14 +20,14 @@ public class HoughFigureDetection {
 
     private static final int ANG_STEP = 5;
 
-    private static final double DRAW_COEFF = 0.1;
-    private static final double CIRCLE_DRAW_COEFF = 0.8;
+    private static final double DRAW_COEFF = 0.15;
+    private static final double CIRCLE_DRAW_COEFF = 1;
 
-    private static final int xStep = 2;
-    private static final int yStep = 2;
-    private static final int rStep = 2;
+    private static final int xStep = 8;
+    private static final int yStep = 8;
+    private static final int rStep = 8;
     private static double threshold = 0.1;
-    private static double circleThreshold = 1;
+    private static double circleThreshold = 2;
 
 
     static public BufferedImage detectLine(BufferedImage img) {
@@ -97,11 +97,14 @@ public class HoughFigureDetection {
         int[] best = {0, 0, 0};
 
         double result;
-        int i, j, k;
+        int i = 0, j = 0, k = 0;
         int rParam = 0, xParam = 0, yParam = 0;
+        rParam = 32;
+        xParam = 64;
+        yParam = 64;
         for (int x = 0; x < customImg.getWidth(); x++) {
             for (int y = 0; y < customImg.getHeight(); y++) {
-                for (rParam = 5, k = 0; k < rNum; rParam += rStep, k++) {
+                for (rParam = 0, k = 0; k < rNum; rParam += rStep, k++) {
                     for (xParam = 0, i = 0; i < xNum; xParam += xStep, i++) {
                         for (yParam = 0, j = 0; j < yNum; yParam += yStep, j++) {
                             if (customImg.getGray(x, y) == 0) {
@@ -122,26 +125,22 @@ public class HoughFigureDetection {
             }
         }
 
-        int x, y;
+        int x, y, r;
         double bestCandidateValue = CIRCLE_DRAW_COEFF * candidates[best[0]][best[1]][best[2]];
         System.out.println(String.format("Best candidate: %f", bestCandidateValue));
         Graphics2D g2 = customImg.createGraphics();
         g2.setColor(Color.CYAN);
-        for (y = 0; y < customImg.getHeight(); y++) {
-            for (x = 0; x < customImg.getWidth(); x++) {
-                for (rParam = 5, k = 0; k < rNum; rParam += rStep, k++) {
-                    for (xParam = 0, i = 0; i < xNum; xParam += xStep, i++) {
-                        for (yParam = 0, j = 0; j < yNum; yParam += yStep, j++) {
-                            if (candidates[k][i][j] < bestCandidateValue) {
-                                continue;
-                            }
-                            result = Math.abs((x - xParam) * (x - xParam) + (y - yParam) * (y - yParam) - rParam * rParam);
-                            if (result < circleThreshold) {
-                                g2.draw(new Ellipse2D.Double(x, y, rParam, rParam));
-//                                customImg.setRGB(x, y, Color.CYAN.getRGB());
-                            }
-                        }
+        for (rParam = 0, k = 0; k < rNum; rParam += rStep, k++) {
+            for (xParam = 0, i = 0; i < xNum; xParam += xStep, i++) {
+                for (yParam = 0, j = 0; j < yNum; yParam += yStep, j++) {
+                    if (candidates[k][i][j] < bestCandidateValue) {
+                        continue;
                     }
+                    r = rStep * k;
+                    x = xStep * i;
+                    y = yStep * j;
+                    System.out.println(String.format("r: %d, x: %d, y: %d", r, x, y));
+                    g2.drawOval(x - r, y - r, 2 * r, 2 * r);
                 }
             }
         }

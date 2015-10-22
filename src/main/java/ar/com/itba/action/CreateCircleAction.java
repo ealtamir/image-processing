@@ -3,7 +3,6 @@ package ar.com.itba.action;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
@@ -23,10 +22,10 @@ public class CreateCircleAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CustomBufferedImage image = new CustomBufferedImage(128, 128, BufferedImage.TYPE_INT_RGB);
+		CustomBufferedImage image = new CustomBufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.WHITE);
-		g.draw(new Ellipse2D.Double(64, 64, 32, 32));
+		g.drawOval(128, 128, 256, 256);
 		image.loadColorBuffers();
 		((MainWindow) parent).updateLeftQuickDrawPanel(image);
 	}

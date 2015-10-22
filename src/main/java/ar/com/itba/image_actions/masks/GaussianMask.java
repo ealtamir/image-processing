@@ -42,6 +42,11 @@ public class GaussianMask extends AbstractMask {
 
     public double applyMask(Point p, int[][] phi) {
         int x = (int) p.getX(), y = (int) p.getY();
+        int width = phi.length;
+        int height = phi[0].length;
+
+        if (x - radius < 0 || x + radius >= width || y - radius < 0 || y + radius >= height)
+            return 0;
 
         double val = 0;
         double avg = 0;

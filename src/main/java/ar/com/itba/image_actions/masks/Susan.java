@@ -7,15 +7,14 @@ import ar.com.itba.utils.CustomBufferedImage;
 public class Susan {
 
 	static protected int[][] susanMask = {
-		{0, 0, 1, 1, 1, 0, 0},
-		{0, 1, 1, 1, 1, 1, 0},
-		{1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1},
-		{0, 1, 1, 1, 1, 1, 0},
-		{0, 0, 1, 1, 1, 0, 0}
-    };
-	
+		{ 0, 0, 1, 1, 1, 0, 0 },
+		{ 0, 1, 1, 1, 1, 1, 0 },
+		{ 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1 },
+		{ 0, 1, 1, 1, 1, 1, 0 },
+		{ 0, 0, 1, 1, 1, 0, 0 } };
+
 	public BufferedImage applyMask(BufferedImage image) {
 		CustomBufferedImage oldImage = new CustomBufferedImage(image);
 		int height = oldImage.getHeight();
@@ -29,23 +28,25 @@ public class Susan {
 				for (int i = 0; i < 7; i++) {
 					for (int j = 0; j < 7; j++) {
 						int currentMaskColor = oldImage.getGray(x + i - 3, y + j - 3);
-						if(susanMask[i][j] != 0 && (Math.abs(currentMaskColor - currentColor) < 27)) {
+						if (susanMask[i][j] != 0 && (Math.abs(currentMaskColor - currentColor) < 27)) {
 							pixelsWithinColorRange++;
 						}
 					}
 				}
 				s = 1 - (pixelsWithinColorRange / 37d);
-				if(Math.abs(s - 0d) < 0.15d) {
+				if (Math.abs(s - 0d) < 0.15d) {
 					newImage.setGray(x, y, 0);
-				} else if(Math.abs(s - 0.5d) <= 0.15d) {
-//					newImage.setGray(x, y, 255);
+				} else if (Math.abs(s - 0.5d) <= 0.15d) {
+					// newImage.setGray(x, y, 255);
 					newImage.setRGB(x, y, 65280);
-				} else if(Math.abs(s - 0.75d) <= 0.15d) {
-//					newImage.setGray(x, y, 255);
+					oldImage.setRGB(x, y, 65280);
+				} else if (Math.abs(s - 0.75d) <= 0.15d) {
+					// newImage.setGray(x, y, 255);
 					newImage.setRGB(x, y, 16711680);
+					oldImage.setRGB(x, y, 16711680);
 				}
 			}
 		}
-		return newImage;
+		return oldImage;
 	}
 }

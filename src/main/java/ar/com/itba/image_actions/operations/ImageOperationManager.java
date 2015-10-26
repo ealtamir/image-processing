@@ -12,13 +12,13 @@ import ar.com.itba.panel.QuickDrawPanel;
 public class ImageOperationManager {
 
     public static void performAddition(QuickDrawPanel quickDrawPanel, MainWindow window) {
-        BufferedImage first = quickDrawPanel.image();
-        BufferedImage second = OpenFileAction.getBufferedImageFromFile(window);
-        if (second == null) {
+        BufferedImage originalImage = quickDrawPanel.image();
+        BufferedImage newImage = OpenFileAction.getBufferedImageFromFile(window);
+        if (newImage == null) {
             return;
         }
         CopyRightAction.peformCopyRightAction(window);
-        BufferedImage result = Operators.imageAddition(first, second);
+        BufferedImage result = Operators.imageAddition(originalImage, newImage);
         window.getLeftQuickDrawPanel().modifyCurrentImage(result);
     }
 

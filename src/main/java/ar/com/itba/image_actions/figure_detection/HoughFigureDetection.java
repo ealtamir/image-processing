@@ -4,7 +4,10 @@ import ar.com.itba.image_actions.Thresholding.OtsuThreshold;
 import ar.com.itba.image_actions.operations.Operators;
 import ar.com.itba.utils.CustomBufferedImage;
 
+import javax.print.DocFlavor;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -12,28 +15,34 @@ import java.awt.image.BufferedImage;
  */
 public class HoughFigureDetection {
 
-    private static final int ANG_NUM = 60;
-    private static final int RADIUS_NUM = 30;
+    private static final int MIN_ANG = -90;
+    private static final int MAX_ANG = 90;
 
-    private static final int xStep = 2;
-    private static final int yStep = 2;
-    private static final int rStep = 5;
-    private static double threshold = 1;
+    private static final int ANG_STEP = 5;
+
+    private static final double DRAW_COEFF = 0.15;
+    private static final double CIRCLE_DRAW_COEFF = 1;
+
+    private static final int xStep = 8;
+    private static final int yStep = 8;
+    private static final int rStep = 8;
+    private static double threshold = 0.1;
+    private static double circleThreshold = 2;
+
 
     static public BufferedImage detectLine(BufferedImage img) {
-//        CustomBufferedImage customImg = (CustomBufferedImage) OtsuThreshold.applyTransformation(img);
         CustomBufferedImage customImg = (CustomBufferedImage) img;
+        CustomBufferedImage newImg = new CustomBufferedImage(customImg);
         int dimension = Math.max(customImg.getHeight(), customImg.getWidth());
-        int minAng = -90, maxAng = 90;
-        int minR = (int) -Math.sqrt(2) * dimension, maxR = (int) Math.sqrt(2) * dimension;
-        int angInterval = maxAng - minAng;
-        int rInterval = maxR - minR;
-        int ang, r;
-        int angStep = angInterval / ANG_NUM;
-        int rStep = rInterval / RADIUS_NUM;
-        int i, j;
+        final int MIN_R = (int) -Math.sqrt(2) * dimension;
+        final int MAX_R = (int) Math.sqrt(2) * dimension;
+        final int RAD_STEP = (MAX_R - MIN_R) / 200;
+
+        final int ANG_NUM = (MAX_ANG - MIN_ANG) / ANG_STEP + 1;
+        final int RADIUS_NUM = (MAX_R - MIN_R) / RAD_STEP + 1;
 
         int[][] candidates = new int[ANG_NUM][RADIUS_NUM];
+        int[] bestCandidate = {0, 0};
 
         double result = 0, rads = 0;
         for (int x = 0; x < customImg.getWidth(); x++) {
@@ -41,61 +50,39 @@ public class HoughFigureDetection {
                 if (customImg.getGray(x, y) == 0) {
                     continue;
                 }
-
-                for (ang = minAng, i = 0; i < ANG_NUM; ang += angStep, i++) {
-                    for (r = minR, j = 0; j < RADIUS_NUM; r += rStep, j++) {
+                for (int ang = MIN_ANG, i = 0; i < ANG_NUM; ang += ANG_STEP, i++) {
+                    for (int rad = MIN_R, j = 0; j < RADIUS_NUM; rad += RAD_STEP, j++) {
                         rads = Math.toRadians(ang);
-                        result = x * Math.cos(rads) + y * Math.sin(rads) - r;
-                        if (Math.abs(result) < threshold) {
+                        result = Math.abs(x * Math.cos(rads) + y * Math.sin(rads) - rad);
+                        if (result < threshold) {
                             candidates[i][j] += 1;
+                            if (candidates[i][j] > candidates[bestCandidate[0]][bestCandidate[1]]) {
+                                bestCandidate[0] = i;
+                                bestCandidate[1] = j;
+                            }
                         }
                     }
                 }
             }
         }
 
-        int max1 = 0, max2 = 0, max3 = 0, max4 = 0;
-        int[][] bestCandidates = new int[4][2];
-        int val = 0;
-        for (ang = minAng, i = 0; i < ANG_NUM; ang += angStep, i++) {
-            for (r = minR, j = 0; j < RADIUS_NUM; r += rStep, j++) {
-                val = candidates[i][j];
-                if (val > max1) {
-                    max1 = val;
-                    bestCandidates[0][0] = i;
-                    bestCandidates[0][1] = j;
-                } else if (val > max2) {
-                    max2 = val;
-                    bestCandidates[1][0] = i;
-                    bestCandidates[1][1] = j;
-                } else if (val > max3) {
-                    max3 = val;
-                    bestCandidates[2][0] = i;
-                    bestCandidates[2][1] = j;
-                } else if (val > max4) {
-                    max4 = val;
-                    bestCandidates[3][0] = i;
-                    bestCandidates[3][1] = j;
-                }
-            }
-        }
-
-
-        CustomBufferedImage newImg = new CustomBufferedImage(customImg);
+        double bestCandidateValue = DRAW_COEFF * candidates[bestCandidate[0]][bestCandidate[1]];
         for (int y = 0; y < customImg.getHeight(); y++) {
             for (int x = 0; x < customImg.getWidth(); x++) {
-                for (i = 0; i < bestCandidates.length; i++) {
-                    ang = minAng + angStep * bestCandidates[i][0];
-                    r = minR + rStep * bestCandidates[i][1];
-                    rads = Math.toRadians(ang);
-                    result = x * Math.cos(rads) + y * Math.sin(rads) - r;
-                    if (Math.abs(result) < threshold) {
-                        newImg.setRGB(x, y, Color.CYAN.getRGB());
+                for (int ang = MIN_ANG, i = 0; i < ANG_NUM; ang += ANG_STEP, i++) {
+                    for (int rad = MIN_R, j = 0; j < RADIUS_NUM; rad += RAD_STEP, j++) {
+                        if (candidates[i][j] < bestCandidateValue) {
+                            continue;
+                        }
+                        rads = Math.toRadians(ang);
+                        result = Math.abs(x * Math.cos(rads) + y * Math.sin(rads) - rad);
+                        if (result < threshold) {
+                            newImg.setRGB(x, y, Color.CYAN.getRGB());
+                        }
                     }
                 }
             }
         }
-
         return newImg;
     }
 
@@ -107,10 +94,14 @@ public class HoughFigureDetection {
         int xNum = xInterval / xStep, yNum = yInterval / yStep, rNum = rInterval / rStep;
 
         int[][][] candidates = new int[rNum][xNum][yNum];
+        int[] best = {0, 0, 0};
 
         double result;
-        int i, j, k;
+        int i = 0, j = 0, k = 0;
         int rParam = 0, xParam = 0, yParam = 0;
+        rParam = 32;
+        xParam = 64;
+        yParam = 64;
         for (int x = 0; x < customImg.getWidth(); x++) {
             for (int y = 0; y < customImg.getHeight(); y++) {
                 for (rParam = 0, k = 0; k < rNum; rParam += rStep, k++) {
@@ -119,10 +110,14 @@ public class HoughFigureDetection {
                             if (customImg.getGray(x, y) == 0) {
                                 continue;
                             }
-                            result = (x - xParam) * (x - xParam) + (y - yParam) * (y - yParam) - rParam;
-                            if (Math.abs(result) < threshold) {
-//                                System.out.println(String.format("(%d, %d), r = %d, result = %f", xParam, yParam, rParam, Math.abs(result)));
+                            result = (x - xParam) * (x - xParam) + (y - yParam) * (y - yParam) - rParam * rParam;
+                            if (Math.abs(result) < circleThreshold) {
                                 candidates[k][i][j] += 1;
+                                if (candidates[k][i][j] > candidates[best[0]][best[1]][best[2]]) {
+                                    best[0] = k;
+                                    best[1] = i;
+                                    best[2] = j;
+                                }
                             }
                         }
                     }
@@ -130,55 +125,26 @@ public class HoughFigureDetection {
             }
         }
 
-        int max1 = 0, max2 = 0, max3 = 0, max4 = 0;
-        int[][] bestCandidates = new int[4][3];
-        int val = 0;
-
-        for (k = 0; k < rNum; k++) {
-            for (i = 0; i < xNum; i++) {
-                for (j = 0; j < yNum; j++) {
-                    val = candidates[k][i][j];
-                    if (val > max1) {
-                        max1 = val;
-                        bestCandidates[0][0] = k;
-                        bestCandidates[0][1] = i;
-                        bestCandidates[0][2] = j;
-                    } else if (val > max2) {
-                        max2 = val;
-                        bestCandidates[1][0] = k;
-                        bestCandidates[1][1] = i;
-                        bestCandidates[1][2] = j;
-                    } else if (val > max3) {
-                        max3 = val;
-                        bestCandidates[2][0] = k;
-                        bestCandidates[2][1] = i;
-                        bestCandidates[2][2] = j;
-                    } else if (val > max4) {
-                        max4 = val;
-                        bestCandidates[3][0] = k;
-                        bestCandidates[3][1] = i;
-                        bestCandidates[3][2] = j;
+        int x, y, r;
+        double bestCandidateValue = CIRCLE_DRAW_COEFF * candidates[best[0]][best[1]][best[2]];
+        System.out.println(String.format("Best candidate: %f", bestCandidateValue));
+        Graphics2D g2 = customImg.createGraphics();
+        g2.setColor(Color.CYAN);
+        for (rParam = 0, k = 0; k < rNum; rParam += rStep, k++) {
+            for (xParam = 0, i = 0; i < xNum; xParam += xStep, i++) {
+                for (yParam = 0, j = 0; j < yNum; yParam += yStep, j++) {
+                    if (candidates[k][i][j] < bestCandidateValue) {
+                        continue;
                     }
+                    r = rStep * k;
+                    x = xStep * i;
+                    y = yStep * j;
+                    System.out.println(String.format("r: %d, x: %d, y: %d", r, x, y));
+                    g2.drawOval(x - r, y - r, 2 * r, 2 * r);
                 }
             }
         }
-
-//        CustomBufferedImage newImg = new CustomBufferedImage(customImg);
-        int x, y;
-        for (y = 0; y < customImg.getHeight(); y++) {
-            for (x = 0; x < customImg.getWidth(); x++) {
-                for (i = 0; i < bestCandidates.length; i++) {
-                    rParam = bestCandidates[i][0] * rStep;
-                    xParam = bestCandidates[i][1] * xStep;
-                    yParam = bestCandidates[i][2] * yStep;
-                    result = (x - xParam) * (x - xParam) + (y - yParam) * (y - yParam) - rParam;
-                    if (Math.abs(result) < threshold) {
-                        customImg.setRGB(x, y, Color.CYAN.getRGB());
-                    }
-                }
-            }
-        }
-
+        g2.dispose();
         return customImg;
     }
 }

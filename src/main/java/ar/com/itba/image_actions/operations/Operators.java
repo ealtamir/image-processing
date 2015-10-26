@@ -57,8 +57,8 @@ public class Operators {
     }
 
     static public BufferedImage imageAddition(BufferedImage img1, BufferedImage img2) {
-        CustomBufferedImage customImg1 = (CustomBufferedImage) img1;
-        CustomBufferedImage customImg2 = (CustomBufferedImage) img2;
+        CustomBufferedImage customImg1 = new CustomBufferedImage(img1);
+        CustomBufferedImage customImg2 = new CustomBufferedImage(img2);
         CustomBufferedImage newImg = new CustomBufferedImage(customImg1.getWidth(), customImg1.getHeight(), customImg1.getType());
         int r, g, b;
         for (int x = 0; x < customImg1.getWidth(); x++) {

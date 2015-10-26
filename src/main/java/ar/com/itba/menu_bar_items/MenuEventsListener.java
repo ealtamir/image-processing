@@ -53,6 +53,9 @@ public class MenuEventsListener implements ActionListener {
         } else if (e.getActionCommand().equals(ToolsMenu.HOUGH_CIRCLE_DETECTION)) {
             FigureDetectionManager.applyHoughCircleDetection(quickDrawPanel, mainWindow);
 
+        } else if (e.getActionCommand().equals(ToolsMenu.CONTOUR_DETECTION)) {
+            FigureDetectionManager.applyContourDetection(quickDrawPanel, mainWindow);
+
         } else {
             belongs = false;
         }

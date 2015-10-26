@@ -40,9 +40,9 @@ public abstract class PerPixelOperation implements NoiseGenerator {
 		int width = image.getWidth();
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				int r = (image.getRGB(x, y)) & 0xFF;
-				int g = (image.getRGB(x, y) >> 8) & 0xFF;
-				int b = (image.getRGB(x, y) >> 16) & 0xFF;
+				int r = image.getRed(x, y);
+				int g = image.getGreen(x, y);
+				int b = image.getBlue(x, y);
 				float random = generator == null ? 0 : generator.get();
 				float changePixel = new UniformRandomGenerator(0, 1).get();
                 Color color = new Color(capped(modify(r, random, changePixel)), capped(modify(g, random, changePixel)), capped(modify(b, random, changePixel)));

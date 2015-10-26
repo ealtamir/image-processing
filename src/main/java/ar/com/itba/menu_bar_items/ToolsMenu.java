@@ -72,6 +72,7 @@ public class ToolsMenu extends JMenu {
 	public static final String DEFAULT_EDGE_DETECTION = "Default";
 	public static final String HOUGH_CIRCLE_DETECTION = "Círculo";
 	public static final String HOUGH_LINE_DETECTION = "Línea";
+	public static final String CONTOUR_DETECTION = "Detección de Contorno";
 
 	JFrame parent;
 
@@ -109,6 +110,10 @@ public class ToolsMenu extends JMenu {
 		JMenuItem circles = new JMenuItem(HOUGH_CIRCLE_DETECTION);
 		hough.add(circles);
 		circles.addActionListener(listener);
+
+		JMenuItem contour = new JMenuItem(CONTOUR_DETECTION);
+		parameterDetection.add(contour);
+		contour.addActionListener(listener);
 	}
 
 	private void createThresholdSet(MenuEventsListener listener) {

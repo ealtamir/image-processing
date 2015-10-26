@@ -37,6 +37,23 @@ public class CustomBufferedImage extends BufferedImage {
         blue = new int[width * height];
     }
 
+    public CustomBufferedImage(CustomBufferedImage customImg) {
+        super(customImg.getWidth(), customImg.getHeight(), customImg.getType());
+        imgSize = customImg.getWidth() * customImg.getHeight();
+        red = new int[customImg.getWidth() * customImg.getHeight()];
+        green = new int[customImg.getWidth() * customImg.getHeight()];
+        blue = new int[customImg.getWidth() * customImg.getHeight()];
+        int i, r, g, b;
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                setRGBCustom(x, y, customImg.getRed(x, y),
+                        customImg.getGreen(x, y),
+                        customImg.getBlue(x, y));
+            }
+        }
+        applyLinearTransform();
+    }
+
     public CustomBufferedImage(BufferedImage img) {
         super(img.getWidth(), img.getHeight(), img.getType());
         imgSize = img.getWidth() * img.getHeight();
@@ -172,5 +189,24 @@ public class CustomBufferedImage extends BufferedImage {
         b = Color.CYAN.getBlue();
         setRGBCustom(x, y, r, g, b);
         setRGB(x, y, Color.CYAN.getRGB());
+    }
+
+    public void updateBuffers() {
+        int r, g, b;
+        for (int y = 0; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                r = 0xFF & (getRGB(x, y) >> 16);
+                g = 0xFF & (getRGB(x, y) >> 8);
+                b = 0xFF & getRGB(x, y);
+                red[y * getWidth() + x] = r;
+                green[y * getWidth() + x] = g;
+                blue[y * getWidth() + x] = b;
+                updateMaxMinValues(r, g, b);
+            }
+        }
+    }
+
+    public void resetRGBBuffer() {
+        applyLinearTransform();
     }
 }

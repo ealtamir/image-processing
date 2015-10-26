@@ -18,6 +18,7 @@ import ar.com.itba.action.CreateSquareAction;
 import ar.com.itba.action.GenerateBlankAction;
 import ar.com.itba.action.MenuItemAction;
 import ar.com.itba.action.OpenFileAction;
+import ar.com.itba.action.OpenVideoAction;
 import ar.com.itba.action.SaveFileAction;
 
 /**
@@ -65,6 +66,9 @@ public class FileMenu extends JMenu {
 		JMenuItem openMenuItem = new JMenuItem(new MenuItemAction("Open", iconOpen, KeyEvent.VK_O));
 		openMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		openMenuItem.addActionListener(new OpenFileAction(parent));
+		
+		JMenuItem openVideoItem = new JMenuItem(new MenuItemAction("Open Video...", iconOpen, KeyEvent.VK_O));
+		openVideoItem.addActionListener(new OpenVideoAction(parent));
 
 		JMenuItem saveMenuItem = new JMenuItem(new MenuItemAction("Save", iconSave, KeyEvent.VK_S));
 		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
@@ -82,6 +86,7 @@ public class FileMenu extends JMenu {
 		});
 		add(newMenu);
 		add(openMenuItem);
+		add(openVideoItem);
 		add(saveMenuItem);
 		addSeparator();
 		add(exitMenuItem);

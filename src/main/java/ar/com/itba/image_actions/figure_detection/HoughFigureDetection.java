@@ -18,15 +18,15 @@ public class HoughFigureDetection {
     private static final int MIN_ANG = -90;
     private static final int MAX_ANG = 90;
 
-    private static final int ANG_STEP = 5;
+    private static final int ANG_STEP = 10;
 
     private static final double DRAW_COEFF = 0.15;
-    private static final double CIRCLE_DRAW_COEFF = 1;
+    private static final double CIRCLE_DRAW_COEFF = 0.9;
 
-    private static final int xStep = 8;
-    private static final int yStep = 8;
+    private static final int xStep = 2;
+    private static final int yStep = 2;
     private static final int rStep = 8;
-    private static double threshold = 0.1;
+    private static double threshold = 0.5;
     private static double circleThreshold = 2;
 
 
@@ -69,6 +69,9 @@ public class HoughFigureDetection {
         double bestCandidateValue = DRAW_COEFF * candidates[bestCandidate[0]][bestCandidate[1]];
         for (int y = 0; y < customImg.getHeight(); y++) {
             for (int x = 0; x < customImg.getWidth(); x++) {
+                if (customImg.getGray(x, y) == 0) {
+                    continue;
+                }
                 for (int ang = MIN_ANG, i = 0; i < ANG_NUM; ang += ANG_STEP, i++) {
                     for (int rad = MIN_R, j = 0; j < RADIUS_NUM; rad += RAD_STEP, j++) {
                         if (candidates[i][j] < bestCandidateValue) {
@@ -99,9 +102,6 @@ public class HoughFigureDetection {
         double result;
         int i = 0, j = 0, k = 0;
         int rParam = 0, xParam = 0, yParam = 0;
-        rParam = 32;
-        xParam = 64;
-        yParam = 64;
         for (int x = 0; x < customImg.getWidth(); x++) {
             for (int y = 0; y < customImg.getHeight(); y++) {
                 for (rParam = 0, k = 0; k < rNum; rParam += rStep, k++) {

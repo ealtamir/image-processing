@@ -2,7 +2,6 @@ package ar.com.itba.image_actions.figure_detection;
 
 import ar.com.itba.image_actions.masks.GaussianMask;
 import ar.com.itba.utils.CustomBufferedImage;
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 
 import java.awt.Point;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class ContourDetection {
     private static int maskSize = 7;
     private static int sigma = 2;
     private static int KColors = 1;
-    private static int maxIters = 15;
+    private static int maxIters = 100;
 
     static public BufferedImage detectContour(BufferedImage img, Rectangle initialContour) {
         CustomBufferedImage customImg = (CustomBufferedImage) img;
@@ -27,7 +26,7 @@ public class ContourDetection {
         int[][] phi = getPhiFunction(customImg, initialContour);
         HashMap<Point, Boolean> lin = new HashMap<Point, Boolean>();
         HashMap<Point, Boolean> lout = new HashMap<Point, Boolean>();
-        initBoundaryMaps(lin, lout, phi);
+        initBoundaryMaps(lin, lout, phi, customImg);
         if (avgRGB[0] != avgRGB[1] || avgRGB[1] != avgRGB[2] || avgRGB[0] != avgRGB[2]) {
             KColors = 3;
         } else {
@@ -41,10 +40,12 @@ public class ContourDetection {
             phi[point.x][point.y] = 1;
         }
         boolean stop = false;
-        for (int i = 0; i < maxIters; i++) {
+        int i;
+        for (i = 0; i < maxIters && !stop; i++) {
             stop = first_cycle(avgRGB, lin, lout, phi, newImg);
-            stop &= second_cycle(lin, lout, phi, newImg);
+            second_cycle(lin, lout, phi, newImg);
         }
+        System.out.println(String.format("iterations: %d", i));
         drawContour(newImg, lin, lout);
         return newImg;
     }
@@ -52,8 +53,9 @@ public class ContourDetection {
 //    static public BufferedImage detectContour(BufferedImage img, int[][] phi) {
 //        CustomBufferedImage customImg = (CustomBufferedImage) img;
 //        CustomBufferedImage newImg = new CustomBufferedImage(customImg);
-//        int[] avgRGB = new int[3];
-//        initBoundaryMaps(lin, lout, phi);
+//        HashMap<Point, Boolean> lin = new HashMap<Point, Boolean>();
+//        HashMap<Point, Boolean> lout = new HashMap<Point, Boolean>();
+//        int[] avgRGB = initBoundaryMaps(lin, lout, phi, customImg);
 //
 //        for (Point point : lin.keySet()) {
 //            phi[point.x][point.y] = -1;
@@ -61,10 +63,11 @@ public class ContourDetection {
 //        for (Point point : lout.keySet()) {
 //            phi[point.x][point.y] = 1;
 //        }
+//        int i;
 //        boolean stop = false;
-//        for (int i = 0; i < maxIters; i++) {
+//        for (i = 0; i < maxIters && !stop; i++) {
 //            stop = first_cycle(avgRGB, lin, lout, phi, newImg);
-//            stop &= second_cycle(lin, lout, phi, newImg);
+//            second_cycle(lin, lout, phi, newImg);
 //        }
 //        drawContour(newImg, lin, lout);
 //        return newImg;
@@ -94,39 +97,39 @@ public class ContourDetection {
         boolean stop = false;
         List<Point> pointsToExpand = new ArrayList<Point>();
         List<Point> pointsToContract = new ArrayList<Point>();
-        for (int i = 0; i < NA; i++) {
+        for (int i = 0; i < NA && !stop; i++) {
+            stop = true;
             pointsToExpand.clear();
             pointsToContract.clear();
             for (Point p: lout.keySet()) {
                 if (calculateProbability(p, avgRGB, img) > 0) {
+                    stop = false;
                     pointsToExpand.add(p);
                 }
             }
             for (Point point : pointsToExpand) {
                 expandBoundary(point, lin, lout, phi);
             }
-            stop = pointsToExpand.isEmpty();
             updateInBoundary(lin, phi);
 
             for (Point p: lin.keySet()) {
                 if (calculateProbability(p, avgRGB, img) < 0) {
+                    stop = false;
                     pointsToContract.add(p);
                 }
             }
             for (Point point : pointsToContract) {
                 contractBoundary(point, lin, lout, phi);
             }
-            stop |= pointsToContract.isEmpty();
             updateOutBoundary(lout, phi);
         }
         return stop;
     }
 
-    private static boolean second_cycle(HashMap<Point, Boolean> lin,
+    private static void second_cycle(HashMap<Point, Boolean> lin,
                                     HashMap<Point, Boolean> lout,
                                     int[][] phi,
                                     CustomBufferedImage img) {
-        boolean stop = false;
         GaussianMask mask = new GaussianMask(maskSize, sigma);
         Set<Point> pointsToExpand = new HashSet<Point>();
         Set<Point> pointsToContract = new HashSet<Point>();
@@ -139,7 +142,6 @@ public class ContourDetection {
             }
             for (Point point : pointsToExpand)
                 expandBoundary(point, lin, lout, phi);
-            stop = pointsToExpand.isEmpty();
             updateInBoundary(lin, phi);
 
             for (Point p : lin.keySet()) {
@@ -148,10 +150,8 @@ public class ContourDetection {
             }
             for (Point point : pointsToContract)
                 contractBoundary(point, lin, lout, phi);
-            stop |= pointsToContract.isEmpty();
             updateOutBoundary(lout, phi);
         }
-        return stop;
     }
 
     private static double calculateProbability(Point p, int[] avgRGB, CustomBufferedImage img) {
@@ -159,8 +159,8 @@ public class ContourDetection {
         int g = img.getGreen(p);
         int b = img.getBlue(p);
         double normVal = Math.sqrt((avgRGB[0] - r) * (avgRGB[0] - r) + (avgRGB[1] - g) * (avgRGB[1] - g) + (avgRGB[2] - b) * (avgRGB[2] - b));
-        double finalVal = normVal / (256 * KColors);
-        return (finalVal < 0.5)? 1: -1;
+        double finalVal = (normVal * normVal) / (256 * 256 * KColors);
+        return (finalVal <= 0.5)? 1: -1;
     }
 
     private static void updateOutBoundary(HashMap<Point, Boolean> lout, int[][] phi) {
@@ -261,7 +261,11 @@ public class ContourDetection {
 
     }
 
-    private static void initBoundaryMaps(HashMap<Point, Boolean> lin, HashMap<Point, Boolean> lout, int[][] phi) {
+    private static int[] initBoundaryMaps(HashMap<Point, Boolean> lin,
+                                         HashMap<Point, Boolean> lout,
+                                         int[][] phi,
+                                         CustomBufferedImage customImg) {
+        int[] avgRGB = new int[3];
         for (int x = 0; x < phi.length; x++) {
             for (int y = 0; y < phi[0].length; y++) {
                 if (phi[x][y] > 0) {
@@ -273,8 +277,17 @@ public class ContourDetection {
                         lin.put(new Point(x, y), true);
                     }
                 }
+                if (phi[x][y] < 0) {
+                    avgRGB[0] += customImg.getRed(x, y);
+                    avgRGB[1] += customImg.getGreen(x, y);
+                    avgRGB[2] += customImg.getBlue(x, y);
+                }
             }
         }
+        avgRGB[0] /= customImg.getWidth() * customImg.getHeight();
+        avgRGB[1] /= customImg.getWidth() * customImg.getHeight();
+        avgRGB[2] /= customImg.getWidth() * customImg.getHeight();
+        return avgRGB;
     }
 
     private static boolean hasInteriorNeighbor(int x, int y, int[][] phi) {

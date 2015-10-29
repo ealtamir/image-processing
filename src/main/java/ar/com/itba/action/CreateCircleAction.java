@@ -22,10 +22,10 @@ public class CreateCircleAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CustomBufferedImage image = new CustomBufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
+		CustomBufferedImage image = new CustomBufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		g.setColor(Color.WHITE);
-		g.drawOval(128, 128, 256, 256);
+		g.drawOval(64, 64, 128, 128);
 		image.loadColorBuffers();
 		((MainWindow) parent).updateLeftQuickDrawPanel(image);
 	}

@@ -56,6 +56,12 @@ public class MenuEventsListener implements ActionListener {
         } else if (e.getActionCommand().equals(ToolsMenu.CONTOUR_DETECTION)) {
             FigureDetectionManager.applyContourDetection(quickDrawPanel, mainWindow);
 
+        } else if (e.getActionCommand().equals(ToolsMenu.START_VIDEO_CONTOUR_DETECTION)) {
+            FigureDetectionManager.startVideoContourDetection(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.EXECUTE_VIDEO_CONTOUR_DETECTION)) {
+            FigureDetectionManager.executeVideoContourDetection(quickDrawPanel, mainWindow);
+
         } else {
             belongs = false;
         }

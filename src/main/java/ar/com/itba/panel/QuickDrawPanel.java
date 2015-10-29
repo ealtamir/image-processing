@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -25,6 +26,7 @@ public class QuickDrawPanel extends JPanel {
 	private ImageHistogram histogram;
 	private ParameterizedImageAction actionWindow = null;
 	private Rectangle drawnRectangle = null;
+	private File contourDetectionFolder = null;
 
 	private void createImageHistogram(BufferedImage bufferedImage) {
 		if (histogram != null) {
@@ -63,6 +65,12 @@ public class QuickDrawPanel extends JPanel {
 		}
 	}
 
+	public void paintImageImmediately(BufferedImage img) {
+		this.bufferedImage = bufferedImage;
+		repaint(200);
+
+	}
+
 	private void drawMouseSelectionRect(Graphics graphics) {
 		Rectangle r = mouseTracker.getRectToDraw();
 		drawnRectangle = r;
@@ -83,6 +91,7 @@ public class QuickDrawPanel extends JPanel {
 
 	public void openNewImage(BufferedImage bufferedImage) {
 		this.bufferedImage = bufferedImage;
+		contourDetectionFolder = null;
 		setComponentSize();
 		createImageOptionsWindow();
 		closeOpenActionWindows();
@@ -167,5 +176,13 @@ public class QuickDrawPanel extends JPanel {
 			actionWindow.close();
 			actionWindow = scalarMultOperation;
 		}
+	}
+
+	public void setContourDetectionFolder(File selectedFolder) {
+		contourDetectionFolder = selectedFolder;
+	}
+
+	public File getContourDetectionFolder() {
+		return contourDetectionFolder;
 	}
 }

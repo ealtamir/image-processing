@@ -73,6 +73,8 @@ public class ToolsMenu extends JMenu {
 	public static final String HOUGH_CIRCLE_DETECTION = "Círculo";
 	public static final String HOUGH_LINE_DETECTION = "Línea";
 	public static final String CONTOUR_DETECTION = "Detección de Contorno";
+	public static final String START_VIDEO_CONTOUR_DETECTION = "Start";
+	public static final String EXECUTE_VIDEO_CONTOUR_DETECTION = "Execute";
 
 	JFrame parent;
 
@@ -114,6 +116,17 @@ public class ToolsMenu extends JMenu {
 		JMenuItem contour = new JMenuItem(CONTOUR_DETECTION);
 		parameterDetection.add(contour);
 		contour.addActionListener(listener);
+
+		JMenu videoContour = new JMenu("Contour Detection");
+		parameterDetection.add(videoContour);
+
+		JMenuItem startVideoContour = new JMenuItem(START_VIDEO_CONTOUR_DETECTION);
+		videoContour.add(startVideoContour);
+		startVideoContour.addActionListener(listener);
+
+		JMenuItem executeVideoContour = new JMenuItem(EXECUTE_VIDEO_CONTOUR_DETECTION);
+		videoContour.add(executeVideoContour);
+		executeVideoContour.addActionListener(listener);
 	}
 
 	private void createThresholdSet(MenuEventsListener listener) {

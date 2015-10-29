@@ -17,16 +17,15 @@ public class ContourDetection {
     private static int maskSize = 7;
     private static int sigma = 2;
     private static int KColors = 1;
-    private static int maxIters = 100;
+    private static int maxIters = 15;
 
-    static public BufferedImage detectContour(BufferedImage img, Rectangle initialContour) {
+    static public BufferedImage detectContour(BufferedImage img, int[][] phi) {
         CustomBufferedImage customImg = (CustomBufferedImage) img;
         CustomBufferedImage newImg = new CustomBufferedImage(customImg);
-        int[] avgRGB = getAvgColor(customImg, initialContour);
-        int[][] phi = getPhiFunction(customImg, initialContour);
         HashMap<Point, Boolean> lin = new HashMap<Point, Boolean>();
         HashMap<Point, Boolean> lout = new HashMap<Point, Boolean>();
-        initBoundaryMaps(lin, lout, phi, customImg);
+        int[] avgRGB = initBoundaryMaps(lin, lout, phi, customImg);
+
         if (avgRGB[0] != avgRGB[1] || avgRGB[1] != avgRGB[2] || avgRGB[0] != avgRGB[2]) {
             KColors = 3;
         } else {
@@ -39,8 +38,8 @@ public class ContourDetection {
         for (Point point : lout.keySet()) {
             phi[point.x][point.y] = 1;
         }
-        boolean stop = false;
         int i;
+        boolean stop = false;
         for (i = 0; i < maxIters && !stop; i++) {
             stop = first_cycle(avgRGB, lin, lout, phi, newImg);
             second_cycle(lin, lout, phi, newImg);
@@ -49,29 +48,6 @@ public class ContourDetection {
         drawContour(newImg, lin, lout);
         return newImg;
     }
-
-//    static public BufferedImage detectContour(BufferedImage img, int[][] phi) {
-//        CustomBufferedImage customImg = (CustomBufferedImage) img;
-//        CustomBufferedImage newImg = new CustomBufferedImage(customImg);
-//        HashMap<Point, Boolean> lin = new HashMap<Point, Boolean>();
-//        HashMap<Point, Boolean> lout = new HashMap<Point, Boolean>();
-//        int[] avgRGB = initBoundaryMaps(lin, lout, phi, customImg);
-//
-//        for (Point point : lin.keySet()) {
-//            phi[point.x][point.y] = -1;
-//        }
-//        for (Point point : lout.keySet()) {
-//            phi[point.x][point.y] = 1;
-//        }
-//        int i;
-//        boolean stop = false;
-//        for (i = 0; i < maxIters && !stop; i++) {
-//            stop = first_cycle(avgRGB, lin, lout, phi, newImg);
-//            second_cycle(lin, lout, phi, newImg);
-//        }
-//        drawContour(newImg, lin, lout);
-//        return newImg;
-//    }
 
     private static int[][] getPhiFunction(CustomBufferedImage customImg,
                                           HashMap<Point, Boolean> lin,
@@ -159,7 +135,7 @@ public class ContourDetection {
         int g = img.getGreen(p);
         int b = img.getBlue(p);
         double normVal = Math.sqrt((avgRGB[0] - r) * (avgRGB[0] - r) + (avgRGB[1] - g) * (avgRGB[1] - g) + (avgRGB[2] - b) * (avgRGB[2] - b));
-        double finalVal = (normVal * normVal) / (256 * 256 * KColors);
+        double finalVal = (normVal) / (256);
         return (finalVal <= 0.5)? 1: -1;
     }
 
@@ -266,6 +242,7 @@ public class ContourDetection {
                                          int[][] phi,
                                          CustomBufferedImage customImg) {
         int[] avgRGB = new int[3];
+        int contourPixels = 0;
         for (int x = 0; x < phi.length; x++) {
             for (int y = 0; y < phi[0].length; y++) {
                 if (phi[x][y] > 0) {
@@ -276,17 +253,16 @@ public class ContourDetection {
                     if (hasExteriorNeighbor(x, y, phi)) {
                         lin.put(new Point(x, y), true);
                     }
-                }
-                if (phi[x][y] < 0) {
                     avgRGB[0] += customImg.getRed(x, y);
                     avgRGB[1] += customImg.getGreen(x, y);
                     avgRGB[2] += customImg.getBlue(x, y);
+                    contourPixels += 1;
                 }
             }
         }
-        avgRGB[0] /= customImg.getWidth() * customImg.getHeight();
-        avgRGB[1] /= customImg.getWidth() * customImg.getHeight();
-        avgRGB[2] /= customImg.getWidth() * customImg.getHeight();
+        avgRGB[0] /= contourPixels;
+        avgRGB[1] /= contourPixels;
+        avgRGB[2] /= contourPixels;
         return avgRGB;
     }
 
@@ -326,7 +302,7 @@ public class ContourDetection {
         return false;
     }
 
-    private static int[][] getPhiFunction(CustomBufferedImage customImg, Rectangle initialContour) {
+    public static int[][] getPhiFunction(CustomBufferedImage customImg, Rectangle initialContour) {
         int[][] phi = new int[customImg.getWidth()][customImg.getHeight()];
         for (int x = 0; x < customImg.getWidth(); x++) {
             for (int y = 0; y < customImg.getHeight(); y++) {

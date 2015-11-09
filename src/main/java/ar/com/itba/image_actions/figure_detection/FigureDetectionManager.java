@@ -6,6 +6,7 @@ import ar.com.itba.panel.QuickDrawPanel;
 import ar.com.itba.utils.CustomBufferedImage;
 import ar.com.itba.utils.ImageFileTools;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  * Created by Enzo on 14.10.15.
  */
 public class FigureDetectionManager {
+    public static final String filePath = "/Users/Enzo/ITBA/ATI/TP_ATI/resources/Imagenes/img_video";
 
     public static void applyHoughCircleDetection(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
         BufferedImage markedShapesImg = HoughFigureDetection.detectCircle(quickDrawPanel.image());
@@ -79,18 +81,19 @@ public class FigureDetectionManager {
         }
 
         int[][] phi = ContourDetection.getPhiFunction(video.get(0), initialContour);
-        System.out.println("Starting video");
+        System.out.println("Starting image creation");
         for (int i = 0; i < video.size(); i++) {
             CustomBufferedImage img = video.get(i);
             BufferedImage newImg;
             newImg = ContourDetection.detectContour(img, phi);
-            quickDrawPanel.paintImageImmediately(newImg);
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
+                ImageIO.write(newImg, "PNG", new File(filePath + "/" + String.valueOf(i)));
+            } catch (IOException e) {
+                System.out.println("Failed to save image");
                 e.printStackTrace();
             }
         }
+        System.out.println("Processing finished...");
     }
 
     private static File selectFolder(MainWindow window) {

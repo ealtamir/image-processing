@@ -28,11 +28,11 @@ public class OpenVideoAction extends AbstractAction {
 	//Aca va la cantidad de frames
 	private int FRAME_COUNT = 3;
 	//Aca va el Path de los archivos
-	private String VIDEO_PATH = "C:\\Users\\Federico\\Desktop\\ITBA\\git\\ATI\\image-processing\\resources\\Imagenes\\";
+	private String VIDEO_PATH = "/Users/Enzo/ITBA/ATI/TP_ATI/resources/Imagenes/img_video";
 	private int index = 0;
 	private Timer timer;
 	//Velocidad del video
-	private int frameSpeed = 500;
+	private int frameSpeed = 100;
 
 	public OpenVideoAction(JFrame parent) {
 		this.parent = parent;
@@ -42,12 +42,14 @@ public class OpenVideoAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		timer = new Timer(frameSpeed, timerTask);
 		File newFile = OpenFileAction.getFile(parent);
+		File videoFile = new File(VIDEO_PATH);
+		int imgNum = videoFile.listFiles().length;
 		if (newFile != null) {
-			for (int i = 0; i < FRAME_COUNT; i++) {
+			for (int i = 0; i < imgNum; i++) {
 				System.out.println(newFile.getName());
 				BufferedImage image = loadImage(newFile, parent);
 				images.add(image);
-				newFile = new File(VIDEO_PATH + newFile.getName().substring(0, 8) + i + ".png");
+				newFile = new File(VIDEO_PATH + "/" + i);
 			}
 			timer.start();
 		}
@@ -62,7 +64,7 @@ public class OpenVideoAction extends AbstractAction {
 				index++;
 			} catch (Exception e2) {
 				timer.stop();
-				System.out.println("shit");
+				System.out.println("Finito!!!");
 			}
 		}
 	};

@@ -22,6 +22,7 @@ import ar.com.itba.action.RayleighNoiseAction;
 import ar.com.itba.action.SaltAndPeperNoiseAction;
 import ar.com.itba.action.SusanAction;
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.SiftAction;
 
 /**
  * Created by Enzo on 25.08.15.
@@ -313,6 +314,11 @@ public class ToolsMenu extends JMenu {
 		anisotropicMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
 		anisotropicMenuItem.addActionListener(new AnisotropicDifussionAction(parent));
 		add(anisotropicMenuItem);
+		
+		JMenuItem siftMenuItem = new JMenuItem("SIFT...");
+		siftMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		siftMenuItem.addActionListener(new SiftAction(parent));
+		add(siftMenuItem);
 
 	}
 

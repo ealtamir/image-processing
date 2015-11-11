@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 
+import org.opencv.core.Core;
+
 import ar.com.itba.menu_bar_items.FileMenu;
 import ar.com.itba.menu_bar_items.HelpMenu;
 import ar.com.itba.menu_bar_items.MenuEventsListener;
@@ -25,6 +27,7 @@ public class MainWindow extends JFrame {
 	private MenuEventsListener menuListener;
 
 	public MainWindow() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		initUI();
 	}
 

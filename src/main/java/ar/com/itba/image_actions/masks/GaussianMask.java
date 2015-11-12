@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class GaussianMask extends AbstractMask {
 
-    private final double deviation;
+    private double deviation;
 
     public GaussianMask(int n, double dev) {
         super(n);
@@ -47,15 +47,29 @@ public class GaussianMask extends AbstractMask {
 
     public void applyMask(CustomBufferedImage img) {
         int r, g, b;
+        double[][] gaussianValues = new double[7][7];
+        radius = 3;
+        deviation = 2;
+        double sigma2 = deviation * deviation;
+        double div = 0;
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
+                double t = (j*j + i*i)/(2 * sigma2);
+                double u = 1.0/(2 * Math.PI * sigma2);
+                gaussianValues[i + radius][j + radius] = u*Math.exp( -t );
+                div += u*Math.exp( -t );
+            }
+        }
 
-        double val = 0, div = 0;
+
+        double val = 0;
         double avgR = 0, avgG = 0, avgB = 0;
         for (int y = radius; y + radius < img.getHeight(); y++) {
             for (int x = radius; x + radius < img.getWidth(); x++) {
 
                 for(int h = -radius; h <= radius; h++) {
                     for (int w = -radius; w <= radius; w++) {
-                        val = getGaussianValue(w, h);
+                        val = gaussianValues[h + radius][w + radius];
                         avgR += val * img.getRed(w + x, h + y);
                         avgG += val * img.getGreen(w + x, h + y);
                         avgB += val * img.getBlue(w + x, h + y);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class HarrisCornerDetection {
 
     private static final double K = 0.04;
-    private static final double COEFF = 0.999;
+    private static final double COEFF = 0.60;
 
     public static BufferedImage harrisCornerDetection(BufferedImage img) {
         CustomBufferedImage newImg = new CustomBufferedImage(img);
@@ -44,7 +44,7 @@ public class HarrisCornerDetection {
                 result[y][x][0] = r;
                 result[y][x][1] = g;
                 result[y][x][2] = b;
-                System.out.println(String.format("red: %f, green: %f, blue: %f", r, g, b));
+//                System.out.println(String.format("red: %f, green: %f, blue: %f", r, g, b));
                 if (max[0] < r) {
                     max[0] = r;
                 }
@@ -72,7 +72,7 @@ public class HarrisCornerDetection {
         Graphics2D g2 = newImg.createGraphics();
         g2.setColor(Color.CYAN);
         for (Point p : corners) {
-            g2.drawOval(p.x - 1, p.y - 1, 2, 2);
+            g2.drawOval(p.x - 2, p.y - 2, 4, 4);
         }
         g2.dispose();
         return newImg;
@@ -93,8 +93,8 @@ public class HarrisCornerDetection {
                 newImg.setRGBCustom(x, y, r * r1, g * g1, b * b1);
             }
         }
-//        GaussianMask mask = new GaussianMask(3);
-//        mask.applyMask(newImg);
+        GaussianMask mask = new GaussianMask(3);
+        mask.applyMask(newImg);
         return newImg;
     }
 }

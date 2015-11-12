@@ -13,11 +13,15 @@ import java.awt.image.BufferedImage;
 public class CornerDetectionManager {
 
     public static void detectCornersWithHarris(QuickDrawPanel quickDrawPanel, MainWindow mainWindow) {
-//        CustomBufferedImage newImg = new CustomBufferedImage(quickDrawPanel.image());
-        BufferedImage imgWithCorners = HarrisCornerDetection.harrisCornerDetection(quickDrawPanel.image());
+        CustomBufferedImage newImg = new CustomBufferedImage(quickDrawPanel.image());
+//        BufferedImage imgWithCorners = HarrisCornerDetection.harrisCornerDetection(quickDrawPanel.image());
         CopyRightAction.peformCopyRightAction(mainWindow);
-        quickDrawPanel.modifyCurrentImage(imgWithCorners);
-//        quickDrawPanel.modifyCurrentImage(newImg);
+//        quickDrawPanel.modifyCurrentImage(imgWithCorners);
+
+        HarrisFast obj = new HarrisFast(newImg);
+        int[][] result = obj.filter(2, 0.04, 3);
+
+        quickDrawPanel.modifyCurrentImage(newImg);
 
     }
 }

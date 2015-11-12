@@ -51,7 +51,6 @@ public class CustomBufferedImage extends BufferedImage {
                         customImg.getBlue(x, y));
             }
         }
-        applyLinearTransform();
     }
 
     public CustomBufferedImage(BufferedImage img) {
@@ -116,6 +115,9 @@ public class CustomBufferedImage extends BufferedImage {
     }
 
     private int linearTransform(int x, int min, int max) {
+        if (min >= 0 && max <= 255) {
+            return x;
+        }
         return Math.round(255 * ((float) (x - min) / (float) (max - min)));
     }
 

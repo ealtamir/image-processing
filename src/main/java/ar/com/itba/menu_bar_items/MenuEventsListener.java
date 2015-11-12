@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.image_actions.Thresholding.ThresholdManager;
+import ar.com.itba.image_actions.corner_detection.CornerDetectionManager;
 import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
 import ar.com.itba.image_actions.figure_detection.FigureDetectionManager;
 import ar.com.itba.image_actions.masks.ImageMaskManager;
@@ -61,6 +62,9 @@ public class MenuEventsListener implements ActionListener {
 
         } else if (e.getActionCommand().equals(ToolsMenu.EXECUTE_VIDEO_CONTOUR_DETECTION)) {
             FigureDetectionManager.executeVideoContourDetection(quickDrawPanel, mainWindow);
+
+        } else if (e.getActionCommand().equals(ToolsMenu.HARRIS_CORNER_DETECTION)) {
+            CornerDetectionManager.detectCornersWithHarris(quickDrawPanel, mainWindow);
 
         } else {
             belongs = false;

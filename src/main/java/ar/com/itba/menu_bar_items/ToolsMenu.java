@@ -75,6 +75,7 @@ public class ToolsMenu extends JMenu {
 	public static final String CONTOUR_DETECTION = "Detección de Contorno";
 	public static final String START_VIDEO_CONTOUR_DETECTION = "Start";
 	public static final String EXECUTE_VIDEO_CONTOUR_DETECTION = "Execute";
+	public static final String HARRIS_CORNER_DETECTION = "Método de Harris";
 
 	JFrame parent;
 
@@ -127,6 +128,13 @@ public class ToolsMenu extends JMenu {
 		JMenuItem executeVideoContour = new JMenuItem(EXECUTE_VIDEO_CONTOUR_DETECTION);
 		videoContour.add(executeVideoContour);
 		executeVideoContour.addActionListener(listener);
+
+		JMenu cornerDetection = new JMenu("Esquinas");
+		parameterDetection.add(cornerDetection);
+
+		JMenuItem harris = new JMenuItem(HARRIS_CORNER_DETECTION);
+		harris.addActionListener(listener);
+		cornerDetection.add(harris);
 	}
 
 	private void createThresholdSet(MenuEventsListener listener) {

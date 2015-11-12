@@ -22,6 +22,11 @@ public class GaussianMask extends AbstractMask {
         deviation = dev;
     }
 
+    public GaussianMask(int radius) {
+        super(radius);
+        deviation = 2;
+    }
+
     @Override
     public void applyMask(Point p, BufferedImage oldImg, BufferedImage newImg) {
         int x = (int) p.getX(), y = (int) p.getY();
@@ -38,6 +43,31 @@ public class GaussianMask extends AbstractMask {
         }
         int result = BYTE_MASK & (int) (avg / div);
         setPixel(x, y, newImg, result << 16 | result << 8 | result);
+    }
+
+    public void applyMask(CustomBufferedImage img) {
+        int r, g, b;
+
+        double val = 0, div = 0;
+        double avgR = 0, avgG = 0, avgB = 0;
+        for (int y = radius; y + radius < img.getHeight(); y++) {
+            for (int x = radius; x + radius < img.getWidth(); x++) {
+
+                for(int h = -radius; h <= radius; h++) {
+                    for (int w = -radius; w <= radius; w++) {
+                        val = getGaussianValue(w, h);
+                        avgR += val * img.getRed(w + x, h + y);
+                        avgG += val * img.getGreen(w + x, h + y);
+                        avgB += val * img.getBlue(w + x, h + y);
+                    }
+                }
+
+                r = (int) (avgR / div);
+                g = (int) (avgG / div);
+                b = (int) (avgB / div);
+                img.setRGBCustom(x, y, r, g, b);
+            }
+        }
     }
 
     public double applyMask(Point p, int[][] phi) {

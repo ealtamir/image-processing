@@ -19,7 +19,7 @@ public class CornerDetectionManager {
 //        quickDrawPanel.modifyCurrentImage(imgWithCorners);
 
         HarrisFast obj = new HarrisFast(newImg);
-        int[][] result = obj.filter(2, 0.04, 3);
+        int[][] result = obj.filter(2, 0.06, 3);
 
         quickDrawPanel.modifyCurrentImage(newImg);
 

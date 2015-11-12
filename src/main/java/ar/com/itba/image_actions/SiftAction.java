@@ -6,18 +6,24 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.features2d.Features2d;
+import org.opencv.highgui.Highgui;
 
-import ar.com.itba.action.OpenFileAction;
+import com.google.common.collect.Lists;
+
 import ar.com.itba.frame.MainWindow;
 import ar.com.itba.utils.ImageFileTools;
 
@@ -35,16 +41,66 @@ public class SiftAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		bufferedImage1 = ((MainWindow) parent).getLeftQuickDrawPanel().image();
-		File newFile = OpenFileAction.getFile(parent);
-		if (newFile != null) {
-			bufferedImage2 = loadImage(newFile, parent);
-			Mat mat = img2Mat(bufferedImage2, bufferedImage2.getType());
-			Mat siftMat = sift(mat);
-			BufferedImage img = mat2Img(siftMat, bufferedImage2.getType());
-			((MainWindow) parent).updateLeftQuickDrawPanel(img);
-		}
+		// bufferedImage1 = ((MainWindow)
+		// parent).getLeftQuickDrawPanel().image();
+		// File newFile = OpenFileAction.getFile(parent);
+		// if (newFile != null) {
+		// bufferedImage2 = loadImage(newFile, parent);
+		Mat mat1 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&w.png");
+		Mat mat2 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&w90.png");
 
+		FeatureDetector siftDetector = FeatureDetector.create(FeatureDetector.SIFT);
+		final MatOfKeyPoint keyPoints1 = new MatOfKeyPoint();
+		final MatOfKeyPoint keyPoints2 = new MatOfKeyPoint();
+		siftDetector.detect(mat1, keyPoints1);
+		siftDetector.detect(mat2, keyPoints2);
+
+		Mat descriptors1 = new Mat();
+		Mat descriptors2 = new Mat();
+		DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
+		extractor.compute(mat1, keyPoints1, descriptors1);
+		extractor.compute(mat2, keyPoints2, descriptors2);
+
+		MatOfDMatch matches = new MatOfDMatch();
+		DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
+		matcher.match(descriptors1, descriptors2, matches);
+
+		//filtering
+		MatOfDMatch matchesFiltered = new MatOfDMatch();
+		List<DMatch> matchesList = matches.toList();
+		List<DMatch> bestMatches = Lists.newArrayList();
+		float max_dist = 0.0f;
+		float min_dist = 100.0f;
+		for (DMatch dMatch : matchesList) {
+			float dist = dMatch.distance;
+			if (dist < min_dist && dist != 0) {
+				min_dist = dist;
+			} else if (dist > max_dist) {
+				max_dist = dist;
+			}
+		}
+		double threshold = 3 * min_dist;
+		double threshold2 = 2 * min_dist;
+
+		if (threshold > 75) {
+			threshold = 75;
+		} else if (threshold2 >= max_dist) {
+			threshold = min_dist * 1.1;
+		} else if (threshold >= max_dist) {
+			threshold = threshold2 * 1.4;
+		}
+		for (int i = 0; i < matchesList.size(); i++) {
+			Double dist = (double) matchesList.get(i).distance;
+			if (dist < threshold) {
+				bestMatches.add(matches.toList().get(i));
+			}
+		}
+		matchesFiltered.fromList(bestMatches);
+		
+		Mat outputMat = new Mat();
+		Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matches, outputMat);
+//		Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matchesFiltered, outputMat);
+		((MainWindow) parent).updateLeftQuickDrawPanel(mat2Img(outputMat, BufferedImage.TYPE_3BYTE_BGR));
 	}
 
 	private static BufferedImage loadImage(File file, Component parent) {
@@ -57,16 +113,6 @@ public class SiftAction extends AbstractAction {
 		return image;
 	}
 
-	private Mat sift(Mat mat) {
-		FeatureDetector siftDetector = FeatureDetector.create(FeatureDetector.SIFT);
-		MatOfKeyPoint mokp = new MatOfKeyPoint();
-		siftDetector.detect(mat, mokp);
-		Mat descriptors = new Mat();
-		DescriptorExtractor extractor = DescriptorExtractor.create(DescriptorExtractor.SIFT);
-		extractor.compute(mat, mokp, descriptors);
-		return descriptors;
-	}
-
 	public static BufferedImage mat2Img(Mat mat, int type) {
 		// BufferedImage image = new BufferedImage(mat.width(), mat.height(),
 		// BufferedImage.TYPE_3BYTE_BGR);
@@ -74,43 +120,6 @@ public class SiftAction extends AbstractAction {
 		byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		mat.get(0, 0, data);
 		return image;
-	}
-
-	public static Mat img2Mat(BufferedImage image, int type) {
-		byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-		int curCVtype = CvType.CV_8UC4; // Default type
-		switch (type) {
-			case BufferedImage.TYPE_3BYTE_BGR:
-				curCVtype = CvType.CV_8UC3;
-				break;
-			case BufferedImage.TYPE_BYTE_GRAY:
-			case BufferedImage.TYPE_BYTE_BINARY:
-				curCVtype = CvType.CV_8UC1;
-				break;
-			case BufferedImage.TYPE_INT_BGR:
-			case BufferedImage.TYPE_INT_RGB:
-				curCVtype = CvType.CV_32SC3;
-				break;
-			case BufferedImage.TYPE_INT_ARGB:
-			case BufferedImage.TYPE_INT_ARGB_PRE:
-				curCVtype = CvType.CV_32SC4;
-				break;
-			case BufferedImage.TYPE_USHORT_GRAY:
-				curCVtype = CvType.CV_16UC1;
-				break;
-			case BufferedImage.TYPE_4BYTE_ABGR:
-			case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-				curCVtype = CvType.CV_8UC4;
-				break;
-			default:
-				// BufferedImage.TYPE_BYTE_INDEXED;
-				// BufferedImage.TYPE_CUSTOM;
-		}
-		System.out.println(image.getType());
-		System.out.println(curCVtype);
-		Mat mat = new Mat(image.getHeight(), image.getWidth(), curCVtype);
-		mat.put(0, 0, data);
-		return mat;
 	}
 
 }

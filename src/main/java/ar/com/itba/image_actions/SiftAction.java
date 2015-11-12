@@ -46,8 +46,12 @@ public class SiftAction extends AbstractAction {
 		// File newFile = OpenFileAction.getFile(parent);
 		// if (newFile != null) {
 		// bufferedImage2 = loadImage(newFile, parent);
+//		Mat mat1 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\adam0.png");
+//		Mat mat2 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\adam1.png");
 		Mat mat1 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&w.png");
 		Mat mat2 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&w90.png");
+//		Mat mat1 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&wnoise2.png");
+//		Mat mat2 = Highgui.imread("C:\\Users\\Federico\\Desktop\\ITBA\\multi\\image-processing\\image-processing\\resources\\Imagenes\\1lenab&wnoise.png");
 
 		FeatureDetector siftDetector = FeatureDetector.create(FeatureDetector.SIFT);
 		final MatOfKeyPoint keyPoints1 = new MatOfKeyPoint();
@@ -65,7 +69,7 @@ public class SiftAction extends AbstractAction {
 		DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE);
 		matcher.match(descriptors1, descriptors2, matches);
 
-		//filtering
+		// filtering
 		MatOfDMatch matchesFiltered = new MatOfDMatch();
 		List<DMatch> matchesList = matches.toList();
 		List<DMatch> bestMatches = Lists.newArrayList();
@@ -82,9 +86,7 @@ public class SiftAction extends AbstractAction {
 		double threshold = 3 * min_dist;
 		double threshold2 = 2 * min_dist;
 
-		if (threshold > 75) {
-			threshold = 75;
-		} else if (threshold2 >= max_dist) {
+		if (threshold2 >= max_dist) {
 			threshold = min_dist * 1.1;
 		} else if (threshold >= max_dist) {
 			threshold = threshold2 * 1.4;
@@ -95,11 +97,13 @@ public class SiftAction extends AbstractAction {
 				bestMatches.add(matches.toList().get(i));
 			}
 		}
+		System.out.println(threshold);
 		matchesFiltered.fromList(bestMatches);
-		
+
 		Mat outputMat = new Mat();
-		Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matches, outputMat);
-//		Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matchesFiltered, outputMat);
+		// Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matches,
+		// outputMat);
+		Features2d.drawMatches(mat1, keyPoints1, mat2, keyPoints2, matchesFiltered, outputMat);
 		((MainWindow) parent).updateLeftQuickDrawPanel(mat2Img(outputMat, BufferedImage.TYPE_3BYTE_BGR));
 	}
 

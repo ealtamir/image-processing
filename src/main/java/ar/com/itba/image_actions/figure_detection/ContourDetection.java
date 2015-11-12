@@ -135,7 +135,7 @@ public class ContourDetection {
         int g = img.getGreen(p);
         int b = img.getBlue(p);
         double normVal = Math.sqrt((avgRGB[0] - r) * (avgRGB[0] - r) + (avgRGB[1] - g) * (avgRGB[1] - g) + (avgRGB[2] - b) * (avgRGB[2] - b));
-        double finalVal = (normVal) / (256);
+        double finalVal = (normVal * normVal) / (256 * 256 * KColors);
         return (finalVal <= 0.5)? 1: -1;
     }
 

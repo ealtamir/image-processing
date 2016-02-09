@@ -177,6 +177,7 @@ public class MenuEventsListener implements ActionListener {
         boolean belongs = true;
         if (e.getActionCommand().equals(ToolsMenu.SHOW_IMAGE_OPTIONS)) {
             quickDrawPanel.toggleImageTools();
+        } else if (e.getActionCommand().equals(ToolsMenu.MEAN_SHIFT_SEGMENTATION)) {
         } else {
             belongs = false;
         }

@@ -5,8 +5,6 @@ import ar.com.itba.frame.MainWindow;
 import ar.com.itba.panel.QuickDrawPanel;
 import ar.com.itba.utils.CustomBufferedImage;
 
-import java.awt.image.BufferedImage;
-
 /**
  * Created by Enzo on 09.11.15.
  */
@@ -18,7 +16,7 @@ public class CornerDetectionManager {
         CopyRightAction.peformCopyRightAction(mainWindow);
 //        quickDrawPanel.modifyCurrentImage(imgWithCorners);
 
-        HarrisFast obj = new HarrisFast(newImg);
+        HarrisDetection obj = new HarrisDetection(newImg);
         int[][] result = obj.filter(2, 0.06, 3);
 
         quickDrawPanel.modifyCurrentImage(newImg);

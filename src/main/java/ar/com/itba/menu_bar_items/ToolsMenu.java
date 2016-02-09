@@ -76,6 +76,7 @@ public class ToolsMenu extends JMenu {
 	public static final String START_VIDEO_CONTOUR_DETECTION = "Start";
 	public static final String EXECUTE_VIDEO_CONTOUR_DETECTION = "Execute";
 	public static final String HARRIS_CORNER_DETECTION = "Método de Harris";
+	public static final String MEAN_SHIFT_SEGMENTATION = "Mean Shift Segmentation";
 
 	JFrame parent;
 
@@ -322,6 +323,9 @@ public class ToolsMenu extends JMenu {
 		anisotropicMenuItem.addActionListener(new AnisotropicDifussionAction(parent));
 		add(anisotropicMenuItem);
 
+		JMenuItem meanShift = new JMenuItem(MEAN_SHIFT_SEGMENTATION);
+		add(meanShift);
+		meanShift.addActionListener(listener);
 	}
 
 	private void createHistogramMenuSet(ActionListener listener) {

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HarrisFast {
+public class HarrisDetection {
+
+    private final double THRESHOLD = 1E-3;
 
     // corner class
     class Corner {
@@ -37,7 +39,7 @@ public class HarrisFast {
     /**
      * Constructor
      */
-    public HarrisFast(CustomBufferedImage img) {
+    public HarrisDetection(CustomBufferedImage img) {
         this.customImg = img;
 
         image = new int[customImg.getWidth()][customImg.getHeight()];
@@ -197,7 +199,7 @@ public class HarrisFast {
         }
 
         Graphics2D g2 = customImg.createGraphics();
-        g2.setColor(Color.CYAN);
+        g2.setColor(Color.RED);
         for (Corner p : corners) {
             g2.fillOval(p.x - 2, p.y - 2, 4, 4);
         }

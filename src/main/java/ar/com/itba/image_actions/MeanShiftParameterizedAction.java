@@ -12,9 +12,9 @@ public class MeanShiftParameterizedAction extends ParameterizedImageAction {
 
     public MeanShiftParameterizedAction(QuickDrawPanel quickDrawPanel) {
         super(quickDrawPanel);
-        addScalarSlider(8, 1, 16, 1,
+        addScalarSlider(6, 1, 16, 1,
                 true, this, new TextFormatter(1));
-        addScalarSlider(8, 1, 16, 1,
+        addScalarSlider(12, 1, 16, 1,
                 true, this, new TextFormatter(1));
     }
 

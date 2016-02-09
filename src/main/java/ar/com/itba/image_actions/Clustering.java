@@ -18,6 +18,7 @@ public class Clustering {
         int[][][] distribution = new int[256][256][256];
         int r, g, b;
         int[] rgb = new int[3];
+        int[] newRGB;
 
         for (int h = 0; h < img.getHeight(); h++) {
             for (int w = 0; w < img.getWidth(); w++) {
@@ -32,8 +33,8 @@ public class Clustering {
                 rgb[0] = img.getRed(w, h);
                 rgb[1] = img.getGreen(w, h);
                 rgb[2] = img.getBlue(w, h);
-                rgb = findMean(rgb, distribution, radius, bandwidth);
-                newImg.setRGBCustom(w, h, rgb[0], rgb[1], rgb[2]);
+                newRGB = findMean(rgb, distribution, radius, bandwidth);
+                newImg.setRGBCustom(w, h, newRGB[0], newRGB[1], newRGB[2]);
             }
         }
         newImg.applyLinearTransform();
@@ -43,6 +44,7 @@ public class Clustering {
 
     private static int[] findMean(int[] rgb, int[][][] distribution, int radius, int bandwidth) {
         double distance;
+        int[] original_point = rgb;
         int[] new_point = new int[3];
         int iters = 0;
         do {
@@ -101,7 +103,7 @@ public class Clustering {
 
     private static double getWeight(int[] point, int[] new_point, int bandwidth) {
         double euclidean_dist = euclideanDist(point, new_point);
-        return Math.exp(-(euclidean_dist * euclidean_dist) / bandwidth);
+        return Math.exp(-(euclidean_dist * euclidean_dist) / (bandwidth * bandwidth));
     }
 
     private static double euclideanDist(int[] point, int[] new_point) {

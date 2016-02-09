@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ar.com.itba.frame.MainWindow;
+import ar.com.itba.image_actions.ClusteringManager;
 import ar.com.itba.image_actions.Thresholding.ThresholdManager;
 import ar.com.itba.image_actions.corner_detection.CornerDetectionManager;
 import ar.com.itba.image_actions.edge_detection.EdgeDetectionManager;
@@ -178,6 +179,7 @@ public class MenuEventsListener implements ActionListener {
         if (e.getActionCommand().equals(ToolsMenu.SHOW_IMAGE_OPTIONS)) {
             quickDrawPanel.toggleImageTools();
         } else if (e.getActionCommand().equals(ToolsMenu.MEAN_SHIFT_SEGMENTATION)) {
+            ClusteringManager.applyMeanShift(quickDrawPanel, mainWindow);
         } else {
             belongs = false;
         }

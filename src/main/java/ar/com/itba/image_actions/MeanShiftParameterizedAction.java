@@ -3,8 +3,6 @@ package ar.com.itba.image_actions;
 import ar.com.itba.panel.QuickDrawPanel;
 import ar.com.itba.utils.CustomBufferedImage;
 
-import javax.swing.*;
-
 /**
  * Created by Enzo on 09.02.16.
  */
@@ -22,7 +20,8 @@ public class MeanShiftParameterizedAction extends ParameterizedImageAction {
     protected void updateImage() {
         int radius = sliderPanels.get(0).getSlider().getValue();
         int bandwidth = sliderPanels.get(1).getSlider().getValue();
-        CustomBufferedImage newImg = Clustering.meanShiftClustering((CustomBufferedImage) originalImage, radius, bandwidth);
+        MeanShiftClustering obj = new MeanShiftClustering(radius, bandwidth);
+        CustomBufferedImage newImg = obj.meanShiftClustering((CustomBufferedImage) originalImage);
         quickDrawPanel.modifyCurrentImage(newImg);
     }
 }

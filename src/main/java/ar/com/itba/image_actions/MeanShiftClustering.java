@@ -7,13 +7,20 @@ import java.awt.*;
 /**
  * Created by Enzo on 14.12.15.
  */
-public class Clustering {
+public class MeanShiftClustering {
 
     private final static double EPSILON = 0.001;
     private static final int MAX_CONVERGENCE_ITERS = 100;
+    private final int radius;
+    private final int bandwidth;
+
+    public MeanShiftClustering(int radius, int bandwidth) {
+        this.radius = radius;
+        this.bandwidth = bandwidth;
+    }
 
 
-    public static CustomBufferedImage meanShiftClustering(CustomBufferedImage img, int radius, int bandwidth) {
+    public CustomBufferedImage meanShiftClustering(CustomBufferedImage img) {
         CustomBufferedImage newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
         int[][][] distribution = new int[256][256][256];
         int r, g, b;
@@ -42,7 +49,7 @@ public class Clustering {
         return newImg;
     }
 
-    private static int[] findMean(int[] rgb, int[][][] distribution, int radius, int bandwidth) {
+    private int[] findMean(int[] rgb, int[][][] distribution, int radius, int bandwidth) {
         double distance;
         int[] original_point = rgb;
         int[] new_point = new int[3];
@@ -56,7 +63,7 @@ public class Clustering {
         return new_point;
     }
 
-    private static int[] getConvergencePoint(int[] rgb, int[][][] distribution, int radius, int bandwidth) {
+    private int[] getConvergencePoint(int[] rgb, int[][][] distribution, int radius, int bandwidth) {
         int r = rgb[0], g = rgb[1], b = rgb[2];
         int[] point = rgb;
         int[] new_point = new int[3];
@@ -101,12 +108,12 @@ public class Clustering {
         return new_point;
     }
 
-    private static double getWeight(int[] point, int[] new_point, int bandwidth) {
+    private double getWeight(int[] point, int[] new_point, int bandwidth) {
         double euclidean_dist = euclideanDist(point, new_point);
         return Math.exp(-(euclidean_dist * euclidean_dist) / (bandwidth * bandwidth));
     }
 
-    private static double euclideanDist(int[] point, int[] new_point) {
+    private double euclideanDist(int[] point, int[] new_point) {
         return Math.sqrt(Math.pow(point[0] - new_point[0], 2) +
                 Math.pow(point[1] - new_point[1], 2) +
                 Math.pow(point[2] - new_point[2], 2));

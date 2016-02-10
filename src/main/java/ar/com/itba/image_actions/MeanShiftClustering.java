@@ -7,12 +7,17 @@ import java.awt.*;
 /**
  * Created by Enzo on 14.12.15.
  */
-public class MeanShiftClustering {
+public class MeanShiftClustering implements Runnable {
 
     private final static double EPSILON = 0.001;
     private static final int MAX_CONVERGENCE_ITERS = 100;
     private final int radius;
     private final int bandwidth;
+
+    private Integer index;
+
+    private CustomBufferedImage newImg;
+    private int[][][] distribution;
 
     public MeanShiftClustering(int radius, int bandwidth) {
         this.radius = radius;
@@ -21,8 +26,8 @@ public class MeanShiftClustering {
 
 
     public CustomBufferedImage meanShiftClustering(CustomBufferedImage img) {
-        CustomBufferedImage newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
-        int[][][] distribution = new int[256][256][256];
+        newImg = new CustomBufferedImage(img.getWidth(), img.getHeight(), img.getType());
+        distribution = new int[256][256][256];
         int r, g, b;
         int[] rgb = new int[3];
         int[] newRGB;
@@ -117,5 +122,10 @@ public class MeanShiftClustering {
         return Math.sqrt(Math.pow(point[0] - new_point[0], 2) +
                 Math.pow(point[1] - new_point[1], 2) +
                 Math.pow(point[2] - new_point[2], 2));
+    }
+
+    @Override
+    public void run() {
+
     }
 }

@@ -14,12 +14,15 @@ public class MeanShiftParameterizedAction extends ParameterizedImageAction {
                 true, this, new TextFormatter(1));
         addScalarSlider(12, 1, 16, 1,
                 true, this, new TextFormatter(1));
+//        addScalarSlider(40, 10, 60, 1,
+//                true, this, new TextFormatter(1));
     }
 
     @Override
     protected void updateImage() {
         int radius = sliderPanels.get(0).getSlider().getValue();
         int bandwidth = sliderPanels.get(1).getSlider().getValue();
+
         MeanShiftClustering obj = new MeanShiftClustering(radius, bandwidth);
         CustomBufferedImage newImg = obj.meanShiftClustering((CustomBufferedImage) originalImage);
         quickDrawPanel.modifyCurrentImage(newImg);
